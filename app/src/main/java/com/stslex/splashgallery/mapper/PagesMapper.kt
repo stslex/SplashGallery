@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.mapper
 
-import com.stslex.splashgallery.data.PagesModel
-import com.stslex.splashgallery.data.RemotePagesModel
+import com.stslex.splashgallery.data.model.PagesModel
+import com.stslex.splashgallery.data.model.RemotePagesModel
 
 class PagesMapper : BaseMapper<RemotePagesModel, PagesModel> {
     private val imageMapper = ImageMapper()

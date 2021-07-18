@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data
+package com.stslex.splashgallery.data.model
 
 data class ImageLinksModel(
     val self: String,
