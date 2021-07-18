@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SplashGallery</string>
+
+    <string name="description_image">image</string>
+    <string name="label_tab_layout_all">All</string>
+    <string name="label_tab_layout_saved">Saved</string>
 </resources>
