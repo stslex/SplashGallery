@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.stslex.splashgallery"
@@ -13,7 +13,8 @@ android {
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "API_KEY_SUCCESS", API_KEY_SUCCESS)
+        buildConfigField("String", "API_KEY_SECRET", API_KEY_SECRET)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -33,6 +34,25 @@ android {
 }
 
 dependencies {
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
+    implementation 'androidx.activity:activity-ktx:1.2.3'
+
+    //Coroutines
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-native-mt'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0-native-mt'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    // Navigation Component
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
