@@ -17,12 +17,13 @@ class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainPagerViewHolder, position: Int) {
+        holder.bind(listOfElements[position])
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = listOfElements.size
 
-    fun addItems(element: ImageModel) {
-        listOfElements.add(element)
-        notifyItemChanged(listOfElements.size)
+    fun addItems(element: List<ImageModel>) {
+        listOfElements = element as MutableList<ImageModel>
+        notifyDataSetChanged()
     }
 }

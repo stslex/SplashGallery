@@ -3,7 +3,7 @@ package com.stslex.splashgallery.mapper
 import com.stslex.splashgallery.data.model.ImageModel
 import com.stslex.splashgallery.data.model.RemoteImageModel
 
-class ImageMapper : BaseMapper<RemoteImageModel, ImageModel>{
+class ImageMapper : BaseMapper<RemoteImageModel, ImageModel> {
     override fun transformToDomain(type: RemoteImageModel): ImageModel = ImageModel(
         id = type.id,
         created_at = type.created_at,
