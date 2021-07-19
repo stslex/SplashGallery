@@ -14,10 +14,7 @@ class ImageMapper : BaseMapper<RemoteImageModel, ImageModel> {
         blur_hash = type.blur_hash,
         likes = type.likes,
         liked_by_user = type.liked_by_user,
-        description = type.description,
         user = type.user,
-        current_user_collection = type.current_user_collection,
         urls = type.urls,
-        links = type.links
     )
 }

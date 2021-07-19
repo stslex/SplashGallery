@@ -9,5 +9,6 @@ class MainPagerViewHolder(private val binding: ItemRecyclerPagerMainBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(image: ImageModel) {
         binding.itemPagerImage.downloadAndSet(image.urls.small)
+        binding.itemPagerAuthorName.text = image.user.name
     }
 }

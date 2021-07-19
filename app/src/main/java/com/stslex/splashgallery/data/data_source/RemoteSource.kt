@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.data_source
 
-import android.util.Log
 import com.stslex.splashgallery.data.data_source.retrofit.RetrofitClient
 import com.stslex.splashgallery.data.data_source.retrofit.RetrofitService
 import com.stslex.splashgallery.data.model.*
@@ -21,7 +20,6 @@ class RemoteSource(private val ioDispatcher: CoroutineDispatcher) : RemoteSource
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = ImageMapper()
                     val listOfRemoteImages = result.body() as List<RemoteImageModel>
-
                     val listOfImages = listOfRemoteImages.map {
                         mapper.transformToDomain(it)
                     }

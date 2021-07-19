@@ -10,10 +10,7 @@ data class ImageModel(
     val blur_hash: String,
     val likes: String,
     val liked_by_user: Boolean,
-    val description: String,
     val user: UserModel,
-    val current_user_collection: List<CurrentUserCollectionModel>,
     val urls: ImageUrlsModel,
-    val links: ImageLinksModel
 )
 
