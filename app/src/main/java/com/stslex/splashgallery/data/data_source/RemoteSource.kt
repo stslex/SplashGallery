@@ -11,12 +11,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
 class RemoteSource(private val ioDispatcher: CoroutineDispatcher) : RemoteSourceInterface {
-    override suspend fun getResult(): Result<PagesModel> =
+    override suspend fun getResult(pageNumber: Int): Result<PagesModel> =
         withContext(ioDispatcher) {
             return@withContext try {
                 val client: RetrofitService = RetrofitClient().getClient(BASE_URL)
                     .create(RetrofitService::class.java)
-                val result = client.getPage(1, API_KEY_SUCCESS)
+                val result = client.getPage(pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = ImageMapper()
                     val listOfRemoteImages = result.body() as List<RemoteImageModel>

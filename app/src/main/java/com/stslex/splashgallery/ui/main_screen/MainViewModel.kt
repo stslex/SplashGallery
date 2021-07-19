@@ -14,9 +14,9 @@ class MainViewModel(private val repository: Repository) :
     private val _page = MutableLiveData<Result<PagesModel>>()
     val page get() = _page
 
-    fun getImage() {
+    fun getImage(pageNumber: Int) {
         viewModelScope.launch {
-            val result = repository.getPageFromRetrofit()
+            val result = repository.getPageFromRetrofit(pageNumber)
             page.value = result
         }
     }

@@ -5,5 +5,5 @@ import com.stslex.splashgallery.utils.Result
 
 interface RepositoryInterface {
 
-    suspend fun getPageFromRetrofit(): Result<PagesModel>
+    suspend fun getPageFromRetrofit(pageNumber: Int): Result<PagesModel>
 }

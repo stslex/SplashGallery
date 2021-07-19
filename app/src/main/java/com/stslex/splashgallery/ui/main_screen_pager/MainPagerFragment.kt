@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,28 +21,53 @@ class MainPagerFragment : Fragment() {
 
     private lateinit var adapter: MainPagerAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var layoutInflater: RecyclerView.LayoutManager
+    private lateinit var layoutManager: LinearLayoutManager
+
+    private var isScrolling = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainPagerBinding.inflate(inflater, container, false)
+        sharedViewModel.pageNumber.postValue(pagesNum)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        initScrollListener()
+    }
+
+    private fun initScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == SCROLL_STATE_TOUCH_SCROLL) isScrolling = true
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
+                    isScrolling = false
+                    pagesNum++
+                    sharedViewModel.pageNumber.postValue(pagesNum)
+                }
+            }
+        })
     }
 
     private fun initRecyclerView() {
         adapter = MainPagerAdapter()
         recyclerView = binding.mainPagerRecycler
-        layoutInflater = LinearLayoutManager(requireContext())
-        recyclerView.layoutManager = layoutInflater
+        layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-
         sharedViewModel.page.observe(viewLifecycleOwner) {
             adapter.addItems(it.image)
         }
@@ -50,6 +76,10 @@ class MainPagerFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        private var pagesNum = 1
     }
 
 }

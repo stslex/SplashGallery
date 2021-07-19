@@ -10,10 +10,10 @@ class Repository(
     private val remoteSource: RemoteSource,
     private val ioDispatcher: CoroutineDispatcher
 ) : RepositoryInterface {
-    override suspend fun getPageFromRetrofit(): Result<PagesModel> =
+    override suspend fun getPageFromRetrofit(pageNumber: Int): Result<PagesModel> =
         withContext(ioDispatcher) {
             return@withContext try {
-                val response = remoteSource.getResult()
+                val response = remoteSource.getResult(pageNumber)
                 when (response) {
                     is Result.Success -> {
                         val page = response.data

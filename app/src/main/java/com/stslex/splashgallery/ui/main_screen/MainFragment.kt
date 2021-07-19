@@ -39,7 +39,10 @@ class MainFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModelListener()
         initPager()
-        viewModel.getImage()
+
+        sharedViewModel.pageNumber.observe(viewLifecycleOwner){
+            viewModel.getImage(it)
+        }
     }
 
     private fun initViewModelListener() {
