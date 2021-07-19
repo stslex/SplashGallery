@@ -1,6 +1,6 @@
-package com.stslex.splashgallery.data
+package com.stslex.splashgallery.data.model
 
-data class ImageModel(
+class RemoteImageModel(
     val id: String,
     val created_at: String,
     val updated_at: String,
@@ -16,4 +16,3 @@ data class ImageModel(
     val urls: ImageUrlsModel,
     val links: ImageLinksModel
 )
-

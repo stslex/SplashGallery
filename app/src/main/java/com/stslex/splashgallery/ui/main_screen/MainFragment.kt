@@ -1,18 +1,31 @@
 package com.stslex.wallpape.ui.main_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
+import com.stslex.splashgallery.ui.main_screen.MainViewModel
+import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
+import com.stslex.splashgallery.utils.BaseFragment
+import com.stslex.splashgallery.utils.Result
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by viewModels {
+        viewModelFactory
+    }
+
+    private val sharedViewModel: PagerSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +37,26 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModelListener()
         initPager()
+        viewModel.getImage()
+    }
+
+    private fun initViewModelListener() {
+        viewModel.page.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Success -> {
+                    sharedViewModel.page.postValue(it.data)
+                }
+                is Result.Failure -> {
+                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
+                    Log.i("Failture", it.exception)
+                }
+                is Result.Loading -> {
+
+                }
+            }
+        }
     }
 
     private fun initPager() {

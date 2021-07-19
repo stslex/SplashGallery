@@ -3,7 +3,7 @@ package com.stslex.wallpape.ui.main_screen_pager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.ImageModel
+import com.stslex.splashgallery.data.model.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerPagerMainBinding
 
 class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
@@ -17,12 +17,13 @@ class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainPagerViewHolder, position: Int) {
+        holder.bind(listOfElements[position])
     }
 
-    override fun getItemCount(): Int = 10
+    override fun getItemCount(): Int = listOfElements.size
 
-    fun addItems(element: ImageModel) {
-        listOfElements.add(element)
-        notifyItemChanged(listOfElements.size)
+    fun addItems(element: List<ImageModel>) {
+        listOfElements = element as MutableList<ImageModel>
+        notifyDataSetChanged()
     }
 }

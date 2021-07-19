@@ -1,6 +1,6 @@
-package com.stslex.splashgallery.data
+package com.stslex.splashgallery.data.model
 
-class RemoteImageModel(
+data class ImageModel(
     val id: String,
     val created_at: String,
     val updated_at: String,
@@ -10,9 +10,7 @@ class RemoteImageModel(
     val blur_hash: String,
     val likes: String,
     val liked_by_user: Boolean,
-    val description: String,
     val user: UserModel,
-    val current_user_collection: List<CurrentUserCollectionModel>,
     val urls: ImageUrlsModel,
-    val links: ImageLinksModel
 )
+
