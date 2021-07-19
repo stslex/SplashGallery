@@ -42,7 +42,7 @@ class MainPagerFragment : Fragment() {
         recyclerView.layoutManager = layoutInflater
         recyclerView.adapter = adapter
 
-        sharedViewModel.page.observe(viewLifecycleOwner){
+        sharedViewModel.page.observe(viewLifecycleOwner) {
             adapter.addItems(it.image)
         }
     }

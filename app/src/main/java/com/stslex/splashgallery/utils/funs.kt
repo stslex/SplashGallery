@@ -8,7 +8,14 @@ import com.stslex.splashgallery.R
 fun ImageView.downloadAndSet(url: String) {
     Glide.with(this)
         .load(url)
-        .optionalCenterCrop()
+        .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_foreground))
+        .into(this)
+}
+
+fun ImageView.downloadAndSetSmallRound(url: String) {
+    Glide.with(this)
+        .load(url)
+        .circleCrop()
         .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_foreground))
         .into(this)
 }

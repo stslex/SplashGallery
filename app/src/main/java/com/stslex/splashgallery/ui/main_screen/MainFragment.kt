@@ -63,7 +63,7 @@ class MainFragment : BaseFragment() {
         binding.mainViewPager.adapter = MainFragmentAdapter(this)
         val mapOfTabs = mapOf(
             0 to getString(R.string.label_tab_layout_all),
-            1 to getString(R.string.label_tab_layout_saved)
+            1 to getString(R.string.label_tab_layout_top)
         )
         TabLayoutMediator(binding.mainTabLayout, binding.mainViewPager) { tab, position ->
             tab.text = mapOfTabs[position]
