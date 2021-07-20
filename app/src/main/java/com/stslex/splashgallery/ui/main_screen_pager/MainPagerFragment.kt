@@ -37,7 +37,7 @@ class MainPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        initScrollListener()
+        //initScrollListener()
     }
 
     private fun initScrollListener() {

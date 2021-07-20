@@ -23,7 +23,7 @@ interface RetrofitService {
         @Query(QUERY_API_KEY) api_key: String
     ): Response<List<RemoteTopicsModel>>
 
-    @GET("/$GET_TOPICS/:{t_id}/$GET_PHOTOS")
+    @GET("/$GET_TOPICS/{t_id}/$GET_PHOTOS")
     suspend fun getSingleTopic(
         @Path("t_id") t_id: String,
         @Query(QUERY_PAGE) page: Int,
