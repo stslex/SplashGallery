@@ -6,4 +6,5 @@ import com.stslex.splashgallery.data.model.PagesModel
 
 class PagerSharedViewModel : ViewModel() {
     val page = MutableLiveData<PagesModel>()
+    val pageNumber = MutableLiveData<Int>()
 }

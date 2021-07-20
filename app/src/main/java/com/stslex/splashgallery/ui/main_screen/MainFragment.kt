@@ -39,7 +39,10 @@ class MainFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModelListener()
         initPager()
-        viewModel.getImage()
+
+        sharedViewModel.pageNumber.observe(viewLifecycleOwner){
+            viewModel.getImage(it)
+        }
     }
 
     private fun initViewModelListener() {
@@ -63,7 +66,7 @@ class MainFragment : BaseFragment() {
         binding.mainViewPager.adapter = MainFragmentAdapter(this)
         val mapOfTabs = mapOf(
             0 to getString(R.string.label_tab_layout_all),
-            1 to getString(R.string.label_tab_layout_saved)
+            1 to getString(R.string.label_tab_layout_top)
         )
         TabLayoutMediator(binding.mainTabLayout, binding.mainViewPager) { tab, position ->
             tab.text = mapOfTabs[position]
