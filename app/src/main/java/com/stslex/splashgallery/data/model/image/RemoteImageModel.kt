@@ -1,4 +1,9 @@
-package com.stslex.splashgallery.data.model
+package com.stslex.splashgallery.data.model.image
+
+import com.stslex.splashgallery.data.model.image.CurrentUserCollectionModel
+import com.stslex.splashgallery.data.model.image.ImageLinksModel
+import com.stslex.splashgallery.data.model.image.ImageUrlsModel
+import com.stslex.splashgallery.data.model.image.UserModel
 
 class RemoteImageModel(
     val id: String,

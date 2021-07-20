@@ -40,8 +40,8 @@ class MainFragment : BaseFragment() {
         initViewModelListener()
         initPager()
 
-        sharedViewModel.pageNumber.observe(viewLifecycleOwner){
-            viewModel.getImage(it)
+        sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
+            viewModel.getAllPhotos(it)
         }
     }
 
