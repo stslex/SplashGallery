@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.model
+package com.stslex.splashgallery.data.model.image
 
 data class ProfileImageModel(
     val small: String,

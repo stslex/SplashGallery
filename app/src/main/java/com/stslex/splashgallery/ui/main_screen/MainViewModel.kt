@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stslex.splashgallery.data.model.PagesModel
+import com.stslex.splashgallery.data.model.title.TopicsModel
 import com.stslex.splashgallery.data.repository.Repository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
@@ -14,10 +15,30 @@ class MainViewModel(private val repository: Repository) :
     private val _page = MutableLiveData<Result<PagesModel>>()
     val page get() = _page
 
-    fun getImage(pageNumber: Int) {
+    private val _allTopics = MutableLiveData<Result<List<TopicsModel>>>()
+    val allTopics get() = _allTopics
+
+    private val _singleTopic = MutableLiveData<Result<PagesModel>>()
+    val singleTopic get() = _singleTopic
+
+    fun getAllPhotos(pageNumber: Int) {
         viewModelScope.launch {
-            val result = repository.getPageFromRetrofit(pageNumber)
+            val result = repository.getAllPhotos(pageNumber)
             page.value = result
+        }
+    }
+
+    fun getTopics() {
+        viewModelScope.launch {
+            val result = repository.getTopics()
+            allTopics.value = result
+        }
+    }
+
+    fun getSingleTopic(t_id: String, pageNumber: Int) {
+        viewModelScope.launch {
+            val result = repository.getSingleTopic(t_id, pageNumber)
+            singleTopic.value = result
         }
     }
 }
