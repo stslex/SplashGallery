@@ -15,13 +15,13 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/description_image"
-        android:maxHeight="600dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:background="@color/frame"
         android:padding="@dimen/primary_padding">
 
@@ -33,13 +33,14 @@
 
             <ImageView
                 android:id="@+id/item_pager_image_person"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginEnd="@dimen/primary_padding"
                 android:src="@drawable/ic_launcher_background" />
 
             <TextView
                 android:id="@+id/item_pager_author_name"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name full" />
