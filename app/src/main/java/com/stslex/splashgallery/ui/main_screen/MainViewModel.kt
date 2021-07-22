@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.ui.main_screen
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,8 +13,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val repository: Repository) :
     ViewModel() {
 
-    private val _page = MutableLiveData<Result<PagesModel>>()
-    val page get() = _page
+    private val _allPhotos = MutableLiveData<Result<PagesModel>>()
+    val allPhotos: LiveData<Result<PagesModel>> get() = _allPhotos
 
     private val _allTopics = MutableLiveData<Result<List<TopicsModel>>>()
     val allTopics get() = _allTopics
@@ -24,7 +25,7 @@ class MainViewModel(private val repository: Repository) :
     fun getAllPhotos(pageNumber: Int) {
         viewModelScope.launch {
             val result = repository.getAllPhotos(pageNumber)
-            page.value = result
+            _allPhotos.value = result
         }
     }
 

@@ -24,10 +24,9 @@ class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
 
     fun addItems(listOfElements: List<ImageModel>) {
         val positionStart = this.listOfElements.size
-        /*listOfElements.forEach {
+        listOfElements.forEach {
             this.listOfElements.add(it)
-        }*/
-        this.listOfElements = listOfElements as MutableList<ImageModel>
-        notifyDataSetChanged()
+        }
+        notifyItemRangeChanged(positionStart, this.listOfElements.size)
     }
 }
