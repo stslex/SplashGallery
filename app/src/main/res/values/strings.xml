@@ -3,5 +3,5 @@
 
     <string name="description_image">image</string>
     <string name="label_tab_layout_all">All</string>
-    <string name="label_tab_layout_top">Top</string>
+    <string name="label_tab_layout_collection">Collection</string>
 </resources>

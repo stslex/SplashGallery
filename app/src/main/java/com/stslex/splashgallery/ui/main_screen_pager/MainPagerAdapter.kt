@@ -3,7 +3,7 @@ package com.stslex.wallpape.ui.main_screen_pager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.model.image.ImageModel
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerPagerMainBinding
 
 class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
@@ -24,10 +24,9 @@ class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
 
     fun addItems(listOfElements: List<ImageModel>) {
         val positionStart = this.listOfElements.size
-        /*listOfElements.forEach {
+        listOfElements.forEach {
             this.listOfElements.add(it)
-        }*/
-        this.listOfElements = listOfElements as MutableList<ImageModel>
-        notifyDataSetChanged()
+        }
+        notifyItemRangeChanged(positionStart, this.listOfElements.size)
     }
 }

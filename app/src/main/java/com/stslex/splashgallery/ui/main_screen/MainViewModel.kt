@@ -1,10 +1,12 @@
 package com.stslex.splashgallery.ui.main_screen
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.data.model.PagesModel
-import com.stslex.splashgallery.data.model.title.TopicsModel
+import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
+import com.stslex.splashgallery.data.model.domain.PagesModel
+import com.stslex.splashgallery.data.model.domain.title.TopicsModel
 import com.stslex.splashgallery.data.repository.Repository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
@@ -12,33 +14,39 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val repository: Repository) :
     ViewModel() {
 
-    private val _page = MutableLiveData<Result<PagesModel>>()
-    val page get() = _page
+    private val _allPhotos = MutableLiveData<Result<PagesModel>>()
+    val allPhotos: LiveData<Result<PagesModel>> get() = _allPhotos
 
     private val _allTopics = MutableLiveData<Result<List<TopicsModel>>>()
-    val allTopics get() = _allTopics
+    val allTopics: LiveData<Result<List<TopicsModel>>> get() = _allTopics
 
     private val _singleTopic = MutableLiveData<Result<PagesModel>>()
-    val singleTopic get() = _singleTopic
+    val singleTopic: LiveData<Result<PagesModel>> get() = _singleTopic
+
+    private val _allCollections = MutableLiveData<Result<PagesCollectionModel>>()
+    val allCollections: LiveData<Result<PagesCollectionModel>> get() = _allCollections
 
     fun getAllPhotos(pageNumber: Int) {
         viewModelScope.launch {
-            val result = repository.getAllPhotos(pageNumber)
-            page.value = result
+            _allPhotos.value = repository.getAllPhotos(pageNumber)
+        }
+    }
+
+    fun getAllCollections(pageNumber: Int) {
+        viewModelScope.launch {
+            _allCollections.value = repository.getAllCollections(pageNumber)
         }
     }
 
     fun getTopics() {
         viewModelScope.launch {
-            val result = repository.getTopics()
-            allTopics.value = result
+            _allTopics.value = repository.getTopics()
         }
     }
 
     fun getSingleTopic(t_id: String, pageNumber: Int) {
         viewModelScope.launch {
-            val result = repository.getSingleTopic(t_id, pageNumber)
-            singleTopic.value = result
+            _singleTopic.value = repository.getSingleTopic(t_id, pageNumber)
         }
     }
 }

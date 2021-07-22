@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.model.title
+package com.stslex.splashgallery.data.model.domain.title
 
 data class TopicsModel(
     val id: String,

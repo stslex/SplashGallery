@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.mapper
 
-import com.stslex.splashgallery.data.model.image.ImageModel
-import com.stslex.splashgallery.data.model.image.RemoteImageModel
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
+import com.stslex.splashgallery.data.model.remote.RemoteImageModel
 
 class ImageMapper : BaseMapper<RemoteImageModel, ImageModel> {
     override fun transformToDomain(type: RemoteImageModel): ImageModel = ImageModel(

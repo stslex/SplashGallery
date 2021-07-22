@@ -30,14 +30,14 @@ class MainPagerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainPagerBinding.inflate(inflater, container, false)
-        sharedViewModel.pageNumber.postValue(pagesNum)
+        sharedViewModel.setPageNumber(pagesNum)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        //initScrollListener()
+        initScrollListener()
     }
 
     private fun initScrollListener() {
@@ -56,7 +56,7 @@ class MainPagerFragment : Fragment() {
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
                     pagesNum++
-                    sharedViewModel.pageNumber.postValue(pagesNum)
+                    sharedViewModel.setPageNumber(pagesNum)
                 }
             }
         })

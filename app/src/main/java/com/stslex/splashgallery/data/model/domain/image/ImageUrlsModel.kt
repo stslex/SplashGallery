@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.model.image
+package com.stslex.splashgallery.data.model.domain.image
 
 data class ImageUrlsModel(
     val raw: String,
