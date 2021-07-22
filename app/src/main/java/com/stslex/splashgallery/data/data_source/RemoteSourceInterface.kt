@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.data_source
 
-import com.stslex.splashgallery.data.model.PagesModel
-import com.stslex.splashgallery.data.model.title.TopicsModel
+import com.stslex.splashgallery.data.model.domain.PagesModel
+import com.stslex.splashgallery.data.model.domain.title.TopicsModel
 import com.stslex.splashgallery.utils.Result
 
 interface RemoteSourceInterface {

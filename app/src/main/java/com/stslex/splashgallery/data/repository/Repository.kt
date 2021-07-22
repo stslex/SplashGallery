@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.data.repository
 
 import com.stslex.splashgallery.data.data_source.RemoteSource
-import com.stslex.splashgallery.data.model.PagesModel
-import com.stslex.splashgallery.data.model.title.TopicsModel
+import com.stslex.splashgallery.data.model.domain.PagesModel
+import com.stslex.splashgallery.data.model.domain.title.TopicsModel
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

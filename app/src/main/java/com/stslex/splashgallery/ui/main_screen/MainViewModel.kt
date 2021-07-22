@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.data.model.PagesModel
-import com.stslex.splashgallery.data.model.title.TopicsModel
+import com.stslex.splashgallery.data.model.domain.PagesModel
+import com.stslex.splashgallery.data.model.domain.title.TopicsModel
 import com.stslex.splashgallery.data.repository.Repository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch

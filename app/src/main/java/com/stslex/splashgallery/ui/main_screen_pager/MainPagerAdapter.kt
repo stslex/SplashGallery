@@ -3,7 +3,7 @@ package com.stslex.wallpape.ui.main_screen_pager
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.model.image.ImageModel
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerPagerMainBinding
 
 class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {

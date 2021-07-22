@@ -3,7 +3,7 @@ package com.stslex.splashgallery.ui.main_screen_pager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stslex.splashgallery.data.model.PagesModel
+import com.stslex.splashgallery.data.model.domain.PagesModel
 
 class PagerSharedViewModel : ViewModel() {
     private val _page = MutableLiveData<PagesModel>()
