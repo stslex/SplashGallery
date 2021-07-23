@@ -2,14 +2,29 @@ package com.stslex.splashgallery.ui.main_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.stslex.splashgallery.data.repository.Repository
+import javax.inject.Inject
+import javax.inject.Provider
+import javax.inject.Singleton
 
-class MainViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
+@Singleton
+class MainViewModelFactory @Inject constructor(
+    private val viewModelMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+) : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MainViewModel(repository) as T
+        var viewModel = viewModelMap[modelClass]
+
+        if (viewModel == null) {
+            for (entry in viewModelMap) {
+                if (modelClass.isAssignableFrom(entry.key)) {
+                    viewModel = entry.value
+                    break
+                }
+            }
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
+
+        if (viewModel == null) throw IllegalArgumentException("Unknown model class $modelClass")
+        return viewModel.get() as T
     }
 }

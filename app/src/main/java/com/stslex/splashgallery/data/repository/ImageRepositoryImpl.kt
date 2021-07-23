@@ -7,8 +7,10 @@ import com.stslex.splashgallery.data.model.domain.title.TopicsModel
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class Repository(private val remoteSource: RemoteSource) : RepositoryInterface {
+class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSource) :
+    ImageRepository {
 
     override suspend fun getAllPhotos(pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
