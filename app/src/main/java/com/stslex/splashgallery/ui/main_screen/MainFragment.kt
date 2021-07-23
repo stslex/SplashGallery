@@ -16,14 +16,13 @@ import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 import com.stslex.splashgallery.utils.BaseFragment
 import com.stslex.splashgallery.utils.Result
 
+
 class MainFragment : BaseFragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels {
-        viewModelFactory
-    }
+    private val viewModel: MainViewModel by viewModels { viewModelFactory }
 
     private val sharedViewModel: PagerSharedViewModel by activityViewModels()
 

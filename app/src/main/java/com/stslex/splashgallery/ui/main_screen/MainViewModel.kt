@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
 import com.stslex.splashgallery.data.model.domain.title.TopicsModel
-import com.stslex.splashgallery.data.repository.Repository
+import com.stslex.splashgallery.data.repository.ImageRepository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val repository: Repository) :
+class MainViewModel @Inject constructor(private val imageRepository: ImageRepository) :
     ViewModel() {
 
     private val _allPhotos = MutableLiveData<Result<PagesModel>>()
@@ -28,25 +29,25 @@ class MainViewModel(private val repository: Repository) :
 
     fun getAllPhotos(pageNumber: Int) {
         viewModelScope.launch {
-            _allPhotos.value = repository.getAllPhotos(pageNumber)
+            _allPhotos.value = imageRepository.getAllPhotos(pageNumber)
         }
     }
 
     fun getAllCollections(pageNumber: Int) {
         viewModelScope.launch {
-            _allCollections.value = repository.getAllCollections(pageNumber)
+            _allCollections.value = imageRepository.getAllCollections(pageNumber)
         }
     }
 
     fun getTopics() {
         viewModelScope.launch {
-            _allTopics.value = repository.getTopics()
+            _allTopics.value = imageRepository.getTopics()
         }
     }
 
     fun getSingleTopic(t_id: String, pageNumber: Int) {
         viewModelScope.launch {
-            _singleTopic.value = repository.getSingleTopic(t_id, pageNumber)
+            _singleTopic.value = imageRepository.getSingleTopic(t_id, pageNumber)
         }
     }
 }
