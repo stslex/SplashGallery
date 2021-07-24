@@ -3,11 +3,12 @@ package com.stslex.splashgallery.di.module
 import com.stslex.splashgallery.data.data_source.RemoteSource
 import com.stslex.splashgallery.data.data_source.RemoteSourceImpl
 import dagger.Module
-import javax.inject.Inject
-
+import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-object RemoteSourceModule {
-    @Inject
-    fun bindRemoteSource(remoteSource: RemoteSource): RemoteSourceImpl = RemoteSourceImpl()
+class RemoteSourceModule {
+    @Singleton
+    @Provides
+    fun bindRemoteSource(): RemoteSource = RemoteSourceImpl()
 }
