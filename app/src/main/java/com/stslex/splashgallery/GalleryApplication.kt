@@ -8,7 +8,6 @@ class GalleryApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.builder().application(this).build()
     }
 
 }
