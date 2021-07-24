@@ -4,10 +4,11 @@ import com.stslex.splashgallery.data.data_source.RemoteSource
 import com.stslex.splashgallery.data.data_source.RemoteSourceImpl
 import dagger.Module
 import dagger.Provides
-
+import javax.inject.Singleton
 
 @Module
-object RemoteSourceModule {
+class RemoteSourceModule {
+    @Singleton
     @Provides
-    fun bindRemoteSource(remoteSource: RemoteSource): RemoteSourceImpl = RemoteSourceImpl()
+    fun bindRemoteSource(): RemoteSource = RemoteSourceImpl()
 }
