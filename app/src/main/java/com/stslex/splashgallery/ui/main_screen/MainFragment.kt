@@ -7,45 +7,36 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
+import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentMainBinding
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
+import com.stslex.splashgallery.ui.main_screen.MainViewModelFactory
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 import com.stslex.splashgallery.utils.Result
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 
-class MainFragment : Fragment(), HasAndroidInjector {
+class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
-
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: MainViewModelFactory
 
     private val viewModel: MainViewModel by viewModels { viewModelFactory }
 
     private val sharedViewModel: PagerSharedViewModel by activityViewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(activity)
-
+        requireContext().appComponent.inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
