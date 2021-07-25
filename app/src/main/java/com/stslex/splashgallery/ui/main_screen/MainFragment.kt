@@ -56,10 +56,10 @@ class MainFragment : BaseFragment() {
                 super.onPageSelected(position)
                 when (position) {
                     0 -> {
-
+                        sharedViewModel.setIsAllImages(true)
                     }
                     1 -> {
-
+                        sharedViewModel.setIsAllImages(false)
                     }
                 }
             }
@@ -67,13 +67,13 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setViewModelListener() {
-        /*sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
+        sharedViewModel.pageNumberAllPhotos.observe(viewLifecycleOwner) {
             viewModel.getAllPhotos(it)
-        }*/
-        sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
+        }
+        sharedViewModel.pageNumberCollections.observe(viewLifecycleOwner) {
             viewModel.getAllCollections(it)
         }
-        /*viewModel.allPhotos.observe(viewLifecycleOwner) {
+        viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
                     sharedViewModel.setPage(it.data)
@@ -87,7 +87,7 @@ class MainFragment : BaseFragment() {
                     binding.mainFragmentProgressBar.visibility = View.VISIBLE
                 }
             }
-        }*/
+        }
 
         viewModel.allCollections.observe(viewLifecycleOwner) {
             when (it) {

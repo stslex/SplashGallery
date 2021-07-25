@@ -25,8 +25,8 @@
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"
             android:ellipsize="end"
+            android:lines="1"
             android:text="Name full" />
 
     </LinearLayout>
@@ -47,6 +47,29 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_image"
             android:src="@drawable/ic_launcher_foreground" />
+
+        <FrameLayout
+            android:id="@+id/item_pager_collection_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="bottom"
+            android:background="@color/frame">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/big_padding">
+
+                <TextView
+                    android:id="@+id/item_pager_collection_title"
+                    style="@style/TextAppearance.MaterialComponents.Headline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </FrameLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
