@@ -17,12 +17,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RemoteSourceImpl @Inject constructor(private val client: RetrofitService) : RemoteSource {
+class RemoteSourceImpl @Inject constructor(private val retrofitService: RetrofitService) : RemoteSource {
 
     override suspend fun getAllPhotos(pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getAllPhotos(pageNumber, API_KEY_SUCCESS)
+                val result = retrofitService.getAllPhotos(pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = ImageMapper()
                     val listOfRemoteImages = result.body() as List<RemoteImageModel>
@@ -42,7 +42,7 @@ class RemoteSourceImpl @Inject constructor(private val client: RetrofitService) 
     override suspend fun getTopics(): Result<List<TopicsModel>> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getTopics(API_KEY_SUCCESS)
+                val result = retrofitService.getTopics(API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = TopicsMapper()
                     val listOfRemoteTopics = result.body() as List<RemoteTopicsModel>
@@ -61,13 +61,11 @@ class RemoteSourceImpl @Inject constructor(private val client: RetrofitService) 
     override suspend fun getSingleTopic(t_id: String, pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getSingleTopic(t_id, pageNumber, API_KEY_SUCCESS)
+                val result = retrofitService.getSingleTopic(t_id, pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = ImageMapper()
                     val listOfRemoteImages = result.body() as List<RemoteImageModel>
-                    val listOfImages = listOfRemoteImages.map {
-                        mapper.transformToDomain(it)
-                    }
+                    val listOfImages = listOfRemoteImages.map { mapper.transformToDomain(it) }
                     val page = PagesModel(listOfImages)
                     Result.Success(page)
                 } else {
@@ -81,7 +79,7 @@ class RemoteSourceImpl @Inject constructor(private val client: RetrofitService) 
     override suspend fun getAllCollections(pageNumber: Int): Result<PagesCollectionModel> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getAllCollections(pageNumber, API_KEY_SUCCESS)
+                val result = retrofitService.getAllCollections(pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = CollectionMapper()
                     val listOfRemoteCollections = result.body() as List<RemoteCollectionModel>

@@ -11,12 +11,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
-import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentMainBinding
 import com.stslex.splashgallery.ui.base.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 import com.stslex.splashgallery.utils.Result
+import com.stslex.splashgallery.utils.appComponent
 
 
 class MainFragment : BaseFragment() {
