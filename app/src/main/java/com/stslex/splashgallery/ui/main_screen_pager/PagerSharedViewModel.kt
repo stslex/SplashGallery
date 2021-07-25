@@ -20,9 +20,22 @@ class PagerSharedViewModel @Inject constructor() : ViewModel() {
         _collections.value = collection
     }
 
-    private val _pageNumber = MutableLiveData<Int>()
-    val pageNumber: LiveData<Int> get() = _pageNumber
-    fun setPageNumber(number: Int) {
-        _pageNumber.value = number
+    private val _isAllImages = MutableLiveData<Boolean>()
+    val isAllImages: LiveData<Boolean> get() = _isAllImages
+    fun setIsAllImages(isAllImages: Boolean) {
+        _isAllImages.value = isAllImages
     }
+
+    private val _pageNumberAllPhotos = MutableLiveData<Int>()
+    val pageNumberAllPhotos: LiveData<Int> get() = _pageNumberAllPhotos
+    fun setPageNumberAppPhotos(number: Int) {
+        _pageNumberAllPhotos.value = number
+    }
+
+    private val _pageNumberCollections = MutableLiveData<Int>()
+    val pageNumberCollections: LiveData<Int> get() = _pageNumberCollections
+    fun setPageNumberCollections(number: Int) {
+        _pageNumberCollections.value = number
+    }
+
 }

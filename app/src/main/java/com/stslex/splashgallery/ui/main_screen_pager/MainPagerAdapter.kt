@@ -9,8 +9,9 @@ import com.stslex.splashgallery.databinding.ItemRecyclerPagerMainBinding
 
 class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
 
-    private var listOfElements = mutableListOf<ImageModel>()
+    private var listOfAllImages = mutableListOf<ImageModel>()
     private var listOfCollection = mutableListOf<CollectionModel>()
+    private var flag: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainPagerViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,21 +20,28 @@ class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainPagerViewHolder, position: Int) {
-        if (listOfCollection.size != 0) holder.bind(listOfCollection[position])
+        if (flag) holder.bind(listOfAllImages[position])
+        else holder.bind(listOfCollection[position])
     }
 
-    override fun getItemCount(): Int = listOfCollection.size
+    override fun getItemCount(): Int = if (flag) {
+        listOfAllImages.size
+    } else listOfCollection.size
 
-    fun addItemsOfPhoto(listOfElements: List<ImageModel>) {
-        val positionStart = this.listOfElements.size
-        listOfElements.forEach {
-            this.listOfElements.add(it)
+    fun isAllPhotos(flag: Boolean) {
+        this.flag = flag
+    }
+
+    fun addItemsOfPhoto(listOfAllImages: List<ImageModel>) {
+        val positionStart = listOfAllImages.size
+        listOfAllImages.forEach {
+            this.listOfAllImages.add(it)
         }
-        notifyItemRangeChanged(positionStart, this.listOfElements.size)
+        notifyItemRangeChanged(positionStart, this.listOfAllImages.size)
     }
 
     fun addItemsOfCollection(listOfCollection: List<CollectionModel>) {
-        val positionStart = this.listOfCollection.size
+        val positionStart = listOfCollection.size
         listOfCollection.forEach {
             this.listOfCollection.add(it)
         }
