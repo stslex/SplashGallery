@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
+import javax.inject.Inject
 
-class PagerSharedViewModel : ViewModel() {
+class PagerSharedViewModel @Inject constructor(): ViewModel() {
     private val _page = MutableLiveData<PagesModel>()
     val page: LiveData<PagesModel> get() = _page
     fun setPage(page: PagesModel) {

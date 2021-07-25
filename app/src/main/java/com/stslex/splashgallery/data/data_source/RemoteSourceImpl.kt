@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.data_source
 
-import com.stslex.splashgallery.data.data_source.retrofit.RetrofitClient
 import com.stslex.splashgallery.data.data_source.retrofit.RetrofitService
 import com.stslex.splashgallery.data.model.*
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
@@ -13,20 +12,17 @@ import com.stslex.splashgallery.mapper.CollectionMapper
 import com.stslex.splashgallery.mapper.ImageMapper
 import com.stslex.splashgallery.mapper.TopicsMapper
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
-import com.stslex.splashgallery.utils.BASE_URL
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RemoteSourceImpl : RemoteSource {
-
-    private val client: RetrofitService = RetrofitClient().getClient(BASE_URL)
-        .create(RetrofitService::class.java)
+class RemoteSourceImpl @Inject constructor(private val retrofitService: RetrofitService) : RemoteSource {
 
     override suspend fun getAllPhotos(pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getAllPhotos(pageNumber, API_KEY_SUCCESS)
+                val result = retrofitService.getAllPhotos(pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = ImageMapper()
                     val listOfRemoteImages = result.body() as List<RemoteImageModel>
@@ -46,7 +42,7 @@ class RemoteSourceImpl : RemoteSource {
     override suspend fun getTopics(): Result<List<TopicsModel>> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getTopics(API_KEY_SUCCESS)
+                val result = retrofitService.getTopics(API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = TopicsMapper()
                     val listOfRemoteTopics = result.body() as List<RemoteTopicsModel>
@@ -65,13 +61,11 @@ class RemoteSourceImpl : RemoteSource {
     override suspend fun getSingleTopic(t_id: String, pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getSingleTopic(t_id, pageNumber, API_KEY_SUCCESS)
+                val result = retrofitService.getSingleTopic(t_id, pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = ImageMapper()
                     val listOfRemoteImages = result.body() as List<RemoteImageModel>
-                    val listOfImages = listOfRemoteImages.map {
-                        mapper.transformToDomain(it)
-                    }
+                    val listOfImages = listOfRemoteImages.map { mapper.transformToDomain(it) }
                     val page = PagesModel(listOfImages)
                     Result.Success(page)
                 } else {
@@ -85,7 +79,7 @@ class RemoteSourceImpl : RemoteSource {
     override suspend fun getAllCollections(pageNumber: Int): Result<PagesCollectionModel> =
         withContext(Dispatchers.IO) {
             return@withContext try {
-                val result = client.getAllCollections(pageNumber, API_KEY_SUCCESS)
+                val result = retrofitService.getAllCollections(pageNumber, API_KEY_SUCCESS)
                 if (result.isSuccessful && result.body() != null) {
                     val mapper = CollectionMapper()
                     val listOfRemoteCollections = result.body() as List<RemoteCollectionModel>

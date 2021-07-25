@@ -76,6 +76,8 @@ class MainPagerFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        sharedViewModel.page.removeObservers(viewLifecycleOwner)
+        sharedViewModel.pageNumber.removeObservers(viewLifecycleOwner)
     }
 
     companion object {

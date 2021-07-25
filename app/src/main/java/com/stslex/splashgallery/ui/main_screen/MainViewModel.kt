@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
 import com.stslex.splashgallery.data.model.domain.title.TopicsModel
-import com.stslex.splashgallery.data.repository.ImageRepositoryImpl
+import com.stslex.splashgallery.data.repository.ImageRepository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val imageRepository: ImageRepositoryImpl) :
+class MainViewModel @Inject constructor(private val imageRepository: ImageRepository) :
     ViewModel() {
 
     private val _allPhotos = MutableLiveData<Result<PagesModel>>()
