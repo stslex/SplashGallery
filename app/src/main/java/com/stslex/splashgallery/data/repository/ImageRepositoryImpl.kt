@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.data.repository
 
+import android.util.Log
 import com.stslex.splashgallery.data.data_source.RemoteSource
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
@@ -74,9 +75,11 @@ class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSo
             return@withContext try {
                 when (val response = remoteSource.getAllCollections(pageNumber)) {
                     is Result.Success -> {
+                        Log.i("Collection::repo", response.data.toString())
                         Result.Success(response.data)
                     }
                     is Result.Failure -> {
+                        Log.i("Collection::repo:e", response.exception)
                         Result.Failure(response.exception)
                     }
                     else -> {
@@ -84,6 +87,7 @@ class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSo
                     }
                 }
             } catch (exception: Exception) {
+                Log.i("Collection::repo:ex", exception.toString())
                 Result.Failure(exception.toString())
             }
         }

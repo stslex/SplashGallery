@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.data.model.domain.image
 
-data class ImageUrlsModel(
+data class UrlsModel(
     val raw: String,
     val full: String,
     val regular: String,

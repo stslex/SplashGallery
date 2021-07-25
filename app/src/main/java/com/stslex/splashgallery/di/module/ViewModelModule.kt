@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.di.module
 
 import androidx.lifecycle.ViewModel
-import com.stslex.splashgallery.di.ViewModelKey
+import com.stslex.splashgallery.di.key.ViewModelKey
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 import dagger.Binds

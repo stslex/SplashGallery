@@ -12,9 +12,20 @@ class ImageMapper : BaseMapper<RemoteImageModel, ImageModel> {
         height = type.height,
         color = type.color,
         blur_hash = type.blur_hash,
+        views = type.views,
+        downloads = type.downloads,
         likes = type.likes,
         liked_by_user = type.liked_by_user,
-        user = type.user,
+        description = type.description,
+        alt_description = type.alt_description,
+        exif = type.exif,
+        location = type.location,
+        tags = type.tags,
+        current_user_collections = type.current_user_collections,
+        sponsorship = type.sponsorship,
         urls = type.urls,
+        links = type.links,
+        user = type.user,
+        statistics = type.statistics
     )
 }

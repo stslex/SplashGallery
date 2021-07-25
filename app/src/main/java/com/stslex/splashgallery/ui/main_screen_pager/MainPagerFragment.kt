@@ -1,6 +1,7 @@
 package com.stslex.wallpape.ui.main_screen_pager
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,8 +69,12 @@ class MainPagerFragment : Fragment() {
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        sharedViewModel.page.observe(viewLifecycleOwner) {
-            adapter.addItems(it.image)
+        /*sharedViewModel.page.observe(viewLifecycleOwner) {
+            adapter.addItemsOfPhoto(it.image)
+        }*/
+        sharedViewModel.collection.observe(viewLifecycleOwner) {
+            Log.i("Collection::pf", it.toString())
+            adapter.addItemsOfCollection(it.collections)
         }
     }
 
