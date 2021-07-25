@@ -20,6 +20,7 @@ The app client for Unspalsh service
 - Room
 - Navigation component (Jetpack's navigation)
 - ViewPager2
+- Glide
 
 ### Installation
 All releases will be here [RELEASES](https://github.com/Slex93/SplashGallery/releases) 
