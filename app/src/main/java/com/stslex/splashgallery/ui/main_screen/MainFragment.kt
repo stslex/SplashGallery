@@ -51,6 +51,18 @@ class MainFragment : BaseFragment() {
     private fun initPagerSwitcher() {
         binding.mainViewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                when (position) {
+                    0 -> {
+
+                    }
+                    1 -> {
+
+                    }
+                }
+            }
         })
     }
 
@@ -58,16 +70,37 @@ class MainFragment : BaseFragment() {
         sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
             viewModel.getAllPhotos(it)
         }
+        sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
+            viewModel.getAllCollections(it)
+        }
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
                     sharedViewModel.setPage(it.data)
+                    binding.mainFragmentProgressBar.visibility = View.GONE
                 }
                 is Result.Failure -> {
                     Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
+                    binding.mainFragmentProgressBar.visibility = View.GONE
                 }
                 is Result.Loading -> {
+                    binding.mainFragmentProgressBar.visibility = View.VISIBLE
+                }
+            }
+        }
 
+        viewModel.allCollections.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Success -> {
+                    sharedViewModel.setCollection(it.data)
+                    binding.mainFragmentProgressBar.visibility = View.GONE
+                }
+                is Result.Failure -> {
+                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
+                    binding.mainFragmentProgressBar.visibility = View.GONE
+                }
+                is Result.Loading -> {
+                    binding.mainFragmentProgressBar.visibility = View.VISIBLE
                 }
             }
         }

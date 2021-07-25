@@ -68,8 +68,11 @@ class MainPagerFragment : Fragment() {
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        sharedViewModel.page.observe(viewLifecycleOwner) {
-            adapter.addItems(it.image)
+        /*sharedViewModel.page.observe(viewLifecycleOwner) {
+            adapter.addItemsOfPhoto(it.image)
+        }*/
+        sharedViewModel.collection.observe(viewLifecycleOwner) {
+            adapter.addItemsOfCollection(it.collections)
         }
     }
 

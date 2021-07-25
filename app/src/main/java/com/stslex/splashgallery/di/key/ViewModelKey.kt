@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.di
+package com.stslex.splashgallery.di.key
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
