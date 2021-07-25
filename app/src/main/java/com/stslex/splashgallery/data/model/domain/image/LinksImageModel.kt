@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.data.model.domain.image
 
-data class ImageLinksModel(
+data class LinksImageModel(
     val self: String,
     val html: String,
     val download: String,
-    val download_location: String,
+    val download_location: String
 )

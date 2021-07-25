@@ -11,13 +11,13 @@ class MainPagerViewHolder(private val binding: ItemRecyclerPagerMainBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(image: ImageModel) {
         binding.itemPagerImage.downloadAndSet(image.urls.regular)
-        binding.itemPagerAuthorName.text = image.user.name
-        binding.itemPagerImagePerson.downloadAndSetSmallRound(image.user.profile_image.small)
+        binding.itemPagerAuthorName.text = image.user?.name
+        binding.itemPagerImagePerson.downloadAndSetSmallRound(image.user?.profile_image!!.small)
     }
 
     fun bind(collection: CollectionModel) {
-        binding.itemPagerImage.downloadAndSet(collection.links.regular)
-        binding.itemPagerAuthorName.text = collection.user.name
-        binding.itemPagerImagePerson.downloadAndSetSmallRound(collection.user.profile_image.small)
+        binding.itemPagerImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
+        binding.itemPagerAuthorName.text = collection.user?.name
+        binding.itemPagerImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
     }
 }

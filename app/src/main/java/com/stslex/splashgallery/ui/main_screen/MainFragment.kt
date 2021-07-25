@@ -67,13 +67,13 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setViewModelListener() {
-        sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
+        /*sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
             viewModel.getAllPhotos(it)
-        }
+        }*/
         sharedViewModel.pageNumber.observe(viewLifecycleOwner) {
             viewModel.getAllCollections(it)
         }
-        viewModel.allPhotos.observe(viewLifecycleOwner) {
+        /*viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
                     sharedViewModel.setPage(it.data)
@@ -87,7 +87,7 @@ class MainFragment : BaseFragment() {
                     binding.mainFragmentProgressBar.visibility = View.VISIBLE
                 }
             }
-        }
+        }*/
 
         viewModel.allCollections.observe(viewLifecycleOwner) {
             when (it) {

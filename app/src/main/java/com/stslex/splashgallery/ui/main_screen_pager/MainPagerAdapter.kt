@@ -19,14 +19,10 @@ class MainPagerAdapter : RecyclerView.Adapter<MainPagerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainPagerViewHolder, position: Int) {
-        if (listOfCollection.isEmpty()) {
-            holder.bind(listOfElements[position])
-        } else {
-            holder.bind(listOfCollection[position])
-        }
+        if (listOfCollection.size != 0) holder.bind(listOfCollection[position])
     }
 
-    override fun getItemCount(): Int = listOfElements.size
+    override fun getItemCount(): Int = listOfCollection.size
 
     fun addItemsOfPhoto(listOfElements: List<ImageModel>) {
         val positionStart = this.listOfElements.size
