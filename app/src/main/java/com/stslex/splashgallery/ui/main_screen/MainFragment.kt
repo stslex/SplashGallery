@@ -1,5 +1,6 @@
 package com.stslex.wallpape.ui.main_screen
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,13 +24,13 @@ class MainFragment : BaseFragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels { viewModelFactory }
+    private val viewModel: MainViewModel by viewModels { viewModelFactory.get() }
 
     private val sharedViewModel: PagerSharedViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireContext().appComponent.inject(this)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.applicationContext.appComponent.inject(this)
     }
 
     override fun onCreateView(

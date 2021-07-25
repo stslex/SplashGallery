@@ -1,18 +1,20 @@
 package com.stslex.wallpape.ui.main_screen_pager
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentMainPagerBinding
+import com.stslex.splashgallery.ui.base.BaseFragment
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 
-class MainPagerFragment : Fragment() {
+class MainPagerFragment : BaseFragment() {
 
     private var _binding: FragmentMainPagerBinding? = null
     private val binding get() = _binding!!
@@ -25,6 +27,10 @@ class MainPagerFragment : Fragment() {
 
     private var isScrolling = false
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.applicationContext.appComponent.inject(this)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,6 +82,8 @@ class MainPagerFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        sharedViewModel.page.removeObservers(viewLifecycleOwner)
+        sharedViewModel.pageNumber.removeObservers(viewLifecycleOwner)
     }
 
     companion object {
