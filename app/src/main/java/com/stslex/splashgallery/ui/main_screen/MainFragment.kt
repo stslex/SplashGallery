@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -13,20 +12,16 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentMainBinding
+import com.stslex.splashgallery.ui.base.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
-import com.stslex.splashgallery.ui.main_screen.MainViewModelFactory
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 import com.stslex.splashgallery.utils.Result
-import javax.inject.Inject
 
 
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    @Inject
-    lateinit var viewModelFactory: MainViewModelFactory
 
     private val viewModel: MainViewModel by viewModels { viewModelFactory }
 

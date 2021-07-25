@@ -1,14 +1,15 @@
 package com.stslex.splashgallery.data.repository
 
-import com.stslex.splashgallery.data.data_source.RemoteSourceImpl
+import com.stslex.splashgallery.data.data_source.RemoteSource
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
 import com.stslex.splashgallery.data.model.domain.title.TopicsModel
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ImageRepositoryImpl(private val remoteSource: RemoteSourceImpl) :
+class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSource) :
     ImageRepository {
 
     override suspend fun getAllPhotos(pageNumber: Int): Result<PagesModel> =

@@ -2,8 +2,8 @@ package com.stslex.splashgallery
 
 import android.app.Application
 import android.content.Context
-import com.stslex.splashgallery.di.AppComponent
-import com.stslex.splashgallery.di.DaggerAppComponent
+import com.stslex.splashgallery.di.component.AppComponent
+import com.stslex.splashgallery.di.component.DaggerAppComponent
 
 class GalleryApplication : Application() {
     lateinit var appComponent: AppComponent

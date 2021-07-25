@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.data_source
 
-import com.stslex.splashgallery.data.data_source.retrofit.RetrofitClient
 import com.stslex.splashgallery.data.data_source.retrofit.RetrofitService
 import com.stslex.splashgallery.data.model.*
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
@@ -13,15 +12,12 @@ import com.stslex.splashgallery.mapper.CollectionMapper
 import com.stslex.splashgallery.mapper.ImageMapper
 import com.stslex.splashgallery.mapper.TopicsMapper
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
-import com.stslex.splashgallery.utils.BASE_URL
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RemoteSourceImpl : RemoteSource {
-
-    private val client: RetrofitService = RetrofitClient().getClient(BASE_URL)
-        .create(RetrofitService::class.java)
+class RemoteSourceImpl @Inject constructor(private val client: RetrofitService) : RemoteSource {
 
     override suspend fun getAllPhotos(pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
