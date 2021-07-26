@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
-import com.stslex.splashgallery.databinding.ItemRecyclerPagerMainBinding
+import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 
 class CollectionsAdapter : RecyclerView.Adapter<CollectionsViewHolder>() {
 
@@ -12,7 +12,7 @@ class CollectionsAdapter : RecyclerView.Adapter<CollectionsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemRecyclerPagerMainBinding.inflate(inflater, parent, false)
+        val binding = ItemRecyclerCollectionsBinding.inflate(inflater, parent, false)
         return CollectionsViewHolder(binding)
     }
 

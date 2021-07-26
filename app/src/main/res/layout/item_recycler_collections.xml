@@ -14,14 +14,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/item_pager_image_person"
+            android:id="@+id/item_collection_image_person"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="@dimen/primary_padding"
             android:src="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/item_pager_author_name"
+            android:id="@+id/item_collection_author_name"
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         app:cardCornerRadius="@dimen/primary_padding">
 
         <ImageView
-            android:id="@+id/item_pager_image"
+            android:id="@+id/item_collection_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -49,10 +49,9 @@
             android:src="@drawable/ic_launcher_foreground" />
 
         <FrameLayout
-            android:id="@+id/item_pager_collection_container"
+            android:id="@+id/item_collection_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_gravity="bottom"
             android:background="@color/frame">
 
@@ -60,14 +59,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/big_padding">
+                android:orientation="vertical"
+                android:padding="@dimen/primary_padding">
 
                 <TextView
-                    android:id="@+id/item_pager_collection_title"
+                    android:id="@+id/item_collection_title"
                     style="@style/TextAppearance.MaterialComponents.Headline4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/item_collection_description"
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/white" />
             </LinearLayout>
         </FrameLayout>
 

@@ -9,6 +9,6 @@
         android:id="@+id/fragment_collections_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_recycler_pager_main" />
+        tools:listitem="@layout/item_recycler_collections" />
 
 </FrameLayout>
