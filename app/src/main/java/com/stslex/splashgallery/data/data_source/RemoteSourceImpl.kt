@@ -17,7 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RemoteSourceImpl @Inject constructor(private val retrofitService: RetrofitService) : RemoteSource {
+class RemoteSourceImpl @Inject constructor(private val retrofitService: RetrofitService) :
+    RemoteSource {
 
     override suspend fun getAllPhotos(pageNumber: Int): Result<PagesModel> =
         withContext(Dispatchers.IO) {
@@ -33,6 +34,26 @@ class RemoteSourceImpl @Inject constructor(private val retrofitService: Retrofit
                     Result.Success(page)
                 } else {
                     Result.Failure("Null result")
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
+
+    override suspend fun getAllCollections(pageNumber: Int): Result<PagesCollectionModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                val result = retrofitService.getAllCollections(pageNumber, API_KEY_SUCCESS)
+                if (result.isSuccessful && result.body() != null) {
+                    val mapper = CollectionMapper()
+                    val listOfRemoteCollections = result.body() as List<RemoteCollectionModel>
+                    val listOfCollections = listOfRemoteCollections.map {
+                        mapper.transformToDomain(it)
+                    }
+                    val page = PagesCollectionModel(listOfCollections)
+                    Result.Success(page)
+                } else {
+                    Result.Failure("Null request")
                 }
             } catch (exception: Exception) {
                 Result.Failure(exception.toString())
@@ -76,23 +97,4 @@ class RemoteSourceImpl @Inject constructor(private val retrofitService: Retrofit
             }
         }
 
-    override suspend fun getAllCollections(pageNumber: Int): Result<PagesCollectionModel> =
-        withContext(Dispatchers.IO) {
-            return@withContext try {
-                val result = retrofitService.getAllCollections(pageNumber, API_KEY_SUCCESS)
-                if (result.isSuccessful && result.body() != null) {
-                    val mapper = CollectionMapper()
-                    val listOfRemoteCollections = result.body() as List<RemoteCollectionModel>
-                    val listOfCollections = listOfRemoteCollections.map {
-                        mapper.transformToDomain(it)
-                    }
-                    val page = PagesCollectionModel(listOfCollections)
-                    Result.Success(page)
-                } else {
-                    Result.Failure("Null request")
-                }
-            } catch (exception: Exception) {
-                Result.Failure(exception.toString())
-            }
-        }
 }

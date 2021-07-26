@@ -32,6 +32,28 @@ class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSo
             }
         }
 
+    override suspend fun getAllCollections(pageNumber: Int): Result<PagesCollectionModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                when (val response = remoteSource.getAllCollections(pageNumber)) {
+                    is Result.Success -> {
+                        Log.i("Collection::repo", response.data.toString())
+                        Result.Success(response.data)
+                    }
+                    is Result.Failure -> {
+                        Log.i("Collection::repo:e", response.exception)
+                        Result.Failure(response.exception)
+                    }
+                    else -> {
+                        Result.Loading
+                    }
+                }
+            } catch (exception: Exception) {
+                Log.i("Collection::repo:ex", exception.toString())
+                Result.Failure(exception.toString())
+            }
+        }
+
     override suspend fun getTopics(): Result<List<TopicsModel>> =
         withContext(Dispatchers.IO) {
             return@withContext try {
@@ -66,28 +88,6 @@ class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSo
                     }
                 }
             } catch (exception: Exception) {
-                Result.Failure(exception.toString())
-            }
-        }
-
-    override suspend fun getAllCollections(pageNumber: Int): Result<PagesCollectionModel> =
-        withContext(Dispatchers.IO) {
-            return@withContext try {
-                when (val response = remoteSource.getAllCollections(pageNumber)) {
-                    is Result.Success -> {
-                        Log.i("Collection::repo", response.data.toString())
-                        Result.Success(response.data)
-                    }
-                    is Result.Failure -> {
-                        Log.i("Collection::repo:e", response.exception)
-                        Result.Failure(response.exception)
-                    }
-                    else -> {
-                        Result.Loading
-                    }
-                }
-            } catch (exception: Exception) {
-                Log.i("Collection::repo:ex", exception.toString())
                 Result.Failure(exception.toString())
             }
         }
