@@ -7,16 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
-import com.stslex.splashgallery.ui.base.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
+import com.stslex.splashgallery.utils.base.BaseFragment
 
 
 class MainFragment : BaseFragment() {
@@ -45,25 +44,6 @@ class MainFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setViewModelListener()
         initPager()
-        initPagerSwitcher()
-    }
-
-    private fun initPagerSwitcher() {
-        binding.mainViewPager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                when (position) {
-                    0 -> {
-                        sharedViewModel.setIsAllImages(true)
-                    }
-                    1 -> {
-                        sharedViewModel.setIsAllImages(false)
-                    }
-                }
-            }
-        })
     }
 
     private fun setViewModelListener() {
@@ -76,7 +56,7 @@ class MainFragment : BaseFragment() {
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setPage(it.data)
+                    sharedViewModel.setAllPhotos(it.data)
                     binding.mainFragmentProgressBar.visibility = View.GONE
                 }
                 is Result.Failure -> {

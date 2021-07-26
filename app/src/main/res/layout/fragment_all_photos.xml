@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main_screen_pager.all_photos.AllPhotosFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_all_photos_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_recycler_pager_main" />
+
+</FrameLayout>
