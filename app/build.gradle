@@ -41,6 +41,7 @@ android {
 dependencies {
     //Dagger 2
     implementation("com.google.dagger:dagger:2.37")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt("com.google.dagger:dagger-compiler:2.35.1")
 
     //Glide
