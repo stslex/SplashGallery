@@ -9,7 +9,8 @@
 
 ### Description
 
-The app client for Unspalsh service
+The app client with Image library using Unspalsh api
+In order with dark theme support
 
 ### Tools
 
@@ -23,9 +24,10 @@ The app client for Unspalsh service
 - Glide
 
 ### Installation
-All releases will be here [RELEASES](https://github.com/Slex93/SplashGallery/releases) 
+All releases and preReleases are here [RELEASES](https://github.com/Slex93/SplashGallery/releases) 
 as soon as possible
 
 ### Screenshots
 
-Will be here as soon as posiible to
+- #### Main screen
+<img src="./screenshots/Screenshot_1.jpg" width="200" > <img src="./screenshots/Screenshot_2.jpg" width="200" > 
