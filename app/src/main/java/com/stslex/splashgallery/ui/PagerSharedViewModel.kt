@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.main_screen_pager
+package com.stslex.splashgallery.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

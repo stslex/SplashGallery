@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.main_screen_pager.collections.adapter
+package com.stslex.splashgallery.ui.collections.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

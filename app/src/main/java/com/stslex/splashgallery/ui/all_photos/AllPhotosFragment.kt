@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.main_screen_pager.all_photos
+package com.stslex.splashgallery.ui.all_photos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
-import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
-import com.stslex.splashgallery.ui.main_screen_pager.all_photos.adapter.AllPhotosAdapter
+import com.stslex.splashgallery.ui.PagerSharedViewModel
+import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 

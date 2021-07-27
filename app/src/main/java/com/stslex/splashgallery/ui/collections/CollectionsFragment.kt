@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.main_screen_pager.collections
+package com.stslex.splashgallery.ui.collections
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
-import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
-import com.stslex.splashgallery.ui.main_screen_pager.collections.adapter.CollectionsAdapter
+import com.stslex.splashgallery.ui.PagerSharedViewModel
+import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
