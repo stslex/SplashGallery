@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.single_photo
+package com.stslex.splashgallery.ui.single_photo_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater

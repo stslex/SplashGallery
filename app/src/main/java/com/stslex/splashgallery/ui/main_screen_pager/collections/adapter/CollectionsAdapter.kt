@@ -1,12 +1,14 @@
-package com.stslex.splashgallery.ui.main_screen_pager.collections
+package com.stslex.splashgallery.ui.main_screen_pager.collections.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
+import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 
-class CollectionsAdapter : RecyclerView.Adapter<CollectionsViewHolder>() {
+class CollectionsAdapter(private val clickListener: CollectionClickListener) :
+    RecyclerView.Adapter<CollectionsViewHolder>() {
 
     private var list = mutableListOf<CollectionModel>()
 
@@ -17,7 +19,8 @@ class CollectionsAdapter : RecyclerView.Adapter<CollectionsViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: CollectionsViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], position)
+        holder.setClickListener(clickListener)
     }
 
     override fun getItemCount(): Int = list.size

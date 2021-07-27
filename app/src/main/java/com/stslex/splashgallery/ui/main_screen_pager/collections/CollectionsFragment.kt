@@ -7,10 +7,15 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
+import com.stslex.splashgallery.ui.main_screen_pager.collections.adapter.CollectionsAdapter
+import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
+import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
 class CollectionsFragment : Fragment() {
 
@@ -40,12 +45,11 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = CollectionsAdapter()
+        adapter = CollectionsAdapter(clickListener)
         recyclerView = binding.fragmentCollectionsRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
-
         viewModel.collection.observe(viewLifecycleOwner) {
             adapter.addItems(it.collections)
         }
@@ -71,6 +75,15 @@ class CollectionsFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private val clickListener = CollectionClickListener { collection, image ->
+        val directions = MainFragmentDirections.actionNavHomeToNavSingleCollection(
+            collection,
+            image.transitionName
+        )
+        val extras = FragmentNavigatorExtras(image to image.transitionName)
+        findNavController().navigate(directions, extras)
     }
 
     override fun onDestroy() {

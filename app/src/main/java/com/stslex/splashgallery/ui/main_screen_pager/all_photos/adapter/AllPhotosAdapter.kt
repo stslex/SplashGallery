@@ -1,12 +1,13 @@
-package com.stslex.splashgallery.ui.main_screen_pager.all_photos
+package com.stslex.splashgallery.ui.main_screen_pager.all_photos.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 
-class AllPhotosAdapter(private val clickListener: AllPhotosClickListener) :
+class AllPhotosAdapter(private val clickListener: ImageClickListener) :
     RecyclerView.Adapter<AllPhotosViewHolder>() {
 
     private var list = mutableListOf<ImageModel>()

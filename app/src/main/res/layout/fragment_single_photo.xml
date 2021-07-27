@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.single_photo.SinglePhotoFragment">
+    tools:context=".ui.single_photo_screen.SinglePhotoFragment">
 
     <ImageView
         android:id="@+id/single_photo_image"

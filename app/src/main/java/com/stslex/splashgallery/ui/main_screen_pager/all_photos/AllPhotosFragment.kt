@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
+import com.stslex.splashgallery.ui.main_screen_pager.all_photos.adapter.AllPhotosAdapter
+import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
 class AllPhotosFragment : Fragment() {
@@ -75,7 +77,7 @@ class AllPhotosFragment : Fragment() {
         })
     }
 
-    private val clickListener = AllPhotosClickListener { imageModel, imageView ->
+    private val clickListener = ImageClickListener { imageModel, imageView ->
         val directions = MainFragmentDirections.actionNavHomeToNavSinglePhoto(
             imageModel,
             imageView.transitionName
