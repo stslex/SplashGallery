@@ -1,9 +1,12 @@
 package com.stslex.splashgallery.data.model.domain.image
 
+import android.os.Parcelable
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.data.model.newmodel.PhotoStatistics
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ImageModel(
     val id: String,
     val created_at: String?,
@@ -27,5 +30,5 @@ data class ImageModel(
     val links: LinksImageModel?,
     val user: UserModel?,
     val statistics: PhotoStatistics?
-)
+) : Parcelable
 

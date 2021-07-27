@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 
-class AllPhotosAdapter : RecyclerView.Adapter<AllPhotosViewHolder>() {
+class AllPhotosAdapter(private val clickListener: AllPhotosClickListener) :
+    RecyclerView.Adapter<AllPhotosViewHolder>() {
 
     private var list = mutableListOf<ImageModel>()
 
@@ -17,7 +18,8 @@ class AllPhotosAdapter : RecyclerView.Adapter<AllPhotosViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: AllPhotosViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], position)
+        holder.setClickListener(clickListener)
     }
 
     override fun getItemCount(): Int = list.size

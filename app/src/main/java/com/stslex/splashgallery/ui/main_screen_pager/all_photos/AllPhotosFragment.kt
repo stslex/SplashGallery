@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.main_screen_pager.PagerSharedViewModel
+import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
 class AllPhotosFragment : Fragment() {
 
@@ -40,12 +43,11 @@ class AllPhotosFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = AllPhotosAdapter()
+        adapter = AllPhotosAdapter(clickListener)
         recyclerView = binding.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
-
+        recyclerView.adapter = adapter
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             adapter.addItems(it.image)
         }
@@ -73,6 +75,14 @@ class AllPhotosFragment : Fragment() {
         })
     }
 
+    private val clickListener = AllPhotosClickListener { imageModel, imageView ->
+        val directions = MainFragmentDirections.actionNavHomeToNavSinglePhoto(
+            imageModel,
+            imageView.transitionName
+        )
+        val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
+        findNavController().navigate(directions, extras)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

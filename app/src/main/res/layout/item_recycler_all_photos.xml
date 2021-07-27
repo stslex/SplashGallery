@@ -32,12 +32,12 @@
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_image_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
         android:clickable="true"
         android:focusable="true"
-        android:focusableInTouchMode="true"
         app:cardCornerRadius="@dimen/primary_padding">
 
         <ImageView

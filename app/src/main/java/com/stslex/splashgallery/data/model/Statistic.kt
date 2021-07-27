@@ -1,12 +1,15 @@
 package com.stslex.splashgallery.data.model.newmodel
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class PhotoStatistics(
     val id: String,
     val downloads: Downloads,
     val views: Views,
     val likes: Likes
-)
+) : Parcelable
 
 data class UserStatistics(
     val username: String,
@@ -15,29 +18,34 @@ data class UserStatistics(
     val likes: Likes
 )
 
+@Parcelize
 data class Downloads(
     val total: Int,
     val historical: Historical
-)
+) : Parcelable
 
+@Parcelize
 data class Views(
     val total: Int,
     val historical: Historical
-)
+) : Parcelable
 
+@Parcelize
 data class Likes(
     val total: Int,
     val historical: Historical
-)
+) : Parcelable
 
+@Parcelize
 data class Historical(
     val change: Int,
     val resolution: String,
     val quality: String,
     val values: List<Value>
-)
+) : Parcelable
 
+@Parcelize
 data class Value(
     val date: String,
     val value: Int
-)
+) : Parcelable

@@ -9,5 +9,19 @@
         android:id="@+id/nav_home"
         android:name="com.stslex.wallpape.ui.main_screen.MainFragment"
         android:label="Main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_nav_home_to_nav_single_photo"
+            app:destination="@id/nav_single_photo" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_single_photo"
+        android:name="com.stslex.splashgallery.ui.single_photo.SinglePhotoFragment"
+        android:label="fragment_single_photo"
+        tools:layout="@layout/fragment_single_photo">
+        <argument
+            android:name="imageModel"
+            app:argType="com.stslex.splashgallery.data.model.domain.image.ImageModel" />
+        <argument android:name="transition_name" />
+    </fragment>
 </navigation>
