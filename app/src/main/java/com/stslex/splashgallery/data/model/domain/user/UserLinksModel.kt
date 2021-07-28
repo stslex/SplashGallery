@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.model.domain.user
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserLinksModel(

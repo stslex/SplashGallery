@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.data.model.newmodel.PhotoStatistics
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ImageModel(

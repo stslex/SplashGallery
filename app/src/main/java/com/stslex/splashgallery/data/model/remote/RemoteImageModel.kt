@@ -1,31 +1,32 @@
 package com.stslex.splashgallery.data.model.remote
 
+import com.google.gson.annotations.SerializedName
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.model.domain.image.*
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.data.model.newmodel.PhotoStatistics
 
 class RemoteImageModel(
-    val id: String,
-    val created_at: String?,
-    val updated_at: String?,
-    val width: Int?,
-    val height: Int?,
-    val color: String? = "#E0E0E0",
-    val blur_hash: String?,
-    val views: Int?,
-    val downloads: Int?,
-    val likes: Int?,
-    var liked_by_user: Boolean?,
-    val description: String?,
-    val alt_description: String?,
-    val exif: ExifModel?,
-    val location: LocationModel?,
-    val tags: List<TagModel>?,
-    val current_user_collections: List<CollectionModel>?,
-    val sponsorship: Sponsorship?,
-    val urls: UrlsModel,
-    val links: LinksImageModel?,
-    val user: UserModel?,
-    val statistics: PhotoStatistics?
+    @SerializedName("id") val id: String,
+    @SerializedName("created_at") val created_at: String?,
+    @SerializedName("updated_at") val updated_at: String?,
+    @SerializedName("width") val width: Int?,
+    @SerializedName("height") val height: Int?,
+    @SerializedName("color") val color: String? = "#E0E0E0",
+    @SerializedName("blur_hash") val blur_hash: String?,
+    @SerializedName("views") val views: Int?,
+    @SerializedName("downloads") val downloads: Int?,
+    @SerializedName("likes") val likes: Int?,
+    @SerializedName("liked_by_user") var liked_by_user: Boolean?,
+    @SerializedName("description") val description: String?,
+    @SerializedName("alt_description") val alt_description: String?,
+    @SerializedName("exif") val exif: ExifModel?,
+    @SerializedName("location") val location: LocationModel?,
+    @SerializedName("tags") val tags: List<TagModel>?,
+    @SerializedName("current_user_collections") val current_user_collections: List<CollectionModel>?,
+    @SerializedName("sponsorship") val sponsorship: Sponsorship?,
+    @SerializedName("urls") val urls: UrlsModel,
+    @SerializedName("links") val links: LinksImageModel?,
+    @SerializedName("user") val user: UserModel?,
+    @SerializedName("statistics") val statistics: PhotoStatistics?
 )
