@@ -27,7 +27,6 @@ class SingleCollectionFragment : BaseFragment() {
 
     private lateinit var collection: CollectionModel
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context.applicationContext.appComponent.inject(this)
@@ -42,6 +41,9 @@ class SingleCollectionFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        sharedViewModel.pageNumberAllPhotos.observe(viewLifecycleOwner) {
+            viewModel.getAllPhotos(collection.id, it)
+        }
         _binding = FragmentSingleCollectionBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,9 +55,7 @@ class SingleCollectionFragment : BaseFragment() {
     }
 
     private fun initViewModelListening() {
-        sharedViewModel.pageNumberAllPhotos.observe(viewLifecycleOwner) {
-            viewModel.getAllPhotos(collection.id, it)
-        }
+
 
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {

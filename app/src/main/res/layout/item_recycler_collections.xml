@@ -26,8 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="1"
-            android:text="Name full" />
+            android:lines="1" />
 
     </LinearLayout>
 
@@ -64,14 +63,14 @@
 
                 <TextView
                     android:id="@+id/item_collection_title"
-                    style="@style/TextAppearance.MaterialComponents.Headline4"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:textColor="@color/white" />
 
                 <TextView
-                    android:id="@+id/item_collection_description"
+                    android:id="@+id/item_collection_number"
                     style="@style/TextAppearance.AppCompat.Body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

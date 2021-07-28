@@ -21,7 +21,7 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
         binding.itemCollectionTitle.text = collection.title
         binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
         binding.itemCollectionAuthorName.text = collection.user?.name
-        binding.itemCollectionDescription.text = collection.description
+        binding.itemCollectionNumber.text = "${collection.total_photos} photos"
         binding.itemCollectionImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
     }
 

@@ -108,7 +108,7 @@ class AllPhotosFragment : Fragment() {
     }
 
     companion object {
-        private var pagesNumAllPhotos = 1
+        private var pagesNumAllPhotos = 0
     }
 
 }

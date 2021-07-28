@@ -92,6 +92,6 @@ class CollectionsFragment : Fragment() {
     }
 
     companion object {
-        private var pagesNumCollections = 1
+        private var pagesNumCollections = 0
     }
 }
