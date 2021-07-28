@@ -31,6 +31,10 @@ class SinglePhotoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getNavigationArgs()
+    }
+
+    private fun getNavigationArgs() {
         postponeEnterTransition()
         val extras: SinglePhotoFragmentArgs by navArgs()
         val imageModel = extras.imageModel

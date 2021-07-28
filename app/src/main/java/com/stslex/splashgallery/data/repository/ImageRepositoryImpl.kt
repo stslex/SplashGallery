@@ -53,4 +53,23 @@ class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSo
             }
         }
 
+    override suspend fun getCollectionPhotos(id: String, pageNumber: Int): Result<PagesModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                when (val response = remoteSource.getCollectionPhotos(id, pageNumber)) {
+                    is Result.Success -> {
+                        Result.Success(response.data)
+                    }
+                    is Result.Failure -> {
+                        Result.Failure(response.exception)
+                    }
+                    else -> {
+                        Result.Loading
+                    }
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
+
 }

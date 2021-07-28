@@ -8,6 +8,7 @@ import com.stslex.splashgallery.utils.QUERY_API_KEY
 import com.stslex.splashgallery.utils.QUERY_PAGE
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RetrofitService {
@@ -24,4 +25,10 @@ interface RetrofitService {
         @Query(QUERY_API_KEY) api_key: String
     ): Response<List<RemoteCollectionModel>>
 
+    @GET("/$GET_COLLECTIONS/{id}/$GET_PHOTOS")
+    suspend fun getCollectionPhotos(
+        @Path("id") id: String,
+        @Query(QUERY_PAGE) page: Int,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<List<RemoteImageModel>>
 }

@@ -57,4 +57,24 @@ class RemoteSourceImpl @Inject constructor(private val retrofitService: Retrofit
             }
         }
 
+    override suspend fun getCollectionPhotos(id: String, pageNumber: Int): Result<PagesModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                val result = retrofitService.getCollectionPhotos(id, pageNumber, API_KEY_SUCCESS)
+                if (result.isSuccessful && result.body() != null) {
+                    val mapper = ImageMapper()
+                    val listOfRemoteImages = result.body() as List<RemoteImageModel>
+                    val listOfImages = listOfRemoteImages.map {
+                        mapper.transformToDomain(it)
+                    }
+                    val page = PagesModel(listOfImages)
+                    Result.Success(page)
+                } else {
+                    Result.Failure("Null result")
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
+
 }
