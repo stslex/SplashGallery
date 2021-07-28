@@ -34,12 +34,12 @@ class CollectionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionsBinding.inflate(inflater, container, false)
-        viewModel.setPageNumberCollections(pagesNumCollections)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setPageNumberCollections(pagesNumCollections)
         initRecyclerView()
         initScrollListener()
     }
@@ -82,6 +82,7 @@ class CollectionsFragment : Fragment() {
             collection,
             image.transitionName
         )
+        pagesNumCollections = 0
         val extras = FragmentNavigatorExtras(image to image.transitionName)
         findNavController().navigate(directions, extras)
     }
@@ -92,6 +93,6 @@ class CollectionsFragment : Fragment() {
     }
 
     companion object {
-        private var pagesNumCollections = 0
+        private var pagesNumCollections = 1
     }
 }

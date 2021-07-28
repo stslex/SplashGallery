@@ -19,7 +19,7 @@ class AllPhotosAdapter(private val clickListener: ImageClickListener) :
     }
 
     override fun onBindViewHolder(holder: AllPhotosViewHolder, position: Int) {
-        holder.bind(list[position], position)
+        holder.bind(list[position])
         holder.setClickListener(clickListener)
     }
 
@@ -30,4 +30,5 @@ class AllPhotosAdapter(private val clickListener: ImageClickListener) :
         this.list.addAll(list)
         notifyItemRangeChanged(startItems, this.list.size)
     }
+
 }

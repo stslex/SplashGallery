@@ -15,11 +15,11 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     private lateinit var clickListener: ImageClickListener
     private lateinit var imageModel: ImageModel
 
-    fun bind(imageModel: ImageModel, position: Int) {
+    fun bind(imageModel: ImageModel) {
         this.imageModel = imageModel
-        binding.itemPagerImage.transitionName = "image$position"
+        binding.itemPagerImage.transitionName = imageModel.urls.regular
         binding.itemPagerImage.downloadAndSet(imageModel.urls.regular)
-        binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.small)
+        binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.medium)
         binding.itemPagerAuthorName.text = imageModel.user.username
     }
 

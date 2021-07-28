@@ -19,7 +19,7 @@ class CollectionsAdapter(private val clickListener: CollectionClickListener) :
     }
 
     override fun onBindViewHolder(holder: CollectionsViewHolder, position: Int) {
-        holder.bind(list[position], position)
+        holder.bind(list[position])
         holder.setClickListener(clickListener)
     }
 
@@ -30,4 +30,5 @@ class CollectionsAdapter(private val clickListener: CollectionClickListener) :
         this.list.addAll(list)
         notifyItemRangeChanged(startItems, this.list.size)
     }
+
 }

@@ -41,10 +41,11 @@ class AllPhotosFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         initRecyclerView()
         initScrollListener()
+
     }
 
     private fun initRecyclerView() {
@@ -53,9 +54,19 @@ class AllPhotosFragment : Fragment() {
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
-        viewModel.allPhotos.observe(viewLifecycleOwner) {
-            adapter.addItems(it.image)
+        when (parentFragment) {
+            is MainFragment -> {
+                viewModel.allPhotos.observe(viewLifecycleOwner) {
+                    adapter.addItems(it.image)
+                }
+            }
+            is SingleCollectionFragment -> {
+                viewModel.allPhotosInCollection.observe(viewLifecycleOwner) {
+                    adapter.addItems(it.image)
+                }
+            }
         }
+
     }
 
     private fun initScrollListener() {
@@ -108,7 +119,7 @@ class AllPhotosFragment : Fragment() {
     }
 
     companion object {
-        private var pagesNumAllPhotos = 0
+        private var pagesNumAllPhotos = 1
     }
 
 }

@@ -34,33 +34,31 @@ class SingleCollectionFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialContainerTransform(requireContext(), true)
+        enterTransition = MaterialContainerTransform(requireContext(), false).apply {
+            duration = 1000L
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        sharedViewModel.pageNumberAllPhotos.observe(viewLifecycleOwner) {
-            viewModel.getAllPhotos(collection.id, it)
-        }
         _binding = FragmentSingleCollectionBinding.inflate(inflater, container, false)
+        Log.i("Listen:Collection", "onCreateView")
+        getNavigationArgs()
+        initViewModelListening()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        getNavigationArgs()
-        initViewModelListening()
-    }
-
     private fun initViewModelListening() {
-
-
+        sharedViewModel.pageNumberAllPhotos.observe(viewLifecycleOwner) {
+            viewModel.getAllPhotos(collection.id, it)
+        }
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setAllPhotos(it.data)
+                    Log.i("Listen:colRec", it.data.image[0].id)
+                    sharedViewModel.setAllPhotosInCollection(it.data)
                 }
                 is Result.Failure -> {
                     Log.i("SingleCollection", it.exception)
@@ -70,6 +68,7 @@ class SingleCollectionFragment : BaseFragment() {
                 }
             }
         }
+
     }
 
     private fun getNavigationArgs() {

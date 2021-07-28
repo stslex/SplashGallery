@@ -15,11 +15,11 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     private lateinit var clickListener: CollectionClickListener
     private lateinit var collection: CollectionModel
 
-    fun bind(collection: CollectionModel, position: Int) {
+    fun bind(collection: CollectionModel) {
         this.collection = collection
-        binding.itemCollectionImage.transitionName = "image$position"
+        binding.itemCollectionImage.transitionName = collection.cover_photo?.urls!!.regular
         binding.itemCollectionTitle.text = collection.title
-        binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
+        binding.itemCollectionImage.downloadAndSet(collection.cover_photo.urls.regular)
         binding.itemCollectionAuthorName.text = collection.user?.name
         binding.itemCollectionNumber.text = "${collection.total_photos} photos"
         binding.itemCollectionImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
