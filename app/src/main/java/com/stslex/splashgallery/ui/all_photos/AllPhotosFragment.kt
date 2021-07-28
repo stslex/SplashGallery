@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.PagerSharedViewModel
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
+import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
+import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
+import com.stslex.wallpape.ui.main_screen.MainFragment
 import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
 class AllPhotosFragment : Fragment() {
@@ -78,12 +81,25 @@ class AllPhotosFragment : Fragment() {
     }
 
     private val clickListener = ImageClickListener { imageModel, imageView ->
-        val directions = MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-            imageModel,
-            imageView.transitionName
-        )
+        val directions = when (parentFragment) {
+            is MainFragment -> {
+                MainFragmentDirections.actionNavHomeToNavSinglePhoto(
+                    imageModel,
+                    imageView.transitionName
+                )
+            }
+            is SingleCollectionFragment -> {
+                SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
+                    imageModel,
+                    imageView.transitionName
+                )
+            }
+            else -> {
+                null
+            }
+        }
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
-        findNavController().navigate(directions, extras)
+        directions?.let { findNavController().navigate(it, extras) }
     }
 
     override fun onDestroy() {

@@ -36,5 +36,8 @@
             android:name="collectionModel"
             app:argType="com.stslex.splashgallery.data.model.domain.collection.CollectionModel" />
         <argument android:name="transition_name" />
+        <action
+            android:id="@+id/action_nav_single_collection_to_nav_single_photo"
+            app:destination="@id/nav_single_photo" />
     </fragment>
 </navigation>
