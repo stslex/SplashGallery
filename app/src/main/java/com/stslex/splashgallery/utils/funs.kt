@@ -38,6 +38,7 @@ fun ImageView.downloadAndSetSmallRound(url: String) {
 fun Fragment.setImageWithRequest(url: String, imageView: ImageView) {
     Glide.with(this)
         .load(url)
+        .centerCrop()
         .listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
                 e: GlideException?,

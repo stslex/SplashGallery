@@ -9,8 +9,78 @@
     <ImageView
         android:id="@+id/single_photo_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:adjustViewBounds="true"
+        android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/single_photo_profile_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/primary_padding"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_image">
+
+        <ImageView
+            android:id="@+id/single_photo_profile_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="@dimen/primary_padding"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/single_photo_profile_username"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Username" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/single_photo_tray_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/primary_padding"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/single_photo_profile_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/single_photo_profile_container">
+
+        <ImageView
+            android:id="@+id/single_photo_ic_like"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_baseline_like" />
+
+        <ImageView
+            android:id="@+id/single_photo_ic_save"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_baseline_save" />
+
+        <ImageView
+            android:id="@+id/single_photo_ic_bookmark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="4dp"
+            android:src="@drawable/ic_baseline_bookmark" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/single_photo_line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/big_padding"
+        android:layout_marginTop="@dimen/primary_padding"
+        android:layout_marginEnd="@dimen/big_padding"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_tray_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

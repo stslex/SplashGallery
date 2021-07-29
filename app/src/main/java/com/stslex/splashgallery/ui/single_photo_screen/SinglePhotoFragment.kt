@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentSinglePhotoBinding
+import com.stslex.splashgallery.utils.downloadAndSetSmallRound
 import com.stslex.splashgallery.utils.setImageWithRequest
 
 class SinglePhotoFragment : Fragment() {
 
     private var _binding: FragmentSinglePhotoBinding? = null
     private val binding get() = _binding!!
+    private lateinit var image: ImageModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +34,21 @@ class SinglePhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
+        bindImage()
+    }
+
+    private fun bindImage() {
+        setImageWithRequest(url = image.urls.regular, binding.singlePhotoImage)
+        binding.singlePhotoProfileImage.downloadAndSetSmallRound(image.user?.profile_image!!.medium)
+        binding.singlePhotoProfileUsername.text = image.user!!.username
     }
 
     private fun getNavigationArgs() {
         postponeEnterTransition()
         val extras: SinglePhotoFragmentArgs by navArgs()
-        val imageModel = extras.imageModel
+        image = extras.imageModel
         val transitionName = extras.transitionName
         binding.root.transitionName = transitionName
-        setImageWithRequest(url = imageModel.urls.regular, binding.singlePhotoImage)
     }
 
     override fun onDestroy() {

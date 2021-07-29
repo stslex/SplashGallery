@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="frame">#CB000000</color>
+    <color name="grey">#BEBEBE</color>
 </resources>
