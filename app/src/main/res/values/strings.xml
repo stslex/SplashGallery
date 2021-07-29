@@ -4,13 +4,10 @@
     <string name="description_image">image</string>
     <string name="label_tab_layout_all">All</string>
     <string name="label_tab_layout_collection">Collection</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+
     <string name="label_camera">Camera</string>
     <string name="label_focal_length">Focal Length</string>
     <string name="label_aperture">Aperture</string>
     <string name="label_shutter_speed">Shutter Speed</string>
-    <string name="label_dimension">label_dimension</string>
+    <string name="label_dimension">Dimension</string>
 </resources>
