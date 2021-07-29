@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.single_collection.SingleCollectionFragment">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/collection_fragment"
-        android:name="com.stslex.splashgallery.ui.all_photos.AllPhotosFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include
+        android:id="@+id/fragment_collection_recycler_view"
+        layout="@layout/recycler_all_photos" />
 
 </FrameLayout>
