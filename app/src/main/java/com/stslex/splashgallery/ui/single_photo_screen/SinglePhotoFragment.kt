@@ -45,6 +45,11 @@ class SinglePhotoFragment : Fragment(), View.OnClickListener {
         setImageWithRequest(url = image.urls.regular, binding.singlePhotoImage)
         binding.singlePhotoProfileImage.downloadAndSetSmallRound(image.user?.profile_image!!.medium)
         binding.singlePhotoProfileUsername.text = image.user!!.username
+
+        binding.singlePhotoAperture.text = "aperture"
+        binding.singlePhotoCamera.text = "camera"
+        binding.singlePhotoDimension.text = "dimaension"
+        binding.singlePhotoFocal.text = "focal"
     }
 
     private fun getNavigationArgs() {

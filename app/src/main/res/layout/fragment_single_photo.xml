@@ -77,10 +77,88 @@
         android:id="@+id/single_photo_line1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginStart="@dimen/big_padding"
+        android:layout_marginStart="@dimen/primary_padding"
         android:layout_marginTop="@dimen/primary_padding"
-        android:layout_marginEnd="@dimen/big_padding"
+        android:layout_marginEnd="@dimen/primary_padding"
         android:background="@color/grey"
         app:layout_constraintTop_toBottomOf="@id/single_photo_tray_container" />
+
+    <TextView
+        android:id="@+id/single_photo_label_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/primary_padding"
+        android:layout_marginTop="@dimen/primary_padding"
+        android:text="@string/label_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_line1" />
+
+    <TextView
+        android:id="@+id/single_photo_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/primary_padding"
+        app:layout_constraintStart_toStartOf="@id/single_photo_label_camera"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_label_camera" />
+
+    <TextView
+        android:id="@+id/single_photo_label_focal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_padding"
+        android:text="@string/label_focal_length"
+        app:layout_constraintStart_toStartOf="@id/single_photo_camera"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_camera" />
+
+    <TextView
+        android:id="@+id/single_photo_focal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/primary_padding"
+        app:layout_constraintStart_toStartOf="@id/single_photo_label_focal"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_label_focal" />
+
+    <TextView
+        android:id="@+id/single_photo_label_aperture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:text="@string/label_aperture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/single_photo_label_camera" />
+
+    <TextView
+        android:id="@+id/single_photo_aperture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/primary_padding"
+        app:layout_constraintStart_toStartOf="@id/single_photo_label_aperture"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_label_aperture" />
+
+    <TextView
+        android:id="@+id/single_photo_label_dimension"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_padding"
+        android:text="@string/label_dimension"
+        app:layout_constraintStart_toStartOf="@id/single_photo_aperture"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_aperture" />
+
+    <TextView
+        android:id="@+id/single_photo_dimension"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/single_photo_label_dimension"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_label_dimension" />
+
+    <View
+        android:id="@+id/single_photo_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/primary_padding"
+        android:layout_marginTop="@dimen/primary_padding"
+        android:layout_marginEnd="@dimen/primary_padding"
+        android:background="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/single_photo_dimension" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
