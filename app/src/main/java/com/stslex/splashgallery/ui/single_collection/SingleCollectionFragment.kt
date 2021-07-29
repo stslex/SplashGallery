@@ -44,7 +44,6 @@ class SingleCollectionFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSingleCollectionBinding.inflate(inflater, container, false)
-        Log.i("Listen:Collection", "onCreateView")
         getNavigationArgs()
         initViewModelListening()
         return binding.root
@@ -57,7 +56,6 @@ class SingleCollectionFragment : BaseFragment() {
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    Log.i("Listen:colRec", it.data.image[0].id)
                     sharedViewModel.setAllPhotosInCollection(it.data)
                 }
                 is Result.Failure -> {

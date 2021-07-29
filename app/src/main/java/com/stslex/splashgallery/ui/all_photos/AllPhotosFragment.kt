@@ -38,14 +38,9 @@ class AllPhotosFragment : Fragment() {
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
         viewModel.setPageNumberAppPhotos(pagesNumAllPhotos)
-        return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
         initRecyclerView()
         initScrollListener()
-
+        return binding.root
     }
 
     private fun initRecyclerView() {

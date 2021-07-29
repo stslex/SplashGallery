@@ -33,4 +33,5 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
             is ImageView -> clickListener.onClick(imageModel, p0)
         }
     }
+
 }
