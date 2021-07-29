@@ -14,12 +14,6 @@ class PagerSharedViewModel : ViewModel() {
         _allPhotos.value = page
     }
 
-    private val _allPhotosInCollection = MutableLiveData<PagesModel>()
-    val allPhotosInCollection: LiveData<PagesModel> get() = _allPhotosInCollection
-    fun setAllPhotosInCollection(page: PagesModel) {
-        _allPhotosInCollection.value = page
-    }
-
     private val _collections = MutableLiveData<PagesCollectionModel>()
     val collection: LiveData<PagesCollectionModel> get() = _collections
     fun setCollection(collection: PagesCollectionModel) {

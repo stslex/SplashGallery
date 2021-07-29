@@ -26,6 +26,9 @@
             android:name="imageModel"
             app:argType="com.stslex.splashgallery.data.model.domain.image.ImageModel" />
         <argument android:name="transition_name" />
+        <action
+            android:id="@+id/action_nav_single_photo_to_nav_single_image"
+            app:destination="@id/nav_single_image" />
     </fragment>
     <fragment
         android:id="@+id/nav_single_collection"
@@ -39,5 +42,13 @@
         <action
             android:id="@+id/action_nav_single_collection_to_nav_single_photo"
             app:destination="@id/nav_single_photo" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_single_image"
+        android:name="com.stslex.splashgallery.ui.single_image.SingleImageFragment"
+        android:label="fragment_single_image"
+        tools:layout="@layout/fragment_single_image">
+        <argument android:name="url" />
+        <argument android:name="transition_name" />
     </fragment>
 </navigation>
