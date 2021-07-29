@@ -4,6 +4,7 @@ import com.stslex.splashgallery.data.data_source.retrofit.RetrofitService
 import com.stslex.splashgallery.data.model.*
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.remote.RemoteImageModel
 import com.stslex.splashgallery.mapper.CollectionMapper
@@ -69,6 +70,23 @@ class RemoteSourceImpl @Inject constructor(private val retrofitService: Retrofit
                     }
                     val page = PagesModel(listOfImages)
                     Result.Success(page)
+                } else {
+                    Result.Failure("Null result")
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
+
+    override suspend fun getCurrentPhoto(id: String): Result<ImageModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                val result = retrofitService.getCurrentPhoto(id, API_KEY_SUCCESS)
+                if (result.isSuccessful && result.body() != null) {
+                    val mapper = ImageMapper()
+                    val remoteImage = result.body() as RemoteImageModel
+                    val image = mapper.transformToDomain(remoteImage)
+                    Result.Success(image)
                 } else {
                     Result.Failure("Null result")
                 }

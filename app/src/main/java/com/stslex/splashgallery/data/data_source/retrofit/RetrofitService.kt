@@ -31,4 +31,10 @@ interface RetrofitService {
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_API_KEY) api_key: String
     ): Response<List<RemoteImageModel>>
+
+    @GET("/$GET_PHOTOS/{id}")
+    suspend fun getCurrentPhoto(
+        @Path("id") id: String,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<RemoteImageModel>
 }
