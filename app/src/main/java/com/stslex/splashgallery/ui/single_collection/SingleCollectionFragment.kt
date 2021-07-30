@@ -15,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.transition.MaterialContainerTransform
-import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.utils.Result
@@ -30,13 +29,12 @@ class SingleCollectionFragment : BaseFragment() {
 
     private val viewModel: SingleCollectionViewModel by viewModels { viewModelFactory.get() }
 
-    private lateinit var collection: CollectionModel
+    private lateinit var id: String
     private var pagesImage = MutableLiveData<Int>()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
-    private var pageNum = 1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -87,7 +85,7 @@ class SingleCollectionFragment : BaseFragment() {
 
     private fun initRecyclerView() {
         pagesImage.observe(viewLifecycleOwner) {
-            viewModel.getAllPhotos(collection.id, it)
+            viewModel.getAllPhotos(id, it)
         }
         recyclerView = binding.fragmentCollectionRecyclerView.fragmentAllPhotosRecyclerView
         adapter = AllPhotosAdapter(clickListener)
@@ -112,11 +110,11 @@ class SingleCollectionFragment : BaseFragment() {
         }
     }
 
-    private val clickListener = ImageClickListener { imageModel, imageView ->
+    private val clickListener = ImageClickListener { imageView, id ->
         val directions =
             SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
-                imageModel,
-                imageView.transitionName
+                imageView.transitionName,
+                id
             )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
@@ -124,17 +122,17 @@ class SingleCollectionFragment : BaseFragment() {
 
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()
-        collection = extras.collectionModel
-        val transitionName = extras.transitionName
-        binding.fragmentCollectionRecyclerView.fragmentAllPhotosRecyclerView.transitionName =
-            transitionName
+        id = extras.transitionName
+        binding.fragmentCollectionRecyclerView.fragmentAllPhotosRecyclerView.transitionName = id
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
-    companion object
+    companion object {
+        private var pageNum = 1
+    }
 
 }

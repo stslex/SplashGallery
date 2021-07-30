@@ -13,13 +13,13 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private lateinit var clickListener: CollectionClickListener
-    private lateinit var collection: CollectionModel
+    private lateinit var title: String
 
     fun bind(collection: CollectionModel) {
-        this.collection = collection
-        binding.itemCollectionImage.transitionName = collection.cover_photo?.urls!!.regular
-        binding.itemCollectionTitle.text = collection.title
-        binding.itemCollectionImage.downloadAndSet(collection.cover_photo.urls.regular)
+        title = collection.title
+        binding.itemCollectionImage.transitionName = collection.id
+        binding.itemCollectionTitle.text = title
+        binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
         binding.itemCollectionAuthorName.text = collection.user?.name
         binding.itemCollectionNumber.text = "${collection.total_photos} photos"
         binding.itemCollectionImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
@@ -32,7 +32,7 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
 
     override fun onClick(p0: View?) {
         when (p0) {
-            is ImageView -> clickListener.onClick(collection, p0)
+            is ImageView -> clickListener.onClick(p0, title)
         }
     }
 }

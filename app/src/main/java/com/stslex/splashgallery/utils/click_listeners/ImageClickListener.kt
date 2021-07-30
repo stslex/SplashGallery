@@ -1,11 +1,10 @@
 package com.stslex.splashgallery.utils.click_listeners
 
 import android.widget.ImageView
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
 
-class ImageClickListener(val clickListener: (ImageModel, ImageView) -> Unit) {
+class ImageClickListener(val clickListener: (ImageView, String) -> Unit) {
     fun onClick(
-        image: ImageModel,
         imageView: ImageView,
-    ) = clickListener(image, imageView)
+        id: String
+    ) = clickListener(imageView, id)
 }

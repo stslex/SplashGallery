@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -44,11 +45,15 @@ class AllPhotosFragment : Fragment() {
         adapter = AllPhotosAdapter(clickListener)
         recyclerView = binding.fragmentAllPhotosRecycler.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             adapter.addItems(it.image)
         }
+        postponeEnterTransition()
+        recyclerView.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
     }
 
     private fun initScrollListener() {
@@ -73,17 +78,17 @@ class AllPhotosFragment : Fragment() {
         })
     }
 
-    private val clickListener = ImageClickListener { imageModel, imageView ->
+    private val clickListener = ImageClickListener { imageView, id ->
         val directions = MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-            imageModel,
-            imageView.transitionName
+            imageView.transitionName,
+            id
         )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/fullscreenBackgroundColor"
-    android:theme="@style/ThemeOverlay.SplashGallery.FullscreenContainer"
     tools:context=".ui.single_image.SingleImageFragment">
 
     <ImageView

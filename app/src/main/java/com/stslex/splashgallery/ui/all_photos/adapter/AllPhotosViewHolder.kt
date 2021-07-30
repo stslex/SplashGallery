@@ -13,10 +13,10 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
     private lateinit var clickListener: ImageClickListener
-    private lateinit var imageModel: ImageModel
+    private lateinit var id: String
 
     fun bind(imageModel: ImageModel) {
-        this.imageModel = imageModel
+        id = imageModel.id
         binding.itemPagerImage.transitionName = imageModel.urls.regular
         binding.itemPagerImage.downloadAndSet(imageModel.urls.regular)
         binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.medium)
@@ -30,7 +30,7 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
 
     override fun onClick(p0: View) {
         when (p0) {
-            is ImageView -> clickListener.onClick(imageModel, p0)
+            is ImageView -> clickListener.onClick(p0, id)
         }
     }
 
