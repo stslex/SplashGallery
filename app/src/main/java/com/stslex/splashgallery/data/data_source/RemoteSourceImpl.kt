@@ -5,10 +5,13 @@ import com.stslex.splashgallery.data.model.*
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
+import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.remote.RemoteImageModel
+import com.stslex.splashgallery.data.model.remote.RemoteUserModel
 import com.stslex.splashgallery.mapper.CollectionMapper
 import com.stslex.splashgallery.mapper.ImageMapper
+import com.stslex.splashgallery.mapper.UserMapper
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
@@ -87,6 +90,23 @@ class RemoteSourceImpl @Inject constructor(private val retrofitService: Retrofit
                     val remoteImage = result.body() as RemoteImageModel
                     val image = mapper.transformToDomain(remoteImage)
                     Result.Success(image)
+                } else {
+                    Result.Failure("Null result")
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
+
+    override suspend fun getUserInfo(username: String): Result<UserModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                val result = retrofitService.getUserInfo(username, API_KEY_SUCCESS)
+                if (result.isSuccessful && result.body() != null) {
+                    val mapper = UserMapper()
+                    val remoteUser = result.body() as RemoteUserModel
+                    val user = mapper.transformToDomain(remoteUser)
+                    Result.Success(user)
                 } else {
                     Result.Failure("Null result")
                 }

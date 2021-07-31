@@ -2,10 +2,8 @@ package com.stslex.splashgallery.data.data_source.retrofit
 
 import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.remote.RemoteImageModel
-import com.stslex.splashgallery.utils.GET_COLLECTIONS
-import com.stslex.splashgallery.utils.GET_PHOTOS
-import com.stslex.splashgallery.utils.QUERY_API_KEY
-import com.stslex.splashgallery.utils.QUERY_PAGE
+import com.stslex.splashgallery.data.model.remote.RemoteUserModel
+import com.stslex.splashgallery.utils.*
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -38,5 +36,9 @@ interface RetrofitService {
         @Query(QUERY_API_KEY) api_key: String
     ): Response<RemoteImageModel>
 
-
+    @GET("/$GET_USERS/{username}")
+    suspend fun getUserInfo(
+        @Path("username") username: String,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<RemoteUserModel>
 }

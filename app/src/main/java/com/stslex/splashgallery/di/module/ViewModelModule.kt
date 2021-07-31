@@ -5,6 +5,7 @@ import com.stslex.splashgallery.di.key.ViewModelKey
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionViewModel
 import com.stslex.splashgallery.ui.single_photo_screen.SinglePhotoViewModel
+import com.stslex.splashgallery.ui.user.UserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -25,4 +26,9 @@ interface ViewModelModule {
     @Binds
     @ViewModelKey(SinglePhotoViewModel::class)
     fun bindsSinglePhotoViewModel(viewModel: SinglePhotoViewModel): ViewModel
+
+    @IntoMap
+    @Binds
+    @ViewModelKey(UserViewModel::class)
+    fun bindsUserViewModel(viewModel: UserViewModel): ViewModel
 }

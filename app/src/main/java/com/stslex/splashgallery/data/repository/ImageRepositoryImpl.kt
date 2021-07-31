@@ -5,6 +5,7 @@ import com.stslex.splashgallery.data.data_source.RemoteSource
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
+import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -77,6 +78,25 @@ class ImageRepositoryImpl @Inject constructor(private val remoteSource: RemoteSo
         withContext(Dispatchers.IO) {
             return@withContext try {
                 when (val response = remoteSource.getCurrentPhoto(id)) {
+                    is Result.Success -> {
+                        Result.Success(response.data)
+                    }
+                    is Result.Failure -> {
+                        Result.Failure(response.exception)
+                    }
+                    else -> {
+                        Result.Loading
+                    }
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
+
+    override suspend fun getUserInfo(username: String): Result<UserModel> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                when (val response = remoteSource.getUserInfo(username)) {
                     is Result.Success -> {
                         Result.Success(response.data)
                     }
