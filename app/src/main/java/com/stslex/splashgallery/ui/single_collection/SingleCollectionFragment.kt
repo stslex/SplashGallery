@@ -48,7 +48,7 @@ class SingleCollectionFragment : BaseFragment() {
         pagesImage.value = pageNum
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 700.toLong()
+            duration = 250.toLong()
             scrimColor = Color.TRANSPARENT
         }
     }
@@ -132,7 +132,6 @@ class SingleCollectionFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()
         id = extras.transitionName
-        binding.fragmentCollectionRecyclerView.fragmentAllPhotosRecyclerView.transitionName = id
     }
 
     override fun onDestroyView() {

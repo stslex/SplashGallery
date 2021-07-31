@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
@@ -38,6 +39,11 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
+        val activity = (requireActivity() as AppCompatActivity)
+        activity.setSupportActionBar(binding.userProfileToolbar)
+        activity.supportActionBar?.title = "Username"
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activity.supportActionBar?.setHomeButtonEnabled(true)
     }
 
     private fun getNavigationArgs() {
