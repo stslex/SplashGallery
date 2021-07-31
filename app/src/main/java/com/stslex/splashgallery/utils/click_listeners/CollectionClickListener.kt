@@ -1,10 +1,18 @@
 package com.stslex.splashgallery.utils.click_listeners
 
 import android.widget.ImageView
+import android.widget.LinearLayout
 
-class CollectionClickListener(val clickListener: (ImageView, String) -> Unit) {
-    fun onClick(
+class CollectionClickListener(
+    val onImageClickListener: (ImageView, String) -> Unit,
+    val onUserClickListener: (LinearLayout) -> Unit
+) {
+    fun onImageClick(
         imageView: ImageView,
         title: String
-    ) = clickListener(imageView, title)
+    ) = onImageClickListener(imageView, title)
+
+    fun onUserClick(
+        user: LinearLayout
+    ) = onUserClickListener(user)
 }

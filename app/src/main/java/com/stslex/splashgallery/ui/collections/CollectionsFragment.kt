@@ -77,14 +77,20 @@ class CollectionsFragment : Fragment() {
         })
     }
 
-    private val clickListener = CollectionClickListener { imageView, title ->
+    private val clickListener = CollectionClickListener({ imageView, title ->
         val directions = MainFragmentDirections.actionNavHomeToNavSingleCollection(
             transitionName = imageView.transitionName,
             title = title
         )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
-    }
+    }, { user ->
+        val directions = MainFragmentDirections.actionNavHomeToNavUser(
+            user.transitionName
+        )
+        val extras = FragmentNavigatorExtras(user to user.transitionName)
+        findNavController().navigate(directions, extras)
+    })
 
     override fun onDestroyView() {
         super.onDestroyView()

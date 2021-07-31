@@ -2,6 +2,7 @@ package com.stslex.splashgallery.ui.collections.adapter
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
@@ -17,6 +18,7 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
 
     fun bind(collection: CollectionModel) {
         title = collection.title
+        binding.itemCollectionUserContainer.transitionName = collection.user?.id
         binding.itemCollectionImage.transitionName = collection.id
         binding.itemCollectionTitle.text = title
         binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
@@ -32,7 +34,8 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
 
     override fun onClick(p0: View?) {
         when (p0) {
-            is ImageView -> clickListener.onClick(p0, title)
+            is ImageView -> clickListener.onImageClick(p0, title)
+            is LinearLayout -> clickListener.onUserClick(p0)
         }
     }
 }
