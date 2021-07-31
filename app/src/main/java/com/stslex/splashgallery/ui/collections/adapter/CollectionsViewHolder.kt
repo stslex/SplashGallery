@@ -30,7 +30,7 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     fun setClickListener(clickListener: CollectionClickListener) {
         this.clickListener = clickListener
         binding.itemCollectionImage.setOnClickListener(this)
-        binding.itemCollectionAuthorName.setOnClickListener(this)
+        binding.itemCollectionUserContainer.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {

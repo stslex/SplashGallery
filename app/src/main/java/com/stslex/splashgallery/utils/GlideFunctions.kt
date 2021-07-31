@@ -34,6 +34,14 @@ fun Fragment.setImageWithRequest(url: String, imageView: ImageView, needCrop: Bo
     glide.into(imageView)
 }
 
+fun Fragment.setRoundImageWithRequest(url: String, imageView: ImageView) {
+    Glide.with(this)
+        .load(url)
+        .circleCrop()
+        .listener(primaryRequestListener)
+        .into(imageView)
+}
+
 private val Fragment.primaryRequestListener: RequestListener<Drawable>
     get() = object : RequestListener<Drawable> {
         override fun onLoadFailed(
