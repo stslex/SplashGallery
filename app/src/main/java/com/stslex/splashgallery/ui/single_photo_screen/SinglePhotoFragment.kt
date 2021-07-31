@@ -37,7 +37,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 700.toLong()
+            duration = 300.toLong()
             scrimColor = Color.TRANSPARENT
         }
     }
@@ -53,24 +53,30 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getCurrentPhoto(id)
         setListener()
         binding.singlePhotoImage.setOnClickListener(this)
         binding.singlePhotoProfileContainer.setOnClickListener(this)
     }
 
     private fun setListener() {
-        viewModel.getCurrentPhoto(id)
         viewModel.currentPhoto.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    setImageWithRequest(url = it.data.urls.regular, binding.singlePhotoImage, true)
-                    binding.singlePhotoProfileImage.downloadAndSetSmallRound(it.data.user?.profile_image!!.medium)
-                    binding.singlePhotoProfileUsername.text = it.data.user.username
-                    binding.singlePhotoAperture.text = it.data.exif?.aperture
-                    binding.singlePhotoCamera.text = it.data.exif?.model
-                    binding.singlePhotoDimension.text = it.data.exif?.exposure_time
-                    binding.singlePhotoFocal.text = it.data.exif?.focal_length
-                    binding.singlePhotoProfileContainer.transitionName = it.data.user.id
+                    it.data.run {
+                        setImageWithRequest(url = urls.regular, binding.singlePhotoImage, true)
+                        binding.singlePhotoProfileImage.downloadAndSetSmallRound(user?.profile_image!!.medium)
+                        binding.singlePhotoProfileUsername.text = user.username
+                        binding.singlePhotoAperture.text = exif?.aperture
+                        binding.singlePhotoCamera.text = exif?.model
+                        binding.singlePhotoDimension.text = exif?.exposure_time
+                        binding.singlePhotoFocal.text = exif?.focal_length
+                        binding.singlePhotoProfileContainer.transitionName = user.id
+                    }
                 }
                 is Result.Failure -> {
 
