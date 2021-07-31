@@ -37,7 +37,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 300.toLong()
+            duration = 700.toLong()
             scrimColor = Color.TRANSPARENT
         }
     }
@@ -53,22 +53,17 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.getCurrentPhoto(id)
         setListener()
         binding.singlePhotoImage.setOnClickListener(this)
         binding.singlePhotoProfileContainer.setOnClickListener(this)
     }
 
     private fun setListener() {
+        viewModel.getCurrentPhoto(id)
         viewModel.currentPhoto.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
                     it.data.run {
-                        setImageWithRequest(url = urls.regular, binding.singlePhotoImage, true)
                         binding.singlePhotoProfileImage.downloadAndSetSmallRound(user?.profile_image!!.medium)
                         binding.singlePhotoProfileUsername.text = user.username
                         binding.singlePhotoAperture.text = exif?.aperture
@@ -93,6 +88,8 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         val extras: SinglePhotoFragmentArgs by navArgs()
         id = extras.id
         binding.singlePhotoImage.transitionName = extras.transitionName
+        setImageWithRequest(url = extras.transitionName, binding.singlePhotoImage, true)
+
     }
 
     override fun onDestroyView() {
