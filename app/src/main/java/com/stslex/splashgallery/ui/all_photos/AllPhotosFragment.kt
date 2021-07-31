@@ -78,14 +78,20 @@ class AllPhotosFragment : Fragment() {
         })
     }
 
-    private val clickListener = ImageClickListener { imageView, id ->
+    private val clickListener = ImageClickListener({ imageView, id ->
         val directions = MainFragmentDirections.actionNavHomeToNavSinglePhoto(
             imageView.transitionName,
             id
         )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
-    }
+    }, { user ->
+        val directions = MainFragmentDirections.actionNavHomeToNavUser(
+            user.transitionName
+        )
+        val extras = FragmentNavigatorExtras(user to user.transitionName)
+        findNavController().navigate(directions, extras)
+    })
 
     override fun onDestroyView() {
         super.onDestroyView()

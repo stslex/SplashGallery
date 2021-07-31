@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_single_collection"
             app:destination="@id/nav_single_collection" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_user"
+            app:destination="@id/nav_user" />
     </fragment>
 
     <fragment
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_nav_single_photo_to_nav_single_image"
             app:destination="@id/nav_single_image" />
+        <action
+            android:id="@+id/action_nav_single_photo_to_nav_user"
+            app:destination="@id/nav_user" />
     </fragment>
 
     <fragment
@@ -40,6 +46,9 @@
         <action
             android:id="@+id/action_nav_single_collection_to_nav_single_photo"
             app:destination="@id/nav_single_photo" />
+        <action
+            android:id="@+id/action_nav_single_collection_to_nav_user"
+            app:destination="@id/nav_user" />
     </fragment>
 
     <fragment
@@ -48,6 +57,13 @@
         android:label="fragment_single_image"
         tools:layout="@layout/fragment_single_image">
         <argument android:name="transition_name" />
+        <argument android:name="id" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_user"
+        android:name="com.stslex.splashgallery.ui.user.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user">
         <argument android:name="id" />
     </fragment>
 </navigation>

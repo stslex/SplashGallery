@@ -2,6 +2,7 @@ package com.stslex.splashgallery.ui.all_photos.adapter
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
@@ -17,6 +18,7 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
 
     fun bind(imageModel: ImageModel) {
         id = imageModel.id
+        binding.itemPagerUserContainer.transitionName = imageModel.user?.id
         binding.itemPagerImage.transitionName = imageModel.urls.regular
         binding.itemPagerImage.downloadAndSet(imageModel.urls.regular)
         binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.medium)
@@ -26,11 +28,13 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     fun setClickListener(clickListener: ImageClickListener) {
         this.clickListener = clickListener
         binding.itemPagerImage.setOnClickListener(this)
+        binding.itemPagerUserContainer.setOnClickListener(this)
     }
 
     override fun onClick(p0: View) {
         when (p0) {
-            is ImageView -> clickListener.onClick(p0, id)
+            is ImageView -> clickListener.onImageClick(p0, id)
+            is LinearLayout -> clickListener.userClickListener(p0)
         }
     }
 

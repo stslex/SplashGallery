@@ -110,7 +110,7 @@ class SingleCollectionFragment : BaseFragment() {
         }
     }
 
-    private val clickListener = ImageClickListener { imageView, id ->
+    private val clickListener = ImageClickListener({ imageView, id ->
         val directions =
             SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
                 imageView.transitionName,
@@ -118,7 +118,12 @@ class SingleCollectionFragment : BaseFragment() {
             )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
-    }
+    }, { user ->
+        val directions =
+            SingleCollectionFragmentDirections.actionNavSingleCollectionToNavUser(user.transitionName)
+        val extras = FragmentNavigatorExtras(user to user.transitionName)
+        findNavController().navigate(directions, extras)
+    })
 
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()

@@ -55,6 +55,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         getNavigationArgs()
         setListener()
         binding.singlePhotoImage.setOnClickListener(this)
+        binding.singlePhotoProfileContainer.setOnClickListener(this)
     }
 
     private fun setListener() {
@@ -69,6 +70,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
                     binding.singlePhotoCamera.text = it.data.exif?.model
                     binding.singlePhotoDimension.text = it.data.exif?.exposure_time
                     binding.singlePhotoFocal.text = it.data.exif?.focal_length
+                    binding.singlePhotoProfileContainer.transitionName = it.data.user.id
                 }
                 is Result.Failure -> {
 
@@ -92,19 +94,28 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         _binding = null
     }
 
-    private val clickListener = ImageClickListener { imageView, id ->
+    private val clickListener = ImageClickListener({ imageView, id ->
         val directions = SinglePhotoFragmentDirections.actionNavSinglePhotoToNavSingleImage(
             transitionName = imageView.transitionName,
             id = id
         )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
-    }
+    }, { user ->
+        val directions = SinglePhotoFragmentDirections.actionNavSinglePhotoToNavUser(
+            user.transitionName
+        )
+        val extras = FragmentNavigatorExtras(user to user.transitionName)
+        findNavController().navigate(directions, extras)
+    })
 
     override fun onClick(p0: View?) {
         when (p0) {
             binding.singlePhotoImage -> {
-                clickListener.onClick(binding.singlePhotoImage, id)
+                clickListener.onImageClick(binding.singlePhotoImage, id)
+            }
+            binding.singlePhotoProfileContainer -> {
+                clickListener.onUserCLick(binding.singlePhotoProfileContainer)
             }
         }
     }
