@@ -13,6 +13,7 @@ const val BASE_URL = "https://api.unsplash.com/photos/"
 const val GET_PHOTOS = "photos"
 const val GET_TOPICS = "topics"
 const val GET_COLLECTIONS = "collections"
+const val GET_USERS = "users"
 
 /*QUERY*/
 const val QUERY_API_KEY = "client_id"

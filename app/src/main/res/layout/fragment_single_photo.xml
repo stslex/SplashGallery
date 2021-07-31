@@ -6,13 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.single_photo_screen.SinglePhotoFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/single_photo_app_bar"
+        style="@style/AppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/single_photo_toolbar"
+            style="@style/Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ImageView
         android:id="@+id/single_photo_image"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:adjustViewBounds="true"
+        android:cropToPadding="true"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/single_photo_app_bar" />
 
     <LinearLayout
         android:id="@+id/single_photo_profile_container"

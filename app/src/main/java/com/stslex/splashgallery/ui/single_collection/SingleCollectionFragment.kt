@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -37,6 +38,7 @@ class SingleCollectionFragment : BaseFragment() {
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
+    private lateinit var titleExtra: String
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,7 +50,7 @@ class SingleCollectionFragment : BaseFragment() {
         pagesImage.value = pageNum
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 250.toLong()
+            duration = 750.toLong()
             scrimColor = Color.TRANSPARENT
         }
     }
@@ -59,11 +61,22 @@ class SingleCollectionFragment : BaseFragment() {
     ): View {
         _binding = FragmentSingleCollectionBinding.inflate(inflater, container, false)
         getNavigationArgs()
+        setToolbar()
         initRecyclerView()
         initViewModelListening()
         initScrollListener()
         return binding.root
     }
+
+    private fun setToolbar() {
+        val activity = (requireActivity() as AppCompatActivity)
+        activity.setSupportActionBar(binding.mainToolbar)
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            this.title = titleExtra
+        }
+    }
+
 
     private fun initScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -132,6 +145,8 @@ class SingleCollectionFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()
         id = extras.transitionName
+        binding.mainToolbar.transitionName = id
+        titleExtra = extras.title
     }
 
     override fun onDestroyView() {

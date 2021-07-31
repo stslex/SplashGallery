@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -53,9 +54,9 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
+        setToolbar()
         setListener()
         binding.singlePhotoImage.setOnClickListener(this)
-        binding.singlePhotoProfileContainer.setOnClickListener(this)
     }
 
     private fun setListener() {
@@ -70,7 +71,10 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
                         binding.singlePhotoCamera.text = exif?.model
                         binding.singlePhotoDimension.text = exif?.exposure_time
                         binding.singlePhotoFocal.text = exif?.focal_length
-                        binding.singlePhotoProfileContainer.transitionName = user.id
+                        binding.singlePhotoProfileContainer.transitionName = user.username
+                        binding.singlePhotoProfileContainer.setOnClickListener {
+                            clickListener.onUserCLick(binding.singlePhotoProfileContainer)
+                        }
                     }
                 }
                 is Result.Failure -> {
@@ -89,7 +93,14 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         id = extras.id
         binding.singlePhotoImage.transitionName = extras.transitionName
         setImageWithRequest(url = extras.transitionName, binding.singlePhotoImage, true)
+    }
 
+    private fun setToolbar() {
+        (requireActivity() as AppCompatActivity).run {
+            setSupportActionBar(binding.singlePhotoToolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.title = ""
+        }
     }
 
     override fun onDestroyView() {
@@ -116,9 +127,6 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         when (p0) {
             binding.singlePhotoImage -> {
                 clickListener.onImageClick(binding.singlePhotoImage, id)
-            }
-            binding.singlePhotoProfileContainer -> {
-                clickListener.onUserCLick(binding.singlePhotoProfileContainer)
             }
         }
     }

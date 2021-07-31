@@ -18,7 +18,7 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
 
     fun bind(collection: CollectionModel) {
         title = collection.title
-        binding.itemCollectionUserContainer.transitionName = collection.user?.id
+        binding.itemCollectionUserContainer.transitionName = collection.user?.username
         binding.itemCollectionImage.transitionName = collection.id
         binding.itemCollectionTitle.text = title
         binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
@@ -30,6 +30,7 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     fun setClickListener(clickListener: CollectionClickListener) {
         this.clickListener = clickListener
         binding.itemCollectionImage.setOnClickListener(this)
+        binding.itemCollectionAuthorName.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {

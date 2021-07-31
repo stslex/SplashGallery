@@ -18,7 +18,7 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
 
     fun bind(imageModel: ImageModel) {
         id = imageModel.id
-        binding.itemPagerUserContainer.transitionName = imageModel.user?.id
+        binding.itemPagerUserContainer.transitionName = imageModel.user?.username
         binding.itemPagerImage.transitionName = imageModel.urls.regular
         binding.itemPagerImage.downloadAndSet(imageModel.urls.regular)
         binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.medium)

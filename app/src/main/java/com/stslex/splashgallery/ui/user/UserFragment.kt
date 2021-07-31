@@ -16,15 +16,18 @@ class UserFragment : Fragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
-    private lateinit var id: String
+    private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
             duration = 700.toLong()
             scrimColor = Color.TRANSPARENT
+            isHoldAtEndEnabled = false
         }
+
     }
 
     override fun onCreateView(
@@ -39,17 +42,22 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
+        setToolbar()
+    }
+
+    private fun setToolbar() {
         val activity = (requireActivity() as AppCompatActivity)
         activity.setSupportActionBar(binding.userProfileToolbar)
-        activity.supportActionBar?.title = "Username"
-        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        activity.supportActionBar?.setHomeButtonEnabled(true)
+        activity.supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            title = username
+        }
     }
 
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
-        id = extras.id
-        binding.userProfileImage.transitionName = id
+        username = extras.username
+        binding.userCardView.transitionName = username
     }
 
     override fun onDestroyView() {
