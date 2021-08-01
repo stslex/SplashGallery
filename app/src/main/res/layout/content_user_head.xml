@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_profile_head"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -17,7 +18,7 @@
             android:id="@+id/user_profile_head_photo_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="400" />
+            tools:text="400" />
 
         <TextView
             android:id="@+id/user_profile_head_photo_label"
@@ -37,7 +38,7 @@
             android:id="@+id/user_profile_head_likes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="14" />
+            tools:text="14" />
 
         <TextView
             android:id="@+id/user_profile_head_lakes_label"
@@ -56,7 +57,7 @@
             android:id="@+id/user_profile_head_collections_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2" />
+            tools:text="2" />
 
         <TextView
             android:id="@+id/user_profile_head_collections_label"
