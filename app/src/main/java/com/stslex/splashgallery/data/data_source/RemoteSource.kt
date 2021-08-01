@@ -12,5 +12,4 @@ interface RemoteSource {
     suspend fun getCollectionPhotos(id: String, pageNumber: Int): Result<PagesModel>
     suspend fun getCurrentPhoto(id: String): Result<ImageModel>
     suspend fun getUserInfo(username: String): Result<UserModel>
-
 }

@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.data_source
 
-import com.stslex.splashgallery.data.data_source.retrofit.RetrofitService
 import com.stslex.splashgallery.data.model.*
 import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
 import com.stslex.splashgallery.data.model.domain.PagesModel
@@ -9,6 +8,7 @@ import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.remote.RemoteImageModel
 import com.stslex.splashgallery.data.model.remote.RemoteUserModel
+import com.stslex.splashgallery.data.service.RetrofitService
 import com.stslex.splashgallery.mapper.CollectionMapper
 import com.stslex.splashgallery.mapper.ImageMapper
 import com.stslex.splashgallery.mapper.UserMapper
