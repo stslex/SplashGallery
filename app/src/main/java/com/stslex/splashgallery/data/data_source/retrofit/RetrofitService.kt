@@ -41,4 +41,11 @@ interface RetrofitService {
         @Path("username") username: String,
         @Query(QUERY_API_KEY) api_key: String
     ): Response<RemoteUserModel>
+
+    @GET("/$GET_PHOTOS/{id}/$GET_DOWNLOAD")
+    suspend fun downloadPhoto(
+        @Path("id") id: String,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<String>
+
 }

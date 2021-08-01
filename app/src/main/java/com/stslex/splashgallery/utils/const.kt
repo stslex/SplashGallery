@@ -14,6 +14,7 @@ const val GET_PHOTOS = "photos"
 const val GET_TOPICS = "topics"
 const val GET_COLLECTIONS = "collections"
 const val GET_USERS = "users"
+const val GET_DOWNLOAD = "download"
 
 /*QUERY*/
 const val QUERY_API_KEY = "client_id"
