@@ -48,45 +48,24 @@
 
         <TextView
             android:id="@+id/single_photo_profile_username"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Username" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/single_photo_tray_container"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/single_photo_download"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/primary_padding"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:text="Download"
+        app:icon="@drawable/ic_baseline_save"
         app:layout_constraintBottom_toBottomOf="@id/single_photo_profile_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/single_photo_profile_container">
-
-        <ImageView
-            android:id="@+id/single_photo_ic_like"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_baseline_like" />
-
-        <ImageView
-            android:id="@+id/single_photo_ic_save"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_baseline_save" />
-
-        <ImageView
-            android:id="@+id/single_photo_ic_bookmark"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="4dp"
-            android:src="@drawable/ic_baseline_bookmark" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="@id/single_photo_profile_container" />
 
     <View
         android:id="@+id/single_photo_line1"
@@ -96,7 +75,7 @@
         android:layout_marginTop="@dimen/primary_padding"
         android:layout_marginEnd="@dimen/primary_padding"
         android:background="@color/grey"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_tray_container" />
+        app:layout_constraintTop_toBottomOf="@id/single_photo_download" />
 
     <TextView
         android:id="@+id/single_photo_label_camera"

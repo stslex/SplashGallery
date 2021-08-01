@@ -75,6 +75,9 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
                         binding.singlePhotoProfileContainer.setOnClickListener {
                             clickListener.onUserCLick(binding.singlePhotoProfileContainer)
                         }
+                        binding.singlePhotoDownload.setOnClickListener {
+
+                        }
                     }
                 }
                 is Result.Failure -> {
