@@ -64,30 +64,12 @@ class UserFragment : BaseFragment() {
     }
 
     private fun setViewPager(data: UserModel) {
-
-        val total_photos: Int = data.total_photos ?: 0
-        val total_likes: Int = data.total_likes ?: 0
-        val total_collections: Int = data.total_collections ?: 0
-        Log.i("Map:total_photos: ", total_photos.toString())
-        Log.i("Map:total_likes: ", total_likes.toString())
-        Log.i("Map:total_collections: ", total_collections.toString())
-
         val map = mapOf(
-            total_photos to UserPhotosFragment(),
-            total_likes to UserLikesFragment(),
-            total_collections to UserCollectionFragment()
+            (data.total_photos ?: 0) to UserPhotosFragment(),
+            (data.total_likes ?: 0) to UserLikesFragment(),
+            (data.total_collections) to UserCollectionFragment()
         )
-
-        Log.i("Map: Map ", map.toString())
-
-        val newMap = map.mapKeys {
-            it.takeUnless { it.key == 0 }
-        }
-        Log.i("Map:NewMap: ", newMap.toString())
-
-        val fragmentMap: List<Fragment> = newMap.values.toList()
-        Log.i("Map:fragmentMap: ", fragmentMap.toString())
-
+        val fragmentMap: List<Fragment> = map.filter { it.key != 0 }.values.toList()
         binding.contentUserContainer.userViewPager.adapter = UserAdapter(this, fragmentMap)
 
         TabLayoutMediator(
@@ -97,17 +79,12 @@ class UserFragment : BaseFragment() {
             when (fragmentMap[position]) {
                 is UserPhotosFragment -> {
                     tab.text = "Photos"
-                    Log.i("MApiing", fragmentMap[position].toString())
                 }
                 is UserLikesFragment -> {
-                    Log.i("MApiing", fragmentMap[position].toString())
-
                     tab.text = "Likes"
                 }
                 is UserCollectionFragment -> {
                     tab.text = "Collection"
-                    Log.i("MApiing", fragmentMap[position].toString())
-
                 }
             }
             binding.contentUserContainer.userViewPager.setCurrentItem(tab.position, true)
@@ -128,11 +105,13 @@ class UserFragment : BaseFragment() {
                     binding.userHead.userProfileHeadLikesCount.text = it.data.total_likes.toString()
                     binding.userHead.userProfileHeadPhotoCount.text =
                         it.data.total_photos.toString()
-                    binding.contentUserContainer.userBio.text = it.data.bio
+                    if (it.data.bio == null || it.data.bio == "") {
+                        binding.contentUserContainer.userBio.visibility = View.GONE
+                    } else binding.contentUserContainer.userBio.text = it.data.bio
                     setViewPager(it.data)
                 }
                 is Result.Failure -> {
-
+                    Log.i("Failure", it.exception)
                 }
                 is Result.Loading -> {
 
