@@ -3,20 +3,20 @@ package com.stslex.splashgallery.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stslex.splashgallery.data.model.domain.PagesCollectionModel
-import com.stslex.splashgallery.data.model.domain.PagesModel
+import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 
 class PagerSharedViewModel : ViewModel() {
 
-    private val _allPhotos = MutableLiveData<PagesModel>()
-    val allPhotos: LiveData<PagesModel> get() = _allPhotos
-    fun setAllPhotos(page: PagesModel) {
+    private val _allPhotos = MutableLiveData<List<ImageModel>>()
+    val allPhotos: LiveData<List<ImageModel>> get() = _allPhotos
+    fun setAllPhotos(page: List<ImageModel>) {
         _allPhotos.value = page
     }
 
-    private val _collections = MutableLiveData<PagesCollectionModel>()
-    val collection: LiveData<PagesCollectionModel> get() = _collections
-    fun setCollection(collection: PagesCollectionModel) {
+    private val _collections = MutableLiveData<List<CollectionModel>>()
+    val collection: LiveData<List<CollectionModel>> get() = _collections
+    fun setCollection(collection: List<CollectionModel>) {
         _collections.value = collection
     }
 

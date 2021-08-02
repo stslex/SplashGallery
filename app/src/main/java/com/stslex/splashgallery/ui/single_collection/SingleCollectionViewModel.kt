@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.data.model.domain.PagesModel
-import com.stslex.splashgallery.data.repository.ImageRepository
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
+import com.stslex.splashgallery.data.repository.interf.CollectionRepository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SingleCollectionViewModel @Inject constructor(private val repository: ImageRepository) :
+class SingleCollectionViewModel @Inject constructor(private val repository: CollectionRepository) :
     ViewModel() {
 
-    private val _allPhotos = MutableLiveData<Result<PagesModel>>()
-    val allPhotos: LiveData<Result<PagesModel>> get() = _allPhotos
+    private val _allPhotos = MutableLiveData<Result<List<ImageModel>>>()
+    val allPhotos: LiveData<Result<List<ImageModel>>> get() = _allPhotos
 
     fun getAllPhotos(id: String, pageNumber: Int) {
         viewModelScope.launch {

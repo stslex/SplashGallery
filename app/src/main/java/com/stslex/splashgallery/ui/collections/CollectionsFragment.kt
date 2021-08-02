@@ -51,7 +51,7 @@ class CollectionsFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         viewModel.collection.observe(viewLifecycleOwner) {
-            adapter.addItems(it.collections)
+            adapter.addItems(it)
         }
     }
 

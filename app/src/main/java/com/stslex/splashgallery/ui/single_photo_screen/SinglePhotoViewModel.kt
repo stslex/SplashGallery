@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
-import com.stslex.splashgallery.data.repository.ImageRepository
+import com.stslex.splashgallery.data.repository.interf.PhotoRepository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SinglePhotoViewModel @Inject constructor(private val repository: ImageRepository) :
+class SinglePhotoViewModel @Inject constructor(private val repository: PhotoRepository) :
     ViewModel() {
     private var _currentPhoto = MutableLiveData<Result<ImageModel>>()
     val currentPhoto: LiveData<Result<ImageModel>> get() = _currentPhoto

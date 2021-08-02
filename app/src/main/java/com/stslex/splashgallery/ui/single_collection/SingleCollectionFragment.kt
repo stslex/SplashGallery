@@ -115,7 +115,7 @@ class SingleCollectionFragment : BaseFragment() {
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    adapter.addItems(it.data.image)
+                    adapter.addItems(it.data)
                 }
                 is Result.Failure -> {
                     Log.i("SingleCollection", it.exception)

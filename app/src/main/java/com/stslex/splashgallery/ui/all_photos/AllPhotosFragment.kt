@@ -46,7 +46,7 @@ class AllPhotosFragment : Fragment() {
         recyclerView = binding.fragmentAllPhotosRecycler.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
         viewModel.allPhotos.observe(viewLifecycleOwner) {
-            adapter.addItems(it.image)
+            adapter.addItems(it)
         }
         postponeEnterTransition()
         recyclerView.doOnPreDraw {
