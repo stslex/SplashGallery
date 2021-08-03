@@ -76,9 +76,10 @@ class UserRepositoryImpl @Inject constructor(private val source: UserSource) : U
                 content = GET_PHOTOS
             )) {
                 is Result.Success -> {
-                    val listOfImages: List<ImageModel> = response.data?.map {
-                        ImageMapper().transformToDomain(it)
-                    } as List<ImageModel>
+                    val listOfImages: List<ImageModel> =
+                        (response.data as List<RemoteImageModel>).map {
+                            ImageMapper().transformToDomain(it)
+                        }
                     Result.Success(listOfImages)
                 }
                 is Result.Failure -> {

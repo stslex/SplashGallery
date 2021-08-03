@@ -77,10 +77,9 @@ class UserFragment : BaseFragment() {
                     sharedViewModel.setPhotos(it.data)
                 }
                 is Result.Failure -> {
-                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
                 }
                 is Result.Loading -> {
-
                 }
             }
         }
