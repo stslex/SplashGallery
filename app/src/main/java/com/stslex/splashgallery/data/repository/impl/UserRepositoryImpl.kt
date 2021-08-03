@@ -27,4 +27,31 @@ class UserRepositoryImpl @Inject constructor(private val userSource: UserSource)
                 Result.Failure(exception.toString())
             }
         }
+
+    override suspend fun <T> getUserContent(
+        username: String,
+        content: String,
+        page: Int
+    ): Result<T?> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                when (val response = userSource.getUserContent<T>(
+                    username = username,
+                    content = content,
+                    page = page
+                )) {
+                    is Result.Success -> {
+                        Result.Success(response.data)
+                    }
+                    is Result.Failure -> {
+                        Result.Failure(response.exception)
+                    }
+                    else -> {
+                        Result.Loading
+                    }
+                }
+            } catch (exception: Exception) {
+                Result.Failure(exception.toString())
+            }
+        }
 }

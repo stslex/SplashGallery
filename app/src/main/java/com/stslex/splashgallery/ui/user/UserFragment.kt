@@ -16,9 +16,9 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
-import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
-import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
-import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.ui.user.pager.collection.UserCollectionFragment
+import com.stslex.splashgallery.ui.user.pager.likes.UserLikesFragment
+import com.stslex.splashgallery.ui.user.pager.photos.UserPhotosFragment
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
@@ -63,34 +63,6 @@ class UserFragment : BaseFragment() {
         setListeners()
     }
 
-    private fun setViewPager(data: UserModel) {
-        val map = mapOf(
-            (data.total_photos ?: 0) to UserPhotosFragment(),
-            (data.total_likes ?: 0) to UserLikesFragment(),
-            (data.total_collections) to UserCollectionFragment()
-        )
-        val fragmentMap: List<Fragment> = map.filter { it.key != 0 }.values.toList()
-        binding.contentUserContainer.userViewPager.adapter = UserAdapter(this, fragmentMap)
-
-        TabLayoutMediator(
-            binding.contentUserContainer.userTabLayout,
-            binding.contentUserContainer.userViewPager
-        ) { tab, position ->
-            when (fragmentMap[position]) {
-                is UserPhotosFragment -> {
-                    tab.text = "Photos"
-                }
-                is UserLikesFragment -> {
-                    tab.text = "Likes"
-                }
-                is UserCollectionFragment -> {
-                    tab.text = "Collection"
-                }
-            }
-            binding.contentUserContainer.userViewPager.setCurrentItem(tab.position, true)
-        }.attach()
-    }
-
     private fun setListeners() {
         viewModel.getUserInfo(username)
         viewModel.user.observe(viewLifecycleOwner) {
@@ -118,6 +90,34 @@ class UserFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun setViewPager(data: UserModel) {
+        val map = mapOf(
+            (data.total_photos ?: 0) to UserPhotosFragment(),
+            (data.total_likes ?: 0) to UserLikesFragment(),
+            (data.total_collections) to UserCollectionFragment()
+        )
+        val fragmentMap: List<Fragment> = map.filter { it.key != 0 }.values.toList()
+        binding.contentUserContainer.userViewPager.adapter = UserAdapter(this, fragmentMap)
+
+        TabLayoutMediator(
+            binding.contentUserContainer.userTabLayout,
+            binding.contentUserContainer.userViewPager
+        ) { tab, position ->
+            when (fragmentMap[position]) {
+                is UserPhotosFragment -> {
+                    tab.text = "Photos"
+                }
+                is UserLikesFragment -> {
+                    tab.text = "Likes"
+                }
+                is UserCollectionFragment -> {
+                    tab.text = "Collection"
+                }
+            }
+            binding.contentUserContainer.userViewPager.setCurrentItem(tab.position, true)
+        }.attach()
     }
 
     private fun setToolbar() {

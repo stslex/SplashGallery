@@ -11,8 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
-import com.stslex.splashgallery.ui.PagerSharedViewModel
 import com.stslex.splashgallery.ui.main_screen.MainViewModel
+import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment

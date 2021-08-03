@@ -28,4 +28,28 @@ class UserSourceImpl @Inject constructor(private val userService: UserService) :
                 Result.Failure(exception.toString())
             }
         }
+
+    override suspend fun <T> getUserContent(
+        username: String,
+        content: String,
+        page: Int
+    ): Result<T?> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            val result = userService.getUserContent<T>(
+                username = username,
+                content = content,
+                page = page,
+                api_key = API_KEY_SUCCESS
+            )
+            if (result.isSuccessful && result.body() != null) {
+                Result.Success(result.body())
+            } else {
+                Result.Failure("Null request")
+            }
+        } catch (exception: Exception) {
+            Result.Failure(exception = exception.toString())
+        }
+    }
+
+
 }

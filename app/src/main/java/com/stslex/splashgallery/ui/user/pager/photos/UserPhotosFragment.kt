@@ -1,15 +1,15 @@
-package com.stslex.splashgallery.ui.user.pager
+package com.stslex.splashgallery.ui.user.pager.photos
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.stslex.splashgallery.databinding.FragmentUserCollectionBinding
+import com.stslex.splashgallery.databinding.FragmentUserPhotosBinding
 
-class UserCollectionFragment : Fragment() {
+class UserPhotosFragment : Fragment() {
 
-    private var _binding: FragmentUserCollectionBinding? = null
+    private var _binding: FragmentUserPhotosBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,7 +17,7 @@ class UserCollectionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentUserCollectionBinding.inflate(inflater, container, false)
+        _binding = FragmentUserPhotosBinding.inflate(inflater, container, false)
         return binding.root
     }
 

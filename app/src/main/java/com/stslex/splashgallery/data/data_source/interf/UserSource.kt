@@ -5,4 +5,5 @@ import com.stslex.splashgallery.utils.Result
 
 interface UserSource {
     suspend fun getUserInfo(username: String): Result<UserModel>
+    suspend fun <T> getUserContent(username: String, content: String, page: Int): Result<T?>
 }

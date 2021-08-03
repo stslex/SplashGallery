@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.user.pager
+package com.stslex.splashgallery.ui.user.pager.likes
 
 import android.os.Bundle
 import android.view.LayoutInflater

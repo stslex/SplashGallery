@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
-import com.stslex.splashgallery.ui.PagerSharedViewModel
 import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
+import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
