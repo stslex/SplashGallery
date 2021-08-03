@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
@@ -71,15 +70,47 @@ class UserFragment : BaseFragment() {
         sharedViewModel.numPhotos.observe(viewLifecycleOwner) {
             viewModel.getUserContentPhotos(username, it)
         }
+        sharedViewModel.numLikes.observe(viewLifecycleOwner) {
+            viewModel.getUserContentLikes(username, it)
+        }
+        sharedViewModel.numCollections.observe(viewLifecycleOwner) {
+            viewModel.getUserContentCollections(username, it)
+        }
         viewModel.photos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
                     sharedViewModel.setPhotos(it.data)
                 }
                 is Result.Failure -> {
-                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
+                    Log.e("User:Photos:", it.exception)
                 }
                 is Result.Loading -> {
+                }
+            }
+        }
+        viewModel.likes.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Success -> {
+                    sharedViewModel.setLikes(it.data)
+                }
+                is Result.Failure -> {
+                    Log.e("User:Likes:", it.exception)
+                }
+                is Result.Loading -> {
+
+                }
+            }
+        }
+        viewModel.collections.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Success -> {
+                    sharedViewModel.setCollections(it.data)
+                }
+                is Result.Failure -> {
+                    Log.e("User:Failure:", it.exception)
+                }
+                is Result.Loading -> {
+
                 }
             }
         }
