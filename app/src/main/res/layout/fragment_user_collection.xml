@@ -5,4 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.user.pager.collection.UserCollectionFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_collection_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_recycler_collections" />
 </FrameLayout>

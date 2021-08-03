@@ -10,7 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PhotoService {
-    @GET("/$GET_PHOTOS")
+    @GET("/$GET_PHOTOS/")
     suspend fun getAllPhotos(
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_API_KEY) api_key: String

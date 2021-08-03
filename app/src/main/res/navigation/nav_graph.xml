@@ -60,5 +60,14 @@
         android:name="com.stslex.splashgallery.ui.user.UserFragment"
         tools:layout="@layout/fragment_user">
         <argument android:name="username" />
+        <action
+            android:id="@+id/action_nav_user_to_nav_single_collection"
+            app:destination="@id/nav_single_collection" />
+        <action
+            android:id="@+id/action_nav_user_to_nav_single_photo"
+            app:destination="@id/nav_single_photo" />
+        <action
+            android:id="@+id/action_nav_user_self"
+            app:destination="@id/nav_user" />
     </fragment>
 </navigation>

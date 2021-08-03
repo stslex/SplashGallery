@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
@@ -29,6 +31,7 @@ class UserFragment : BaseFragment() {
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
+    private val sharedViewModel: UserSharedViewModel by activityViewModels()
 
     private lateinit var username: String
 
@@ -60,10 +63,30 @@ class UserFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
         setToolbar()
+        setListenersHead()
         setListeners()
     }
 
     private fun setListeners() {
+        sharedViewModel.numPhotos.observe(viewLifecycleOwner) {
+            viewModel.getUserContentPhotos(username, it)
+        }
+        viewModel.photos.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Success -> {
+                    sharedViewModel.setPhotos(it.data)
+                }
+                is Result.Failure -> {
+                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT)
+                }
+                is Result.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    private fun setListenersHead() {
         viewModel.getUserInfo(username)
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
