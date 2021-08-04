@@ -35,7 +35,7 @@ class UserLikesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentUserLikesBinding.inflate(inflater, container, false)
-        viewModel.setNumLikes(pageNumPhotos)
+        viewModel.setNumLikes(pageNumLikes)
         return binding.root
     }
 
@@ -71,8 +71,8 @@ class UserLikesFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    pageNumPhotos++
-                    viewModel.setNumPhotos(pageNumPhotos)
+                    pageNumLikes++
+                    viewModel.setNumLikes(pageNumLikes)
                 }
             }
         })
@@ -103,6 +103,6 @@ class UserLikesFragment : Fragment() {
     }
 
     companion object {
-        private var pageNumPhotos = 1
+        private var pageNumLikes = 1
     }
 }
