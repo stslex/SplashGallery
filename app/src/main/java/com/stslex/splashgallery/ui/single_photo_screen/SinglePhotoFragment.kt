@@ -71,9 +71,9 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
                         binding.singlePhotoCamera.text = exif?.model
                         binding.singlePhotoDimension.text = exif?.exposure_time
                         binding.singlePhotoFocal.text = exif?.focal_length
-                        binding.singlePhotoProfileContainer.transitionName = user.username
+                        binding.singlePhotoProfileUsername.transitionName = user.username
                         binding.singlePhotoProfileContainer.setOnClickListener {
-                            clickListener.onUserCLick(binding.singlePhotoProfileContainer)
+                            clickListener.onUserCLick(binding.singlePhotoProfileUsername)
                         }
                         binding.singlePhotoDownload.setOnClickListener {
 

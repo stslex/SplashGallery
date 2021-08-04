@@ -7,7 +7,10 @@ import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 
-class CollectionsAdapter(private val clickListener: CollectionClickListener) :
+class CollectionsAdapter(
+    private val clickListener: CollectionClickListener,
+    private val isUser: Boolean = false
+) :
     RecyclerView.Adapter<CollectionsViewHolder>() {
 
     private var list = mutableListOf<CollectionModel>()
@@ -19,7 +22,7 @@ class CollectionsAdapter(private val clickListener: CollectionClickListener) :
     }
 
     override fun onBindViewHolder(holder: CollectionsViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], isUser)
         holder.setClickListener(clickListener)
     }
 

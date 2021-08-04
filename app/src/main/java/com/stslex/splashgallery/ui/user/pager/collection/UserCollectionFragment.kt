@@ -44,7 +44,7 @@ class UserCollectionFragment : Fragment() {
 
     private fun initRecyclerView() {
         recyclerView = binding.userCollectionRecycler
-        adapter = CollectionsAdapter(clickListener)
+        adapter = CollectionsAdapter(clickListener, true)
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager

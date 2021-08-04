@@ -16,15 +16,20 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     private lateinit var clickListener: CollectionClickListener
     private lateinit var title: String
 
-    fun bind(collection: CollectionModel) {
+    fun bind(collection: CollectionModel, isUser: Boolean) {
         title = collection.title
-        binding.itemCollectionUserContainer.transitionName = collection.user?.username
+        binding.itemCollectionAuthorName.transitionName = collection.user?.username
         binding.itemCollectionImage.transitionName = collection.id
         binding.itemCollectionTitle.text = title
         binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
-        binding.itemCollectionAuthorName.text = collection.user?.name
         binding.itemCollectionNumber.text = "${collection.total_photos} photos"
-        binding.itemCollectionImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
+
+        if (isUser) {
+            binding.itemCollectionUserContainer.visibility = View.GONE
+        } else {
+            binding.itemCollectionAuthorName.text = collection.user?.name
+            binding.itemCollectionImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
+        }
     }
 
     fun setClickListener(clickListener: CollectionClickListener) {
@@ -36,7 +41,8 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     override fun onClick(p0: View?) {
         when (p0) {
             is ImageView -> clickListener.onImageClick(p0, title)
-            is LinearLayout -> clickListener.onUserClick(p0)
+            is LinearLayout -> clickListener.onUserClick(binding.itemCollectionAuthorName)
         }
+
     }
 }

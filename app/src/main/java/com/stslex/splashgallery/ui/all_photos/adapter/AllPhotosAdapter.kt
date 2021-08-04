@@ -7,7 +7,10 @@ import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 
-class AllPhotosAdapter(private val clickListener: ImageClickListener) :
+class AllPhotosAdapter(
+    private val clickListener: ImageClickListener,
+    private val isUser: Boolean = false
+) :
     RecyclerView.Adapter<AllPhotosViewHolder>() {
 
     private var list = mutableListOf<ImageModel>()
@@ -19,7 +22,7 @@ class AllPhotosAdapter(private val clickListener: ImageClickListener) :
     }
 
     override fun onBindViewHolder(holder: AllPhotosViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], isUser)
         holder.setClickListener(clickListener)
     }
 

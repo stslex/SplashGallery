@@ -23,7 +23,7 @@ import com.stslex.splashgallery.ui.user.pager.photos.UserPhotosFragment
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
-import com.stslex.splashgallery.utils.setRoundImageWithRequest
+import com.stslex.splashgallery.utils.setImageWithRequest
 
 class UserFragment : BaseFragment() {
 
@@ -121,9 +121,10 @@ class UserFragment : BaseFragment() {
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    setRoundImageWithRequest(
+                    setImageWithRequest(
                         it.data.profile_image!!.large,
-                        binding.userProfileImage
+                        binding.userProfileImage,
+                        needCircleCrop = true
                     )
                     binding.userHead.userProfileHeadCollectionsCount.text =
                         it.data.total_collections.toString()
@@ -180,7 +181,6 @@ class UserFragment : BaseFragment() {
             setDisplayHomeAsUpEnabled(true)
             title = ""
         }
-
     }
 
     private fun getNavigationArgs() {

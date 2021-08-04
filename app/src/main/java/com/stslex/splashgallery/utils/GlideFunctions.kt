@@ -28,9 +28,15 @@ fun ImageView.downloadAndSetSmallRound(url: String) {
 }
 
 @SuppressLint("CheckResult")
-fun Fragment.setImageWithRequest(url: String, imageView: ImageView, needCrop: Boolean) {
+fun Fragment.setImageWithRequest(
+    url: String,
+    imageView: ImageView,
+    needCrop: Boolean = false,
+    needCircleCrop: Boolean = false
+) {
     val glide = Glide.with(this).load(url).listener(primaryRequestListener)
     if (needCrop) glide.centerCrop()
+    if (needCircleCrop) glide.circleCrop()
     glide.into(imageView)
 }
 

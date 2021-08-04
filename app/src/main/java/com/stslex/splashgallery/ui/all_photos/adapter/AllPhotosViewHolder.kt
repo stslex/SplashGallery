@@ -16,13 +16,17 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     private lateinit var clickListener: ImageClickListener
     private lateinit var id: String
 
-    fun bind(imageModel: ImageModel) {
+    fun bind(imageModel: ImageModel, isUser: Boolean) {
         id = imageModel.id
-        binding.itemPagerUserContainer.transitionName = imageModel.user?.username
         binding.itemPagerImage.transitionName = imageModel.urls.regular
         binding.itemPagerImage.downloadAndSet(imageModel.urls.regular)
-        binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.medium)
-        binding.itemPagerAuthorName.text = imageModel.user.username
+        binding.itemPagerAuthorName.transitionName = imageModel.user?.username
+        if (isUser) {
+            binding.itemPagerUserContainer.visibility = View.GONE
+        } else {
+            binding.itemPagerImagePerson.downloadAndSetSmallRound(imageModel.user?.profile_image!!.medium)
+            binding.itemPagerAuthorName.text = imageModel.user.username
+        }
     }
 
     fun setClickListener(clickListener: ImageClickListener) {
@@ -34,7 +38,7 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     override fun onClick(p0: View) {
         when (p0) {
             is ImageView -> clickListener.onImageClick(p0, id)
-            is LinearLayout -> clickListener.userClickListener(p0)
+            is LinearLayout -> clickListener.userClickListener(binding.itemPagerAuthorName)
         }
     }
 

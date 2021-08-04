@@ -68,7 +68,7 @@ class UserPhotosFragment : Fragment() {
 
     private fun initRecyclerView() {
         recyclerView = binding.userPhotosRecycler
-        adapter = AllPhotosAdapter(clickListener)
+        adapter = AllPhotosAdapter(clickListener, true)
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
