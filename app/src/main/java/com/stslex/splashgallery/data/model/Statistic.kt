@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.model.newmodel
+package com.stslex.splashgallery.data.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

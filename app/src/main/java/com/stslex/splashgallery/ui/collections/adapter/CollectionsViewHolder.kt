@@ -6,9 +6,8 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
-import com.stslex.splashgallery.utils.downloadAndSet
-import com.stslex.splashgallery.utils.downloadAndSetSmallRound
 
 class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
@@ -16,19 +15,29 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     private lateinit var clickListener: CollectionClickListener
     private lateinit var title: String
 
-    fun bind(collection: CollectionModel, isUser: Boolean) {
+    fun bind(collection: CollectionModel, isUser: Boolean, setImage: SetImageWithGlide) {
         title = collection.title
         binding.itemCollectionAuthorName.transitionName = collection.user?.username
         binding.itemCollectionImage.transitionName = collection.id
         binding.itemCollectionTitle.text = title
-        binding.itemCollectionImage.downloadAndSet(collection.cover_photo?.urls!!.regular)
-        binding.itemCollectionNumber.text = "${collection.total_photos} photos"
+        binding.itemCollectionNumber.text = "${collection.total_photos} Photos"
+        setImage.makeGlideImage(
+            collection.cover_photo?.urls!!.regular,
+            binding.itemCollectionImage,
+            false,
+            false
+        )
 
         if (isUser) {
             binding.itemCollectionUserContainer.visibility = View.GONE
         } else {
             binding.itemCollectionAuthorName.text = collection.user?.name
-            binding.itemCollectionImagePerson.downloadAndSetSmallRound(collection.user?.profile_image!!.small)
+            setImage.makeGlideImage(
+                collection.user?.profile_image!!.medium,
+                binding.itemCollectionImagePerson,
+                false,
+                true
+            )
         }
     }
 

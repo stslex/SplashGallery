@@ -15,7 +15,9 @@ import com.stslex.splashgallery.databinding.FragmentUserCollectionBinding
 import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.UserSharedViewModel
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
+import com.stslex.splashgallery.utils.setImageWithRequest
 
 class UserCollectionFragment : Fragment() {
 
@@ -46,7 +48,7 @@ class UserCollectionFragment : Fragment() {
 
     private fun initRecyclerView() {
         recyclerView = binding.userCollectionRecycler
-        adapter = CollectionsAdapter(clickListener, isUser = true)
+        adapter = CollectionsAdapter(clickListener, isUser = true, setImage = setImage)
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
@@ -91,6 +93,10 @@ class UserCollectionFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
     }
 
     override fun onDestroyView() {

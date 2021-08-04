@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="32dp"
+    android:layout_marginStart="@dimen/primary_padding"
+    android:layout_marginTop="@dimen/big_padding"
+    android:layout_marginEnd="@dimen/primary_padding"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,10 +19,11 @@
 
         <ImageView
             android:id="@+id/item_pager_image_person"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/big_padding"
+            android:layout_height="@dimen/big_padding"
             android:layout_marginEnd="@dimen/primary_padding"
-            android:src="@drawable/ic_launcher_background" />
+            android:contentDescription="@string/description_image"
+            tools:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/item_pager_author_name"
@@ -28,7 +32,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
-            android:text="Name full" />
+            tools:text="Name full" />
 
     </LinearLayout>
 
@@ -47,7 +51,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_image"
-            android:src="@drawable/ic_launcher_foreground" />
+            tools:src="@drawable/ic_launcher_foreground" />
 
     </com.google.android.material.card.MaterialCardView>
 

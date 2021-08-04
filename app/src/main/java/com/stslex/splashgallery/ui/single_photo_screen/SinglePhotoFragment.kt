@@ -18,7 +18,6 @@ import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
-import com.stslex.splashgallery.utils.downloadAndSetSmallRound
 import com.stslex.splashgallery.utils.setImageWithRequest
 
 class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
@@ -38,7 +37,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 700.toLong()
+            duration = getString(R.integer.transition_duration).toLong()
             scrimColor = Color.TRANSPARENT
         }
     }
@@ -65,7 +64,11 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
             when (it) {
                 is Result.Success -> {
                     it.data.run {
-                        binding.singlePhotoProfileImage.downloadAndSetSmallRound(user?.profile_image!!.medium)
+                        setImageWithRequest(
+                            user?.profile_image!!.medium,
+                            binding.singlePhotoProfileImage,
+                            needCircleCrop = true
+                        )
                         binding.singlePhotoProfileUsername.text = user.username
                         binding.singlePhotoAperture.text = exif?.aperture
                         binding.singlePhotoCamera.text = exif?.model

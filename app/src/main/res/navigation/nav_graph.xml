@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.stslex.wallpape.ui.main_screen.MainFragment"
+        android:name="com.stslex.splashgallery.ui.main_screen.MainFragment"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_nav_home_to_nav_single_photo"

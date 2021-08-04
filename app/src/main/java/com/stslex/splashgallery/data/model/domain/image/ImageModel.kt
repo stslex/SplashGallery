@@ -1,9 +1,9 @@
 package com.stslex.splashgallery.data.model.domain.image
 
 import android.os.Parcelable
+import com.stslex.splashgallery.data.model.PhotoStatistics
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.model.domain.user.UserModel
-import com.stslex.splashgallery.data.model.newmodel.PhotoStatistics
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

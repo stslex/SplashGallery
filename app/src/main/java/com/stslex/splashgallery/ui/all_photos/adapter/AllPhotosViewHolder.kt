@@ -8,7 +8,6 @@ import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
-import com.stslex.splashgallery.utils.downloadAndSet
 
 class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
@@ -25,7 +24,6 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
             needCrop = false,
             needCircleCrop = false
         )
-        binding.itemPagerImage.downloadAndSet(imageModel.urls.regular)
         binding.itemPagerAuthorName.transitionName = imageModel.user?.username
         if (isUser) {
             binding.itemPagerUserContainer.visibility = View.GONE

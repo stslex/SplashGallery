@@ -9,8 +9,7 @@
 
 ### Description
 
-The app client with Image library using Unspalsh api
-In order with dark theme support
+The app client with Image library using Unsplash api In order with dark theme support
 
 ### Tools
 

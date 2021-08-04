@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="32dp"
+    android:layout_marginStart="@dimen/primary_padding"
+    android:layout_marginTop="@dimen/big_padding"
+    android:layout_marginEnd="@dimen/primary_padding"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,10 +19,11 @@
 
         <ImageView
             android:id="@+id/item_collection_image_person"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="@dimen/big_padding"
+            android:layout_height="@dimen/big_padding"
             android:layout_marginEnd="@dimen/primary_padding"
-            android:src="@drawable/ic_launcher_background" />
+            android:contentDescription="@string/description_image"
+            tools:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/item_collection_author_name"
@@ -40,46 +44,49 @@
         android:focusableInTouchMode="true"
         app:cardCornerRadius="@dimen/primary_padding">
 
+
         <ImageView
             android:id="@+id/item_collection_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
+            android:layout_height="@dimen/height_collection_image"
             android:contentDescription="@string/description_image"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_launcher_foreground" />
 
         <FrameLayout
-            android:id="@+id/item_collection_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_collection_image"
+            android:background="@color/frame_grey" />
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/frame">
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="@dimen/primary_padding">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/item_collection_title"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="@dimen/primary_padding">
+                android:maxLines="2"
+                android:textColor="@color/white"
+                tools:text="Title" />
 
-                <TextView
-                    android:id="@+id/item_collection_title"
-                    style="@style/TextAppearance.MaterialComponents.Headline6"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/item_collection_number"
-                    style="@style/TextAppearance.AppCompat.Body2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-        </FrameLayout>
+            <TextView
+                android:id="@+id/item_collection_number"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_padding"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/white"
+                tools:text="Photos" />
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

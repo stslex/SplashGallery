@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
+import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
-import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
+import com.stslex.splashgallery.utils.setImageWithRequest
 
 class CollectionsFragment : Fragment() {
 
@@ -45,7 +47,7 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = CollectionsAdapter(clickListener)
+        adapter = CollectionsAdapter(clickListener, setImage = setImage)
         recyclerView = binding.fragmentCollectionsRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
@@ -91,6 +93,10 @@ class CollectionsFragment : Fragment() {
         val extras = FragmentNavigatorExtras(user to user.transitionName)
         findNavController().navigate(directions, extras)
     })
+
+    private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

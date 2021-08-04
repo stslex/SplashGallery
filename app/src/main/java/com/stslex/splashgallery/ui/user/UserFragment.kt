@@ -43,9 +43,8 @@ class UserFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 700.toLong()
+            duration = getString(R.integer.transition_duration).toLong()
             scrimColor = Color.TRANSPARENT
-            isHoldAtEndEnabled = false
         }
     }
 

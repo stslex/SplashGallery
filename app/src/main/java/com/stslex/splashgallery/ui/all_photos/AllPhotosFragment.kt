@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
+import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
-import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
 class AllPhotosFragment : Fragment() {
 

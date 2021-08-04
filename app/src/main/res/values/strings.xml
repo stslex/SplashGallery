@@ -1,15 +1,21 @@
 <resources>
     <string name="app_name">SplashGallery</string>
 
+    <!--Descriptions-->
     <string name="description_image">image</string>
-    <string name="label_tab_layout_all">All</string>
-    <string name="label_tab_layout_collection">Collection</string>
 
+    <!--Labels-->
+    <string name="label_tab_layout_all">All</string>
+    <string name="label_collections">Collections</string>
     <string name="label_camera">Camera</string>
     <string name="label_focal_length">Focal Length</string>
     <string name="label_aperture">Aperture</string>
     <string name="label_shutter_speed">Shutter Speed</string>
     <string name="label_dimension">Dimension</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_photos">Photos</string>
+    <string name="label_likes">Likes</string>
+    <string name="label_download">Download</string>
+
+    <!--Integers-->
+    <integer name="transition_duration">500</integer>
 </resources>

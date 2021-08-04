@@ -25,25 +25,29 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/description_image"
         android:cropToPadding="true"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintTop_toBottomOf="@id/single_photo_app_bar" />
 
     <LinearLayout
         android:id="@+id/single_photo_profile_container"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/primary_padding"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/single_photo_download"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_image">
+        app:layout_constraintTop_toBottomOf="@id/single_photo_image"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/single_photo_profile_image"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="@dimen/primary_padding"
+            android:contentDescription="@string/description_image"
             android:src="@drawable/ic_launcher_foreground" />
 
         <TextView
@@ -51,6 +55,8 @@
             style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
             tools:text="Username" />
 
     </LinearLayout>
@@ -61,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/primary_padding"
-        android:text="Download"
+        android:text="@string/label_download"
         app:icon="@drawable/ic_baseline_save"
         app:layout_constraintBottom_toBottomOf="@id/single_photo_profile_container"
         app:layout_constraintEnd_toEndOf="parent"

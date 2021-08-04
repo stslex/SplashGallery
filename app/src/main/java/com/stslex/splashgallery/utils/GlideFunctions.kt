@@ -8,24 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.stslex.splashgallery.R
-
-fun ImageView.downloadAndSet(url: String) {
-    Glide.with(this)
-        .load(url)
-        .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_foreground))
-        .into(this)
-}
-
-fun ImageView.downloadAndSetSmallRound(url: String) {
-    Glide.with(this)
-        .load(url)
-        .circleCrop()
-        .apply(RequestOptions.placeholderOf(R.drawable.ic_launcher_foreground))
-        .into(this)
-}
 
 @SuppressLint("CheckResult")
 fun Fragment.setImageWithRequest(
@@ -38,14 +21,6 @@ fun Fragment.setImageWithRequest(
     if (needCrop) glide.centerCrop()
     if (needCircleCrop) glide.circleCrop()
     glide.into(imageView)
-}
-
-fun Fragment.setRoundImageWithRequest(url: String, imageView: ImageView) {
-    Glide.with(this)
-        .load(url)
-        .circleCrop()
-        .listener(primaryRequestListener)
-        .into(imageView)
 }
 
 private val Fragment.primaryRequestListener: RequestListener<Drawable>
