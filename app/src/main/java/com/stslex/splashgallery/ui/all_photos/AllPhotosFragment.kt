@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
+import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.wallpape.ui.main_screen.MainFragmentDirections
 
 class AllPhotosFragment : Fragment() {
@@ -42,7 +44,7 @@ class AllPhotosFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = AllPhotosAdapter(clickListener)
+        adapter = AllPhotosAdapter(clickListener, setImage = setImage)
         recyclerView = binding.fragmentAllPhotosRecycler.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
         viewModel.allPhotos.observe(viewLifecycleOwner) {
@@ -92,6 +94,10 @@ class AllPhotosFragment : Fragment() {
         val extras = FragmentNavigatorExtras(user to user.transitionName)
         findNavController().navigate(directions, extras)
     })
+
+    private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

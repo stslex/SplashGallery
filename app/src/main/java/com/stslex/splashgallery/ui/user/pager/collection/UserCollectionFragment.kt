@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -40,11 +41,12 @@ class UserCollectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        initScrollListener()
     }
 
     private fun initRecyclerView() {
         recyclerView = binding.userCollectionRecycler
-        adapter = CollectionsAdapter(clickListener, true)
+        adapter = CollectionsAdapter(clickListener, isUser = true)
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
@@ -68,6 +70,28 @@ class UserCollectionFragment : Fragment() {
         val extras = FragmentNavigatorExtras(it to it.transitionName)
         findNavController().navigate(directions, extras)
     })
+
+    private fun initScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                    isScrolling = true
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
+                    isScrolling = false
+                    numPageCollection++
+                    viewModel.setNumCollections(numPageCollection)
+                }
+            }
+        })
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

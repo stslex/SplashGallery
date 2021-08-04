@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 
 class AllPhotosAdapter(
     private val clickListener: ImageClickListener,
-    private val isUser: Boolean = false
+    private val isUser: Boolean = false,
+    private val setImage: SetImageWithGlide
 ) :
     RecyclerView.Adapter<AllPhotosViewHolder>() {
 
@@ -22,7 +24,7 @@ class AllPhotosAdapter(
     }
 
     override fun onBindViewHolder(holder: AllPhotosViewHolder, position: Int) {
-        holder.bind(list[position], isUser)
+        holder.bind(list[position], isUser, setImage)
         holder.setClickListener(clickListener)
     }
 

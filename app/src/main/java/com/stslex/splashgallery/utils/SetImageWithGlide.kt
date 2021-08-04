@@ -2,7 +2,7 @@ package com.stslex.splashgallery.utils
 
 import android.widget.ImageView
 
-class GlideMaker(
+class SetImageWithGlide(
     val makeGlideImage: (
         url: String,
         imageView: ImageView,
@@ -11,7 +11,7 @@ class GlideMaker(
     ) -> Unit
 ) {
 
-    fun makeImage(
+    fun setImage(
         url: String,
         imageView: ImageView,
         needCrop: Boolean,

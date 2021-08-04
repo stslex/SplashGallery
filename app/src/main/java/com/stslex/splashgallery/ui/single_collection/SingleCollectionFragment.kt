@@ -21,9 +21,11 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.utils.Result
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
+import com.stslex.splashgallery.utils.setImageWithRequest
 
 class SingleCollectionFragment : BaseFragment() {
 
@@ -105,7 +107,7 @@ class SingleCollectionFragment : BaseFragment() {
             viewModel.getAllPhotos(id, it)
         }
         recyclerView = binding.fragmentCollectionRecyclerView.fragmentAllPhotosRecyclerView
-        adapter = AllPhotosAdapter(clickListener)
+        adapter = AllPhotosAdapter(clickListener, setImage = setImage)
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
@@ -141,6 +143,10 @@ class SingleCollectionFragment : BaseFragment() {
         val extras = FragmentNavigatorExtras(user to user.transitionName)
         findNavController().navigate(directions, extras)
     })
+
+    private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    }
 
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()
