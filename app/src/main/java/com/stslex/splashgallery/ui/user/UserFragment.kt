@@ -152,11 +152,11 @@ class UserFragment : BaseFragment() {
             (data.total_collections) to UserCollectionFragment()
         )
         val fragmentMap: List<Fragment> = map.filter { it.key != 0 }.values.toList()
-        binding.contentUserContainer.userViewPager.adapter = UserAdapter(this, fragmentMap)
+        binding.userViewPager.adapter = UserAdapter(this, fragmentMap)
 
         TabLayoutMediator(
-            binding.contentUserContainer.userTabLayout,
-            binding.contentUserContainer.userViewPager
+            binding.userTabLayout,
+            binding.userViewPager
         ) { tab, position ->
             when (fragmentMap[position]) {
                 is UserPhotosFragment -> {
@@ -169,7 +169,7 @@ class UserFragment : BaseFragment() {
                     tab.text = "Collection"
                 }
             }
-            binding.contentUserContainer.userViewPager.setCurrentItem(tab.position, true)
+            binding.userViewPager.setCurrentItem(tab.position, true)
         }.attach()
     }
 
@@ -178,14 +178,16 @@ class UserFragment : BaseFragment() {
         activity.setSupportActionBar(binding.userProfileToolbar)
         activity.supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
-            title = username
+            title = ""
         }
+
     }
 
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         username = extras.username
-        binding.userContainerHeadCard.transitionName = username
+        binding.userProfileCard.transitionName = username
+        binding.toolbarUsername.text = username
     }
 
     override fun onDestroyView() {
