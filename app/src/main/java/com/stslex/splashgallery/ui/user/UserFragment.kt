@@ -131,8 +131,8 @@ class UserFragment : BaseFragment() {
                     binding.userHead.userProfileHeadPhotoCount.text =
                         it.data.total_photos.toString()
                     if (it.data.bio == null || it.data.bio == "") {
-                        binding.contentUserContainer.userBio.visibility = View.GONE
-                    } else binding.contentUserContainer.userBio.text = it.data.bio
+                        binding.userBio.visibility = View.GONE
+                    } else binding.userBio.text = it.data.bio
                     setViewPager(it.data)
                 }
                 is Result.Failure -> {
@@ -185,7 +185,7 @@ class UserFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         username = extras.username
-        binding.userCardView.transitionName = username
+        binding.userContainerHeadCard.transitionName = username
     }
 
     override fun onDestroyView() {

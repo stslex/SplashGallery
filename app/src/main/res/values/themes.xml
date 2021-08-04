@@ -16,12 +16,12 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="AppBar">
+    <style name="AppBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:background">@color/transparent</item>
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="Toolbar">
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:background">@color/transparent</item>
     </style>
 
