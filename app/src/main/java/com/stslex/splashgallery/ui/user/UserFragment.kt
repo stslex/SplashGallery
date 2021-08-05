@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
@@ -21,7 +20,6 @@ import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.user.pager.collection.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.likes.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.photos.UserPhotosFragment
-import com.stslex.splashgallery.utils.AppBarStateChangeListener
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
@@ -182,16 +180,6 @@ class UserFragment : BaseFragment() {
             setDisplayHomeAsUpEnabled(true)
             title = username
         }
-        binding.userProfileAppbar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
-            override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
-                if (state == State.EXPANDED) binding.userProfileHeadContainer.visibility =
-                    View.VISIBLE
-                if (state == State.COLLAPSED) binding.userProfileHeadContainer.visibility =
-                    View.INVISIBLE
-                if (state == State.IDLE) binding.userProfileHeadContainer.visibility = View.VISIBLE
-            }
-        })
-
     }
 
     private fun getNavigationArgs() {
