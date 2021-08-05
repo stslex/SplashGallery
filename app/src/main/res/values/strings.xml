@@ -15,6 +15,7 @@
     <string name="label_photos">Photos</string>
     <string name="label_likes">Likes</string>
     <string name="label_download">Download</string>
+    <string name="transition_name_username">username</string>
 
     <!--Integers-->
     <integer name="transition_duration">500</integer>

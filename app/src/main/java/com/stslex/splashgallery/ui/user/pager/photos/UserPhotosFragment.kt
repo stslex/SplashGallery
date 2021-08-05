@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -72,11 +73,15 @@ class UserPhotosFragment : Fragment() {
         recyclerView = binding.userPhotosRecycler
         adapter = AllPhotosAdapter(clickListener, isUser = true, setImage = setImage)
         layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = layoutManager
         viewModel.photos.observe(viewLifecycleOwner) {
             adapter.addItems(it)
         }
+        postponeEnterTransition()
+        recyclerView.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = layoutManager
     }
 
     private val clickListener = ImageClickListener({ imageView, id ->

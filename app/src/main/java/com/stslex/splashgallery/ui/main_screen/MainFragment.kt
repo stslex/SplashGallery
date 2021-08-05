@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
@@ -95,6 +96,10 @@ class MainFragment : BaseFragment() {
             0 to getString(R.string.label_tab_layout_all),
             1 to getString(R.string.label_collections)
         )
+        postponeEnterTransition()
+        binding.mainViewPager.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
         TabLayoutMediator(
             binding.mainTabLayout,
             binding.mainViewPager

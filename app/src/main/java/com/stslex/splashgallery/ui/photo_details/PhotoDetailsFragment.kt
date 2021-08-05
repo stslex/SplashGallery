@@ -67,7 +67,6 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                         binding.singlePhotoCamera.text = exif?.model
                         binding.singlePhotoDimension.text = exif?.exposure_time
                         binding.singlePhotoFocal.text = exif?.focal_length
-                        binding.singlePhotoProfileUsername.transitionName = user.username
                         binding.singlePhotoProfileContainer.setOnClickListener {
                             clickListener.onUserCLick(binding.singlePhotoProfileUsername)
                         }
@@ -116,7 +115,7 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
         findNavController().navigate(directions, extras)
     }, { user ->
         val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavUser(
-            user.transitionName
+            user.text.toString()
         )
         val extras = FragmentNavigatorExtras(user to user.transitionName)
         findNavController().navigate(directions, extras)

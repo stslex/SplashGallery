@@ -1,7 +1,5 @@
 package com.stslex.splashgallery.ui.all_photos
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +12,6 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.MaterialContainerTransform
-import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
@@ -35,17 +31,6 @@ class AllPhotosFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
 
     private var isScrolling = false
-
-
-    @SuppressLint("ResourceType")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
-            duration = getString(R.integer.transition_duration).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

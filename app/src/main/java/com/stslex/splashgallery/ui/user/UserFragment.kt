@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -110,6 +111,7 @@ class UserFragment : BaseFragment() {
 
     private fun setListenersHead() {
         viewModel.getUserInfo(username)
+
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
@@ -145,8 +147,12 @@ class UserFragment : BaseFragment() {
             (data.total_collections) to UserCollectionFragment()
         )
         val fragmentMap: List<Fragment> = map.filter { it.key != 0 }.values.toList()
-        binding.userViewPager.adapter = UserAdapter(this, fragmentMap)
 
+        binding.userViewPager.adapter = UserAdapter(this, fragmentMap)
+        postponeEnterTransition()
+        binding.userViewPager.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
         TabLayoutMediator(
             binding.userTabLayout,
             binding.userViewPager
@@ -178,7 +184,6 @@ class UserFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         username = extras.username
-        binding.userProfileToolbar.transitionName = username
     }
 
     override fun onDestroyView() {
