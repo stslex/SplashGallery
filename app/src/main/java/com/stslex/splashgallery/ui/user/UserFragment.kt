@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.ui.user
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -21,7 +20,6 @@ import com.stslex.splashgallery.ui.user.pager.collection.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.likes.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.photos.UserPhotosFragment
 import com.stslex.splashgallery.utils.Result
-import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 
@@ -33,11 +31,6 @@ class UserFragment : BaseFragment() {
     private val sharedViewModel: UserSharedViewModel by activityViewModels()
 
     private lateinit var username: String
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().applicationContext.appComponent.inject(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

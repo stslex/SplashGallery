@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.ui.single_collection
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -22,7 +21,6 @@ import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -41,11 +39,6 @@ class SingleCollectionFragment : BaseFragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
     private lateinit var titleExtra: String
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        context.applicationContext.appComponent.inject(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,8 +1,11 @@
 package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.utils.BASE_URL
+import com.stslex.splashgallery.utils.cache
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,15 +22,28 @@ class RetrofitModule {
             .build()
 
     @Provides
-    fun providesRetrofitClient(mLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
+    fun providesRetrofitClient(
+        mLoggingInterceptor: HttpLoggingInterceptor,
+        interceptor: Interceptor
+    ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(mLoggingInterceptor)
+            .addInterceptor(interceptor)
+            .cache(Cache(cache, 20 * 1024 * 1024L))
             .build()
 
     @Provides
-    fun providesLoggingInterceptor(): HttpLoggingInterceptor {
-        val interseptor = HttpLoggingInterceptor()
-        interseptor.level = HttpLoggingInterceptor.Level.BODY
-        return interseptor
+    fun providesLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    @Provides
+    fun providesOnlineInterceptor(): Interceptor = Interceptor { chain ->
+        val response = chain.proceed(chain.request())
+        val maxAge = 60 * 60 * 3
+        response.newBuilder()
+            .header("Cache-Control", "public, max-age=$maxAge")
+            .removeHeader("Pragma")
+            .build()
     }
 }

@@ -35,7 +35,8 @@
                     android:layout_height="96dp"
                     android:contentDescription="@string/description_image"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/ic_launcher_foreground" />
 
                 <LinearLayout
                     android:id="@+id/user_profile_head_fields"

@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.ui.collections.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -8,6 +9,7 @@ import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
+import com.stslex.splashgallery.utils.photos
 
 class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {
@@ -15,12 +17,13 @@ class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding)
     private lateinit var clickListener: CollectionClickListener
     private lateinit var title: String
 
+    @SuppressLint("SetTextI18n")
     fun bind(collection: CollectionModel, isUser: Boolean, setImage: SetImageWithGlide) {
         title = collection.title
         binding.itemCollectionAuthorName.transitionName = collection.user?.username
         binding.itemCollectionImage.transitionName = collection.id
         binding.itemCollectionTitle.text = title
-        binding.itemCollectionNumber.text = "${collection.total_photos} Photos"
+        binding.itemCollectionNumber.text = "${collection.total_photos} $photos"
         setImage.makeGlideImage(
             collection.cover_photo?.urls!!.regular,
             binding.itemCollectionImage,

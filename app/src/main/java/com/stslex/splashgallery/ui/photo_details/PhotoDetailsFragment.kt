@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.ui.photo_details
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.utils.Result
-import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -27,11 +25,6 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
 
     private lateinit var id: String
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        context.applicationContext.appComponent.inject(this)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

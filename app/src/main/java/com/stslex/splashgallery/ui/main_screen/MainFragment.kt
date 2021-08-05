@@ -1,7 +1,6 @@
 package com.stslex.splashgallery.ui.main_screen
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
 import com.stslex.splashgallery.utils.Result
-import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 
 class MainFragment : BaseFragment() {
@@ -26,11 +24,6 @@ class MainFragment : BaseFragment() {
     private val viewModel: MainViewModel by viewModels { viewModelFactory.get() }
 
     private val sharedViewModel: PagerSharedViewModel by activityViewModels()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        context.applicationContext.appComponent.inject(this)
-    }
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
