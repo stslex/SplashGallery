@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.single_photo_screen
+package com.stslex.splashgallery.ui.photo_details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SinglePhotoViewModel @Inject constructor(private val repository: PhotoRepository) :
+class PhotoDetailsViewModel @Inject constructor(private val repository: PhotoRepository) :
     ViewModel() {
     private var _currentPhoto = MutableLiveData<Result<ImageModel>>()
     val currentPhoto: LiveData<Result<ImageModel>> get() = _currentPhoto

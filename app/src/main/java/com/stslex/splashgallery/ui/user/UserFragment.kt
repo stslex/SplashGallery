@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
@@ -20,6 +21,7 @@ import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.user.pager.collection.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.likes.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.photos.UserPhotosFragment
+import com.stslex.splashgallery.utils.AppBarStateChangeListener
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
@@ -125,10 +127,10 @@ class UserFragment : BaseFragment() {
                         binding.userProfileImage,
                         needCircleCrop = true
                     )
-                    binding.userHead.userProfileHeadCollectionsCount.text =
+                    binding.userProfileHeadCollectionsCount.text =
                         it.data.total_collections.toString()
-                    binding.userHead.userProfileHeadLikesCount.text = it.data.total_likes.toString()
-                    binding.userHead.userProfileHeadPhotoCount.text =
+                    binding.userProfileHeadLikesCount.text = it.data.total_likes.toString()
+                    binding.userProfileHeadPhotoCount.text =
                         it.data.total_photos.toString()
                     if (it.data.bio == null || it.data.bio == "") {
                         binding.userBio.visibility = View.GONE
@@ -178,15 +180,24 @@ class UserFragment : BaseFragment() {
         activity.setSupportActionBar(binding.userProfileToolbar)
         activity.supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
-            title = ""
+            title = username
         }
+        binding.userProfileAppbar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+            override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
+                if (state == State.EXPANDED) binding.userProfileHeadContainer.visibility =
+                    View.VISIBLE
+                if (state == State.COLLAPSED) binding.userProfileHeadContainer.visibility =
+                    View.INVISIBLE
+                if (state == State.IDLE) binding.userProfileHeadContainer.visibility = View.VISIBLE
+            }
+        })
+
     }
 
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         username = extras.username
-        binding.userProfileCard.transitionName = username
-        binding.toolbarUsername.text = username
+        binding.userProfileToolbar.transitionName = username
     }
 
     override fun onDestroyView() {

@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.single_photo_screen
+package com.stslex.splashgallery.ui.photo_details
 
 import android.content.Context
 import android.graphics.Color
@@ -13,18 +13,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
-import com.stslex.splashgallery.databinding.FragmentSinglePhotoBinding
+import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.appComponent
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
 
-class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
+class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
 
-    private var _binding: FragmentSinglePhotoBinding? = null
+    private var _binding: FragmentPhotoDetailsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SinglePhotoViewModel by viewModels { viewModelFactory.get() }
+    private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
 
     private lateinit var id: String
 
@@ -46,7 +46,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSinglePhotoBinding.inflate(inflater, container, false)
+        _binding = FragmentPhotoDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -95,7 +95,7 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
 
     private fun getNavigationArgs() {
         postponeEnterTransition()
-        val extras: SinglePhotoFragmentArgs by navArgs()
+        val extras: PhotoDetailsFragmentArgs by navArgs()
         id = extras.id
         binding.singlePhotoImage.transitionName = extras.transitionName
         setImageWithRequest(url = extras.transitionName, binding.singlePhotoImage, true)
@@ -115,14 +115,14 @@ class SinglePhotoFragment : BaseFragment(), View.OnClickListener {
     }
 
     private val clickListener = ImageClickListener({ imageView, id ->
-        val directions = SinglePhotoFragmentDirections.actionNavSinglePhotoToNavSingleImage(
+        val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
             transitionName = imageView.transitionName,
             id = id
         )
         val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
         findNavController().navigate(directions, extras)
     }, { user ->
-        val directions = SinglePhotoFragmentDirections.actionNavSinglePhotoToNavUser(
+        val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavUser(
             user.transitionName
         )
         val extras = FragmentNavigatorExtras(user to user.transitionName)
