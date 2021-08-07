@@ -75,7 +75,6 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                                 is Result.Loading -> {
                                 }
                             }
-
                         }
                         binding.singlePhotoProfileUsername.text = user.username
                         binding.singlePhotoAperture.text = exif?.aperture

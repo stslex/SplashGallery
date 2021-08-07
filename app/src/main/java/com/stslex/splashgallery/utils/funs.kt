@@ -28,11 +28,12 @@ fun Fragment.startDownload(url: String, fileName: String) {
     val downloadManager = requireActivity().getSystemService(DOWNLOAD_SERVICE) as DownloadManager
     val request = DownloadManager.Request(Uri.parse(url))
     request.setTitle("Downloading")
+        .setDescription("Downloading image...")
         .setDestinationInExternalFilesDir(
             requireContext(),
             Environment.DIRECTORY_DOWNLOADS,
             fileName
         )
-        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
     downloadManager.enqueue(request)
 }
