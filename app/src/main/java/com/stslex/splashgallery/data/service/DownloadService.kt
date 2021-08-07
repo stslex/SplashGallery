@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.data.service
 
+import com.stslex.splashgallery.data.model.remote.RemoteDownloadModel
 import com.stslex.splashgallery.utils.GET_DOWNLOAD
 import com.stslex.splashgallery.utils.GET_PHOTOS
 import com.stslex.splashgallery.utils.QUERY_API_KEY
@@ -13,5 +14,5 @@ interface DownloadService {
     suspend fun downloadPhoto(
         @Path("id") id: String,
         @Query(QUERY_API_KEY) api_key: String
-    ): Response<String>
+    ): Response<RemoteDownloadModel>
 }

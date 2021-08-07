@@ -2,6 +2,7 @@ package com.stslex.splashgallery.ui.photo_details
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,10 +64,18 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                             binding.singlePhotoProfileImage,
                             needCircleCrop = true
                         )
-                        viewModel.downloadUrl.observe(viewLifecycleOwner) { urlDownload ->
-                            urlDownload?.let { url ->
-                                startDownload(url, id)
+                        viewModel.downloadUrl.observe(viewLifecycleOwner) { urlDownloader ->
+                            when (urlDownloader) {
+                                is Result.Success -> {
+                                    startDownload(urlDownloader.data.url, id)
+                                }
+                                is Result.Failure -> {
+                                    Log.i("DownloadStart", urlDownloader.exception)
+                                }
+                                is Result.Loading -> {
+                                }
                             }
+
                         }
                         binding.singlePhotoProfileUsername.text = user.username
                         binding.singlePhotoAperture.text = exif?.aperture
@@ -82,10 +91,8 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                     }
                 }
                 is Result.Failure -> {
-
                 }
                 is Result.Loading -> {
-
                 }
             }
         }
