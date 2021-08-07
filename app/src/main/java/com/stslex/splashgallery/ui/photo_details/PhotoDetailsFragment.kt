@@ -17,6 +17,7 @@ import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
+import com.stslex.splashgallery.utils.startDownload
 
 class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
 
@@ -62,6 +63,11 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                             binding.singlePhotoProfileImage,
                             needCircleCrop = true
                         )
+                        viewModel.downloadUrl.observe(viewLifecycleOwner) { urlDownload ->
+                            urlDownload?.let { url ->
+                                startDownload(url, id)
+                            }
+                        }
                         binding.singlePhotoProfileUsername.text = user.username
                         binding.singlePhotoAperture.text = exif?.aperture
                         binding.singlePhotoCamera.text = exif?.model
@@ -71,7 +77,7 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                             clickListener.onUserCLick(binding.singlePhotoProfileUsername)
                         }
                         binding.singlePhotoDownload.setOnClickListener {
-
+                            viewModel.downloadPhoto(id)
                         }
                     }
                 }

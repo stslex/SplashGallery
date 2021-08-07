@@ -25,7 +25,7 @@ interface ViewModelModule {
     @IntoMap
     @Binds
     @ViewModelKey(PhotoDetailsViewModel::class)
-    fun bindsSinglePhotoViewModel(viewModel: PhotoDetailsViewModel): ViewModel
+    fun bindsPhotoDetailsViewModel(viewModel: PhotoDetailsViewModel): ViewModel
 
     @IntoMap
     @Binds
