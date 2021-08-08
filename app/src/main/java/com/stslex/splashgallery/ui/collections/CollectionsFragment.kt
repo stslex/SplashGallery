@@ -17,6 +17,7 @@ import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.main_screen.MainSharedCollectionsViewModel
+import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager_view_models.UserCollectionSharedViewModel
@@ -57,7 +58,7 @@ class CollectionsFragment : Fragment() {
                 viewModel.initRecyclerView()
                 viewModel.initScrollListener()
             }
-            is UserCollectionFragment -> {
+            is UserCollectionFragment, is UserFragment -> {
                 val viewModel: UserCollectionSharedViewModel by activityViewModels()
                 viewModel.setNumberCollections(pagesNumCollections)
                 viewModel.initRecyclerView(isUser = true)
@@ -67,7 +68,11 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
-        adapter = CollectionsAdapter(this@CollectionsFragment.clickListener, setImage = setImage)
+        adapter = CollectionsAdapter(
+            this@CollectionsFragment.clickListener,
+            setImage = setImage,
+            isUser = isUser
+        )
         recyclerView = binding.fragmentCollectionsRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

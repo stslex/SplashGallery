@@ -39,6 +39,7 @@ class AllPhotosFragment : Fragment() {
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
+    private var pagesNumAllPhotos = 1
 
     private var isScrolling = false
 
@@ -81,6 +82,7 @@ class AllPhotosFragment : Fragment() {
     }
 
     private fun BaseSharedPhotosViewModel.initRecyclerView(isUser: Boolean = false) {
+        pagesNumAllPhotos = 1
         setNumberPhotos(pagesNumAllPhotos)
         adapter = AllPhotosAdapter(
             this@AllPhotosFragment.clickListener,
@@ -169,10 +171,6 @@ class AllPhotosFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private var pagesNumAllPhotos = 1
     }
 
 }

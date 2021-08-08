@@ -27,7 +27,7 @@ import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 
-class UserFragment : BaseFragment(), View.OnClickListener {
+class UserFragment : BaseFragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
@@ -61,30 +61,11 @@ class UserFragment : BaseFragment(), View.OnClickListener {
         getNavigationArgs()
         setToolbar()
         setListenersHead()
-        setListeners()
     }
 
-    private fun setListeners() {
-        sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
-            viewModel.getUserContentPhotos(username, it)
-        }
+    private fun setLikesListeners() {
         sharedLikesViewModel.numberPhotos.observe(viewLifecycleOwner) {
             viewModel.getUserContentLikes(username, it)
-        }
-        sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
-            viewModel.getUserContentCollections(username, it)
-        }
-        viewModel.photos.observe(viewLifecycleOwner) {
-            when (it) {
-                is Result.Success -> {
-                    sharedPhotosViewModel.setPhotos(it.data)
-                }
-                is Result.Failure -> {
-                    Log.e("User:Photos:", it.exception)
-                }
-                is Result.Loading -> {
-                }
-            }
         }
         viewModel.likes.observe(viewLifecycleOwner) {
             when (it) {
@@ -98,6 +79,30 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
                 }
             }
+        }
+    }
+
+    private fun setPhotoListeners() {
+        sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
+            viewModel.getUserContentPhotos(username, it)
+        }
+        viewModel.photos.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Success -> {
+                    sharedPhotosViewModel.setPhotos(it.data)
+                }
+                is Result.Failure -> {
+                    Log.e("User:Photos:", it.exception)
+                }
+                is Result.Loading -> {
+                }
+            }
+        }
+    }
+
+    private fun setCollectionListeners() {
+        sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
+            viewModel.getUserContentCollections(username, it)
         }
         viewModel.collections.observe(viewLifecycleOwner) {
             when (it) {
@@ -116,7 +121,6 @@ class UserFragment : BaseFragment(), View.OnClickListener {
 
     private fun setListenersHead() {
         viewModel.getUserInfo(username)
-
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
@@ -165,12 +169,15 @@ class UserFragment : BaseFragment(), View.OnClickListener {
             when (fragmentMap[position]) {
                 is UserPhotosFragment -> {
                     tab.text = "Photos"
+                    setPhotoListeners()
                 }
                 is UserLikesFragment -> {
                     tab.text = "Likes"
+                    setLikesListeners()
                 }
                 is UserCollectionFragment -> {
                     tab.text = "Collection"
+                    setCollectionListeners()
                 }
             }
             binding.userViewPager.setCurrentItem(tab.position, true)
@@ -194,39 +201,5 @@ class UserFragment : BaseFragment(), View.OnClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onClick(p0: View?) {
-        when (p0) {
-            binding.userLinearLayoutLikes -> {
-                binding.userTabLayout.selectTab(
-                    binding.userTabLayout.getTabAt(
-                        fragmentMap.indexOf(
-                            UserLikesFragment()
-                        )
-                    )
-                )
-            }
-            binding.userLinearLayoutCollections -> {
-                binding.userTabLayout.selectTab(
-                    binding.userTabLayout.getTabAt(
-                        fragmentMap.indexOf(
-                            UserCollectionFragment()
-                        )
-                    )
-                )
-
-            }
-            binding.userLinearLayoutPhotos -> {
-                binding.userTabLayout.selectTab(
-                    binding.userTabLayout.getTabAt(
-                        fragmentMap.indexOf(
-                            UserPhotosFragment()
-                        )
-                    )
-                )
-
-            }
-        }
     }
 }
