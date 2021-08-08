@@ -17,9 +17,9 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
-import com.stslex.splashgallery.ui.user.pager.collection.UserCollectionFragment
-import com.stslex.splashgallery.ui.user.pager.likes.UserLikesFragment
-import com.stslex.splashgallery.ui.user.pager.photos.UserPhotosFragment
+import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
+import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
+import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -30,6 +30,8 @@ class UserFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: UserSharedViewModel by activityViewModels()
+    private val sharedPhotosViewModel: UserPhotosSharedViewModel by activityViewModels()
+    private val sharedLikesViewModel: UserLikesSharedViewModel by activityViewModels()
 
     private lateinit var username: String
 
@@ -60,10 +62,10 @@ class UserFragment : BaseFragment() {
     }
 
     private fun setListeners() {
-        sharedViewModel.numPhotos.observe(viewLifecycleOwner) {
+        sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
             viewModel.getUserContentPhotos(username, it)
         }
-        sharedViewModel.numLikes.observe(viewLifecycleOwner) {
+        sharedLikesViewModel.numberPhotos.observe(viewLifecycleOwner) {
             viewModel.getUserContentLikes(username, it)
         }
         sharedViewModel.numCollections.observe(viewLifecycleOwner) {
@@ -72,7 +74,7 @@ class UserFragment : BaseFragment() {
         viewModel.photos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setPhotos(it.data)
+                    sharedPhotosViewModel.setPhotos(it.data)
                 }
                 is Result.Failure -> {
                     Log.e("User:Photos:", it.exception)
@@ -84,7 +86,7 @@ class UserFragment : BaseFragment() {
         viewModel.likes.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setLikes(it.data)
+                    sharedLikesViewModel.setPhotos(it.data)
                 }
                 is Result.Failure -> {
                     Log.e("User:Likes:", it.exception)

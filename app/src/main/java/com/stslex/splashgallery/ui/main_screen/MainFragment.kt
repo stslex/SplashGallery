@@ -23,6 +23,7 @@ class MainFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels { viewModelFactory.get() }
+    private val sharedPhotosViewModel: MainSharedViewModel by activityViewModels()
 
     private val sharedViewModel: PagerSharedViewModel by activityViewModels()
 
@@ -51,7 +52,7 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setViewModelListener() {
-        sharedViewModel.pageNumberAllPhotos.observe(viewLifecycleOwner) {
+        sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
             viewModel.getAllPhotos(it)
         }
         sharedViewModel.pageNumberCollections.observe(viewLifecycleOwner) {
@@ -60,7 +61,7 @@ class MainFragment : BaseFragment() {
         viewModel.allPhotos.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setAllPhotos(it.data)
+                    sharedPhotosViewModel.setPhotos(it.data)
                     binding.mainFragmentProgressBar.visibility = View.GONE
                 }
                 is Result.Failure -> {

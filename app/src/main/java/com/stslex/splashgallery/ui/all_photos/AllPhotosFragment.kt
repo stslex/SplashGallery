@@ -8,15 +8,23 @@ import android.widget.AbsListView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
+import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
+import com.stslex.splashgallery.ui.main_screen.MainSharedViewModel
+import com.stslex.splashgallery.ui.user.UserFragmentDirections
+import com.stslex.splashgallery.ui.user.UserLikesSharedViewModel
+import com.stslex.splashgallery.ui.user.UserPhotosSharedViewModel
+import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
+import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.base.BaseSharedPhotosViewModel
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
 
@@ -24,7 +32,6 @@ class AllPhotosFragment : Fragment() {
 
     private var _binding: FragmentAllPhotosBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PagerSharedViewModel by activityViewModels()
 
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var recyclerView: RecyclerView
@@ -37,17 +44,40 @@ class AllPhotosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
-        viewModel.setPageNumberAppPhotos(pagesNumAllPhotos)
-        initRecyclerView()
-        initScrollListener()
+        initFragment()
         return binding.root
     }
 
-    private fun initRecyclerView() {
-        adapter = AllPhotosAdapter(clickListener, setImage = setImage)
+    private fun initFragment() {
+        when (parentFragment) {
+            is MainFragment -> {
+                val viewModel: MainSharedViewModel by activityViewModels()
+                viewModel.initRecyclerView()
+                viewModel.initScrollListener()
+            }
+            is UserPhotosFragment -> {
+                val viewModel: UserPhotosSharedViewModel by activityViewModels()
+                viewModel.initRecyclerView(true)
+                viewModel.initScrollListener()
+            }
+            is UserLikesFragment -> {
+                val viewModel: UserLikesSharedViewModel by activityViewModels()
+                viewModel.initRecyclerView()
+                viewModel.initScrollListener()
+            }
+        }
+    }
+
+    private fun BaseSharedPhotosViewModel.initRecyclerView(isUser: Boolean = false) {
+        setNumberPhotos(pagesNumAllPhotos)
+        adapter = AllPhotosAdapter(
+            this@AllPhotosFragment.clickListener,
+            setImage = setImage,
+            isUser = isUser
+        )
         recyclerView = binding.fragmentAllPhotosRecycler.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
-        viewModel.allPhotos.observe(viewLifecycleOwner) {
+        photos.observe(viewLifecycleOwner) {
             adapter.addItems(it)
         }
         postponeEnterTransition()
@@ -58,7 +88,7 @@ class AllPhotosFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    private fun initScrollListener() {
+    private fun BaseSharedPhotosViewModel.initScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -74,26 +104,44 @@ class AllPhotosFragment : Fragment() {
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
                     pagesNumAllPhotos++
-                    viewModel.setPageNumberAppPhotos(pagesNumAllPhotos)
+                    setNumberPhotos(pagesNumAllPhotos)
                 }
             }
         })
     }
 
-    private val clickListener = ImageClickListener({ imageView, id ->
-        val directions = MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-            imageView.transitionName,
-            id
-        )
-        val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
-        findNavController().navigate(directions, extras)
-    }, { user ->
-        val directions = MainFragmentDirections.actionNavHomeToNavUser(
-            user.transitionName
-        )
-        val extras = FragmentNavigatorExtras(user to user.transitionName)
-        findNavController().navigate(directions, extras)
-    })
+
+    private val Fragment.clickListener: ImageClickListener
+        get() = ImageClickListener({ imageView, id ->
+            val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
+            val directions: NavDirections? = when (parentFragment) {
+                is MainFragment -> MainFragmentDirections.actionNavHomeToNavSinglePhoto(
+                    imageView.transitionName,
+                    id
+                )
+                is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserToNavSinglePhoto(
+                    imageView.transitionName,
+                    id
+                )
+                else -> null
+            }
+            directions?.let {
+                findNavController().navigate(it, extras)
+            }
+
+        }, { user ->
+            val extras = FragmentNavigatorExtras(user to user.transitionName)
+            val directions: NavDirections? = when (parentFragment) {
+                is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(user.transitionName)
+                is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserSelf(
+                    user.transitionName
+                )
+                else -> null
+            }
+            directions?.let {
+                findNavController().navigate(it, extras)
+            }
+        })
 
     private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
         setImageWithRequest(url, imageView, needCrop, needCircleCrop)
