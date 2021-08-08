@@ -23,9 +23,8 @@ class MainFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels { viewModelFactory.get() }
-    private val sharedPhotosViewModel: MainSharedViewModel by activityViewModels()
-
-    private val sharedViewModel: PagerSharedViewModel by activityViewModels()
+    private val sharedPhotosViewModel: MainSharedPhotosViewModel by activityViewModels()
+    private val sharedCollectionViewModel: MainSharedCollectionsViewModel by activityViewModels()
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +54,7 @@ class MainFragment : BaseFragment() {
         sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
             viewModel.getAllPhotos(it)
         }
-        sharedViewModel.pageNumberCollections.observe(viewLifecycleOwner) {
+        sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
             viewModel.getAllCollections(it)
         }
         viewModel.allPhotos.observe(viewLifecycleOwner) {
@@ -77,7 +76,7 @@ class MainFragment : BaseFragment() {
         viewModel.allCollections.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setCollection(it.data)
+                    sharedCollectionViewModel.setCollection(it.data)
                     binding.mainFragmentProgressBar.visibility = View.GONE
                 }
                 is Result.Failure -> {

@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_collection_fragment_container"
+    android:name="com.stslex.splashgallery.ui.all_photos.AllPhotosFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.pager.UserCollectionFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_collection_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_recycler_collections" />
-</FrameLayout>
+    tools:context=".ui.user.pager.UserCollectionFragment" />

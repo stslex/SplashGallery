@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.user
+package com.stslex.splashgallery.ui.user.pager_view_models
 
 import androidx.lifecycle.LiveData
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
@@ -9,5 +9,4 @@ class UserPhotosSharedViewModel : BaseSharedPhotosViewModel() {
         get() = super.photos
     override val numberPhotos: LiveData<Int>
         get() = super.numberPhotos
-
 }

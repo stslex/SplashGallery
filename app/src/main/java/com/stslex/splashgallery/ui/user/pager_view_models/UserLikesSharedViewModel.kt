@@ -1,13 +1,12 @@
-package com.stslex.splashgallery.ui.main_screen
+package com.stslex.splashgallery.ui.user.pager_view_models
 
 import androidx.lifecycle.LiveData
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.utils.base.BaseSharedPhotosViewModel
 
-class MainSharedViewModel : BaseSharedPhotosViewModel() {
+class UserLikesSharedViewModel : BaseSharedPhotosViewModel() {
     override val photos: LiveData<List<ImageModel>>
         get() = super.photos
     override val numberPhotos: LiveData<Int>
         get() = super.numberPhotos
-
 }

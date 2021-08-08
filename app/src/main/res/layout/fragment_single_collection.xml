@@ -20,16 +20,13 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/single_collection_fragment_container"
+        android:name="com.stslex.splashgallery.ui.all_photos.AllPhotosFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_app_bar">
-
-        <include
-            android:id="@+id/fragment_collection_recycler_view"
-            layout="@layout/recycler_all_photos" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/main_app_bar"
+        tools:context=".ui.user.pager.UserLikesFragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

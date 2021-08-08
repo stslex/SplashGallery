@@ -17,12 +17,15 @@ import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.main_screen.MainSharedViewModel
+import com.stslex.splashgallery.ui.main_screen.MainSharedPhotosViewModel
+import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
+import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
+import com.stslex.splashgallery.ui.single_collection.SingleCollectionSharedViewModel
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
-import com.stslex.splashgallery.ui.user.UserLikesSharedViewModel
-import com.stslex.splashgallery.ui.user.UserPhotosSharedViewModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.ui.user.pager_view_models.UserLikesSharedViewModel
+import com.stslex.splashgallery.ui.user.pager_view_models.UserPhotosSharedViewModel
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseSharedPhotosViewModel
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
@@ -51,7 +54,7 @@ class AllPhotosFragment : Fragment() {
     private fun initFragment() {
         when (parentFragment) {
             is MainFragment -> {
-                val viewModel: MainSharedViewModel by activityViewModels()
+                val viewModel: MainSharedPhotosViewModel by activityViewModels()
                 viewModel.initRecyclerView()
                 viewModel.initScrollListener()
             }
@@ -62,6 +65,11 @@ class AllPhotosFragment : Fragment() {
             }
             is UserLikesFragment -> {
                 val viewModel: UserLikesSharedViewModel by activityViewModels()
+                viewModel.initRecyclerView()
+                viewModel.initScrollListener()
+            }
+            is SingleCollectionFragment -> {
+                val viewModel: SingleCollectionSharedViewModel by activityViewModels()
                 viewModel.initRecyclerView()
                 viewModel.initScrollListener()
             }
@@ -123,6 +131,10 @@ class AllPhotosFragment : Fragment() {
                     imageView.transitionName,
                     id
                 )
+                is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
+                    imageView.transitionName,
+                    id
+                )
                 else -> null
             }
             directions?.let {
@@ -134,6 +146,9 @@ class AllPhotosFragment : Fragment() {
             val directions: NavDirections? = when (parentFragment) {
                 is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(user.transitionName)
                 is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserSelf(
+                    user.transitionName
+                )
+                is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavUser(
                     user.transitionName
                 )
                 else -> null

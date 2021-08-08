@@ -20,6 +20,9 @@ import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.ui.user.pager_view_models.UserCollectionSharedViewModel
+import com.stslex.splashgallery.ui.user.pager_view_models.UserLikesSharedViewModel
+import com.stslex.splashgallery.ui.user.pager_view_models.UserPhotosSharedViewModel
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -29,7 +32,7 @@ class UserFragment : BaseFragment() {
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
-    private val sharedViewModel: UserSharedViewModel by activityViewModels()
+    private val sharedCollectionViewModel: UserCollectionSharedViewModel by activityViewModels()
     private val sharedPhotosViewModel: UserPhotosSharedViewModel by activityViewModels()
     private val sharedLikesViewModel: UserLikesSharedViewModel by activityViewModels()
 
@@ -68,7 +71,7 @@ class UserFragment : BaseFragment() {
         sharedLikesViewModel.numberPhotos.observe(viewLifecycleOwner) {
             viewModel.getUserContentLikes(username, it)
         }
-        sharedViewModel.numCollections.observe(viewLifecycleOwner) {
+        sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
             viewModel.getUserContentCollections(username, it)
         }
         viewModel.photos.observe(viewLifecycleOwner) {
@@ -99,7 +102,7 @@ class UserFragment : BaseFragment() {
         viewModel.collections.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    sharedViewModel.setCollections(it.data)
+                    sharedCollectionViewModel.setCollection(it.data)
                 }
                 is Result.Failure -> {
                     Log.e("User:Failure:", it.exception)

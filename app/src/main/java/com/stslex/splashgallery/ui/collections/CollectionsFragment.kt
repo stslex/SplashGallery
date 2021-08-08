@@ -7,15 +7,21 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
+import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.main_screen.PagerSharedViewModel
+import com.stslex.splashgallery.ui.main_screen.MainSharedCollectionsViewModel
+import com.stslex.splashgallery.ui.user.UserFragmentDirections
+import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
+import com.stslex.splashgallery.ui.user.pager_view_models.UserCollectionSharedViewModel
 import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.base.BaseSharedCollectionsViewModel
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
 
@@ -23,7 +29,6 @@ class CollectionsFragment : Fragment() {
 
     private var _binding: FragmentCollectionsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PagerSharedViewModel by activityViewModels()
 
     private lateinit var adapter: CollectionsAdapter
     private lateinit var recyclerView: RecyclerView
@@ -41,23 +46,40 @@ class CollectionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.setPageNumberCollections(pagesNumCollections)
-        initRecyclerView()
-        initScrollListener()
+        initFragment()
+
     }
 
-    private fun initRecyclerView() {
-        adapter = CollectionsAdapter(clickListener, setImage = setImage)
+    private fun initFragment() {
+        when (parentFragment) {
+            is MainFragment -> {
+                val viewModel: MainSharedCollectionsViewModel by activityViewModels()
+                viewModel.setNumberCollections(pagesNumCollections)
+                viewModel.initRecyclerView()
+                viewModel.initScrollListener()
+            }
+            is UserCollectionFragment -> {
+                val viewModel: UserCollectionSharedViewModel by activityViewModels()
+                viewModel.setNumberCollections(pagesNumCollections)
+                viewModel.initRecyclerView()
+                viewModel.initScrollListener()
+            }
+        }
+    }
+
+
+    private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
+        adapter = CollectionsAdapter(this@CollectionsFragment.clickListener, setImage = setImage)
         recyclerView = binding.fragmentCollectionsRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
-        viewModel.collection.observe(viewLifecycleOwner) {
+        collection.observe(viewLifecycleOwner) {
             adapter.addItems(it)
         }
     }
 
-    private fun initScrollListener() {
+    private fun BaseSharedCollectionsViewModel.initScrollListener() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -73,26 +95,44 @@ class CollectionsFragment : Fragment() {
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
                     pagesNumCollections++
-                    viewModel.setPageNumberCollections(pagesNumCollections)
+                    setNumberCollections(pagesNumCollections)
                 }
             }
         })
     }
 
-    private val clickListener = CollectionClickListener({ imageView, title ->
-        val directions = MainFragmentDirections.actionNavHomeToNavSingleCollection(
-            transitionName = imageView.transitionName,
-            title = title
-        )
-        val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
-        findNavController().navigate(directions, extras)
-    }, { user ->
-        val directions = MainFragmentDirections.actionNavHomeToNavUser(
-            user.transitionName
-        )
-        val extras = FragmentNavigatorExtras(user to user.transitionName)
-        findNavController().navigate(directions, extras)
-    })
+    private val Fragment.clickListener: CollectionClickListener
+        get() = CollectionClickListener({ imageView, title ->
+            val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
+            val directions: NavDirections? = when (parentFragment) {
+                is MainFragment -> MainFragmentDirections.actionNavHomeToNavSingleCollection(
+                    transitionName = imageView.transitionName,
+                    title = title
+                )
+                is UserCollectionFragment -> UserFragmentDirections.actionNavUserToNavSingleCollection(
+                    transitionName = imageView.transitionName,
+                    title = title
+                )
+                else -> null
+            }
+            directions?.let {
+                findNavController().navigate(it, extras)
+            }
+        }, { user ->
+            val extras = FragmentNavigatorExtras(user to user.transitionName)
+            val directions: NavDirections? = when (parentFragment) {
+                is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(
+                    username = user.transitionName
+                )
+                is UserCollectionFragment -> UserFragmentDirections.actionNavUserSelf(
+                    username = user.transitionName
+                )
+                else -> null
+            }
+            directions?.let {
+                findNavController().navigate(it, extras)
+            }
+        })
 
     private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
         setImageWithRequest(url, imageView, needCrop, needCircleCrop)
