@@ -27,7 +27,7 @@ import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 
-class UserFragment : BaseFragment() {
+class UserFragment : BaseFragment(), View.OnClickListener {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
@@ -35,7 +35,7 @@ class UserFragment : BaseFragment() {
     private val sharedCollectionViewModel: UserCollectionSharedViewModel by activityViewModels()
     private val sharedPhotosViewModel: UserPhotosSharedViewModel by activityViewModels()
     private val sharedLikesViewModel: UserLikesSharedViewModel by activityViewModels()
-
+    private lateinit var fragmentMap: List<Fragment>
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,7 +151,7 @@ class UserFragment : BaseFragment() {
             (data.total_likes ?: 0) to UserLikesFragment(),
             (data.total_collections) to UserCollectionFragment()
         )
-        val fragmentMap: List<Fragment> = map.filter { it.key != 0 }.values.toList()
+        fragmentMap = map.filter { it.key != 0 }.values.toList()
 
         binding.userViewPager.adapter = UserAdapter(this, fragmentMap)
         postponeEnterTransition()
@@ -194,5 +194,39 @@ class UserFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClick(p0: View?) {
+        when (p0) {
+            binding.userLinearLayoutLikes -> {
+                binding.userTabLayout.selectTab(
+                    binding.userTabLayout.getTabAt(
+                        fragmentMap.indexOf(
+                            UserLikesFragment()
+                        )
+                    )
+                )
+            }
+            binding.userLinearLayoutCollections -> {
+                binding.userTabLayout.selectTab(
+                    binding.userTabLayout.getTabAt(
+                        fragmentMap.indexOf(
+                            UserCollectionFragment()
+                        )
+                    )
+                )
+
+            }
+            binding.userLinearLayoutPhotos -> {
+                binding.userTabLayout.selectTab(
+                    binding.userTabLayout.getTabAt(
+                        fragmentMap.indexOf(
+                            UserPhotosFragment()
+                        )
+                    )
+                )
+
+            }
+        }
     }
 }

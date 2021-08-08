@@ -22,7 +22,13 @@ fun Activity.setResources() {
     likes = getString(R.string.label_likes)
     collections = getString(R.string.label_collections)
     cache = cacheDir
+    unknown = getString(R.string.string_unknown)
 }
+
+fun String?.isNullCheck(): String =
+    if (this == null || this == "") {
+        unknown
+    } else this
 
 fun Fragment.startDownload(url: String, fileName: String) {
     val downloadManager = requireActivity().getSystemService(DOWNLOAD_SERVICE) as DownloadManager

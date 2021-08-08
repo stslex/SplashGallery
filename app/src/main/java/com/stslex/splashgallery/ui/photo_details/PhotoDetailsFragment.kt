@@ -17,6 +17,7 @@ import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
+import com.stslex.splashgallery.utils.isNullCheck
 import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
 
@@ -55,6 +56,18 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
 
     private fun setListener() {
         viewModel.getCurrentPhoto(id)
+        viewModel.downloadUrl.observe(viewLifecycleOwner) { urlDownloader ->
+            when (urlDownloader) {
+                is Result.Success -> {
+                    startDownload(urlDownloader.data.url, id)
+                }
+                is Result.Failure -> {
+                    Log.i("DownloadStart", urlDownloader.exception)
+                }
+                is Result.Loading -> {
+                }
+            }
+        }
         viewModel.currentPhoto.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
@@ -64,23 +77,11 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                             binding.singlePhotoProfileImage,
                             needCircleCrop = true
                         )
-                        viewModel.downloadUrl.observe(viewLifecycleOwner) { urlDownloader ->
-                            when (urlDownloader) {
-                                is Result.Success -> {
-                                    startDownload(urlDownloader.data.url, id)
-                                }
-                                is Result.Failure -> {
-                                    Log.i("DownloadStart", urlDownloader.exception)
-                                }
-                                is Result.Loading -> {
-                                }
-                            }
-                        }
                         binding.singlePhotoProfileUsername.text = user.username
-                        binding.singlePhotoAperture.text = exif?.aperture
-                        binding.singlePhotoCamera.text = exif?.model
-                        binding.singlePhotoDimension.text = exif?.exposure_time
-                        binding.singlePhotoFocal.text = exif?.focal_length
+                        binding.singlePhotoAperture.text = exif?.aperture.isNullCheck()
+                        binding.singlePhotoCamera.text = exif?.model.isNullCheck()
+                        binding.singlePhotoDimension.text = exif?.exposure_time.isNullCheck()
+                        binding.singlePhotoFocal.text = exif?.focal_length.isNullCheck()
                         binding.singlePhotoProfileContainer.setOnClickListener {
                             clickListener.onUserCLick(binding.singlePhotoProfileUsername)
                         }

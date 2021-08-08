@@ -50,6 +50,7 @@
                     app:layout_constraintTop_toTopOf="@+id/user_profile_image">
 
                     <LinearLayout
+                        android:id="@+id/user_linear_layout_photos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/primary_padding"
@@ -70,6 +71,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/user_linear_layout_likes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/primary_padding"
@@ -90,6 +92,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/user_linear_layout_collections"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"

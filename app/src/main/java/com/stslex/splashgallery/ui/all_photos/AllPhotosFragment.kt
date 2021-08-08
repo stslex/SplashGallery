@@ -47,8 +47,12 @@ class AllPhotosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
-        initFragment()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initFragment()
     }
 
     private fun initFragment() {

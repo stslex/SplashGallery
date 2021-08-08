@@ -47,7 +47,6 @@ class CollectionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initFragment()
-
     }
 
     private fun initFragment() {
@@ -61,12 +60,11 @@ class CollectionsFragment : Fragment() {
             is UserCollectionFragment -> {
                 val viewModel: UserCollectionSharedViewModel by activityViewModels()
                 viewModel.setNumberCollections(pagesNumCollections)
-                viewModel.initRecyclerView()
+                viewModel.initRecyclerView(isUser = true)
                 viewModel.initScrollListener()
             }
         }
     }
-
 
     private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
         adapter = CollectionsAdapter(this@CollectionsFragment.clickListener, setImage = setImage)
