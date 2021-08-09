@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.ui.all_photos
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +27,7 @@ import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.ui.user.pager_view_models.UserLikesSharedViewModel
 import com.stslex.splashgallery.ui.user.pager_view_models.UserPhotosSharedViewModel
+import com.stslex.splashgallery.utils.Resources.scrollState
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseSharedPhotosViewModel
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
@@ -43,22 +44,40 @@ class AllPhotosFragment : Fragment() {
 
     private var isScrolling = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        numberOfPhotos[requireParentFragment()] = 1
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
+        Log.i("ScrollState:onCreateView", "${scrollState[requireParentFragment()]}")
+        if (scrollState[requireParentFragment()] == null) scrollState[requireParentFragment()] = 0
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("ScrollState:onViewCreated", "${scrollState[requireParentFragment()]}")
         initFragment()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i(
+            "ScrollStateStartMap,${requireParentFragment().id}",
+            scrollState[requireParentFragment()].toString()
+        )
+        val position = scrollState[requireParentFragment()] as Int
+        layoutManager.scrollToPosition(position)
+        recyclerView.scrollToPosition(position)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        scrollState[requireParentFragment()] = layoutManager.findLastVisibleItemPosition()
+        Log.i(
+            "ScrollStateStopMap:${requireParentFragment().id}",
+            scrollState[requireParentFragment()].toString()
+        )
     }
 
     private fun initFragment() {
@@ -122,8 +141,8 @@ class AllPhotosFragment : Fragment() {
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
                     numberOfPhotos[requireParentFragment()] =
-                        numberOfPhotos[requireParentFragment()] ?: 0 + 1
-                    setNumberPhotos(numberOfPhotos[requireParentFragment()] ?: 0)
+                        numberOfPhotos[requireParentFragment()] as Int + 1
+                    setNumberPhotos(numberOfPhotos[requireParentFragment()] as Int)
                 }
             }
         })

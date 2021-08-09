@@ -102,8 +102,8 @@ class CollectionsFragment : Fragment() {
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
                     numberOfCollections[requireParentFragment()] =
-                        numberOfCollections[requireParentFragment()] ?: 0 + 1
-                    setNumberCollections(numberOfCollections[requireParentFragment()] ?: 0)
+                        numberOfCollections[requireParentFragment()] as Int + 1
+                    setNumberCollections(numberOfCollections[requireParentFragment()] as Int)
                 }
             }
         })
