@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.ui.collections
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,6 @@ import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.main_screen.MainSharedCollectionsViewModel
-import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager_view_models.UserCollectionSharedViewModel
@@ -36,6 +36,11 @@ class CollectionsFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        numberOfCollections[requireParentFragment()] = 1
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,16 +56,14 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun initFragment() {
-        when (parentFragment) {
+        when (requireParentFragment()) {
             is MainFragment -> {
                 val viewModel: MainSharedCollectionsViewModel by activityViewModels()
-                viewModel.setNumberCollections(pagesNumCollections)
                 viewModel.initRecyclerView()
                 viewModel.initScrollListener()
             }
-            is UserCollectionFragment, is UserFragment -> {
+            is UserCollectionFragment -> {
                 val viewModel: UserCollectionSharedViewModel by activityViewModels()
-                viewModel.setNumberCollections(pagesNumCollections)
                 viewModel.initRecyclerView(isUser = true)
                 viewModel.initScrollListener()
             }
@@ -68,6 +71,7 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
+        setNumberCollections(numberOfCollections[requireParentFragment()] ?: 0)
         adapter = CollectionsAdapter(
             this@CollectionsFragment.clickListener,
             setImage = setImage,
@@ -97,8 +101,9 @@ class CollectionsFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    pagesNumCollections++
-                    setNumberCollections(pagesNumCollections)
+                    numberOfCollections[requireParentFragment()] =
+                        numberOfCollections[requireParentFragment()] ?: 0 + 1
+                    setNumberCollections(numberOfCollections[requireParentFragment()] ?: 0)
                 }
             }
         })
@@ -107,7 +112,7 @@ class CollectionsFragment : Fragment() {
     private val Fragment.clickListener: CollectionClickListener
         get() = CollectionClickListener({ imageView, title ->
             val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
-            val directions: NavDirections? = when (parentFragment) {
+            val directions: NavDirections? = when (requireParentFragment()) {
                 is MainFragment -> MainFragmentDirections.actionNavHomeToNavSingleCollection(
                     transitionName = imageView.transitionName,
                     title = title
@@ -123,7 +128,7 @@ class CollectionsFragment : Fragment() {
             }
         }, { user ->
             val extras = FragmentNavigatorExtras(user to user.transitionName)
-            val directions: NavDirections? = when (parentFragment) {
+            val directions: NavDirections? = when (requireParentFragment()) {
                 is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(
                     username = user.transitionName
                 )
@@ -147,6 +152,9 @@ class CollectionsFragment : Fragment() {
     }
 
     companion object {
-        private var pagesNumCollections = 1
+        private val numberOfCollections = mutableMapOf(
+            MainFragment() to 1,
+            UserCollectionFragment() to 1
+        )
     }
 }

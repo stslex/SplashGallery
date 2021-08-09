@@ -7,9 +7,9 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
+import com.stslex.splashgallery.utils.Resources.photos
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
-import com.stslex.splashgallery.utils.photos
 
 class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding) :
     RecyclerView.ViewHolder(binding.root), View.OnClickListener {

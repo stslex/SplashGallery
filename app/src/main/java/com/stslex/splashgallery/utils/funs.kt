@@ -10,6 +10,11 @@ import androidx.fragment.app.Fragment
 import com.stslex.splashgallery.GalleryApplication
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.di.component.AppComponent
+import com.stslex.splashgallery.utils.Resources.cache
+import com.stslex.splashgallery.utils.Resources.collections
+import com.stslex.splashgallery.utils.Resources.likes
+import com.stslex.splashgallery.utils.Resources.photos
+import com.stslex.splashgallery.utils.Resources.unknown
 
 val Context.appComponent: AppComponent
     get() = when (this) {

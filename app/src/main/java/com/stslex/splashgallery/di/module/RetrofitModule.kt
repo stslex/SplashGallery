@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.utils.BASE_URL
-import com.stslex.splashgallery.utils.cache
+import com.stslex.splashgallery.utils.Resources.cache
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

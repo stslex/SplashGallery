@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.ui.all_photos
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,9 +40,13 @@ class AllPhotosFragment : Fragment() {
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private var pagesNumAllPhotos = 1
 
     private var isScrolling = false
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        numberOfPhotos[requireParentFragment()] = 1
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +62,7 @@ class AllPhotosFragment : Fragment() {
     }
 
     private fun initFragment() {
-        when (parentFragment) {
+        when (requireParentFragment()) {
             is MainFragment -> {
                 val viewModel: MainSharedPhotosViewModel by activityViewModels()
                 viewModel.initRecyclerView()
@@ -82,8 +87,7 @@ class AllPhotosFragment : Fragment() {
     }
 
     private fun BaseSharedPhotosViewModel.initRecyclerView(isUser: Boolean = false) {
-        pagesNumAllPhotos = 1
-        setNumberPhotos(pagesNumAllPhotos)
+        setNumberPhotos(numberOfPhotos[requireParentFragment()] ?: 0)
         adapter = AllPhotosAdapter(
             this@AllPhotosFragment.clickListener,
             setImage = setImage,
@@ -117,8 +121,9 @@ class AllPhotosFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    pagesNumAllPhotos++
-                    setNumberPhotos(pagesNumAllPhotos)
+                    numberOfPhotos[requireParentFragment()] =
+                        numberOfPhotos[requireParentFragment()] ?: 0 + 1
+                    setNumberPhotos(numberOfPhotos[requireParentFragment()] ?: 0)
                 }
             }
         })
@@ -128,7 +133,7 @@ class AllPhotosFragment : Fragment() {
     private val Fragment.clickListener: ImageClickListener
         get() = ImageClickListener({ imageView, id ->
             val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
-            val directions: NavDirections? = when (parentFragment) {
+            val directions: NavDirections? = when (requireParentFragment()) {
                 is MainFragment -> MainFragmentDirections.actionNavHomeToNavSinglePhoto(
                     imageView.transitionName,
                     id
@@ -149,7 +154,7 @@ class AllPhotosFragment : Fragment() {
 
         }, { user ->
             val extras = FragmentNavigatorExtras(user to user.transitionName)
-            val directions: NavDirections? = when (parentFragment) {
+            val directions: NavDirections? = when (requireParentFragment()) {
                 is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(user.transitionName)
                 is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserSelf(
                     user.transitionName
@@ -166,6 +171,15 @@ class AllPhotosFragment : Fragment() {
 
     private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
         setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    }
+
+    companion object {
+        private val numberOfPhotos = mutableMapOf(
+            MainFragment() to 1,
+            UserPhotosFragment() to 1,
+            UserLikesFragment() to 1,
+            SingleCollectionFragment() to 1
+        )
     }
 
     override fun onDestroyView() {
