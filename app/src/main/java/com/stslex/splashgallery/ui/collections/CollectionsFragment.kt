@@ -38,7 +38,7 @@ class CollectionsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        numberOfCollections[requireParentFragment()] = 1
+        numberOfCollections[requireParentFragment().id] = 1
     }
 
     override fun onCreateView(
@@ -71,7 +71,7 @@ class CollectionsFragment : Fragment() {
     }
 
     private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
-        setNumberCollections(numberOfCollections[requireParentFragment()] ?: 0)
+        setNumberCollections(numberOfCollections[requireParentFragment().id] ?: 0)
         adapter = CollectionsAdapter(
             this@CollectionsFragment.clickListener,
             setImage = setImage,
@@ -101,9 +101,9 @@ class CollectionsFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    numberOfCollections[requireParentFragment()] =
-                        numberOfCollections[requireParentFragment()] as Int + 1
-                    setNumberCollections(numberOfCollections[requireParentFragment()] as Int)
+                    numberOfCollections[requireParentFragment().id] =
+                        numberOfCollections[requireParentFragment().id] ?: 0 + 1
+                    setNumberCollections(numberOfCollections[requireParentFragment().id] ?: 0)
                 }
             }
         })
@@ -152,9 +152,6 @@ class CollectionsFragment : Fragment() {
     }
 
     companion object {
-        private val numberOfCollections = mutableMapOf(
-            MainFragment() to 1,
-            UserCollectionFragment() to 1
-        )
+        private val numberOfCollections = mutableMapOf<Int, Int>()
     }
 }
