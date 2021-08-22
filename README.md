@@ -23,6 +23,8 @@ The app client with Image library using Unsplash api In order with dark theme su
 - Glide
 
 ### Installation
+
+Available in PlayMarket (bets test) - write me to get
 Prerelease you can download here [RELEASES](https://github.com/Slex93/SplashGallery/releases) 
 
 ### Screenshots
