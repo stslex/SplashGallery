@@ -9,12 +9,10 @@
     <string name="label_camera">Камера</string>
     <string name="label_focal_length">фокусное расстояние</string>
     <string name="label_aperture">Апертура</string>
-    <string name="label_shutter_speed">Скорость затвора</string>
     <string name="label_dimension">ISO</string>
     <string name="label_photos">Фото</string>
     <string name="label_likes">Нравится</string>
     <string name="label_download">Загрузить</string>
-    <string name="transition_name_username">имя пользователя</string>
     <string name="string_unknown">Неизвестно</string>
 
 </resources>

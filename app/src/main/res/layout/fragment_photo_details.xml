@@ -28,7 +28,7 @@
         android:contentDescription="@string/description_image"
         android:cropToPadding="true"
         app:layout_constraintTop_toBottomOf="@id/single_photo_app_bar"
-        tools:src="@drawable/ic_launcher_foreground" />
+        tools:src="@color/black" />
 
     <LinearLayout
         android:id="@+id/single_photo_profile_container"
@@ -48,7 +48,7 @@
             android:layout_height="32dp"
             android:layout_marginEnd="@dimen/primary_padding"
             android:contentDescription="@string/description_image"
-            tools:src="@drawable/ic_launcher_foreground" />
+            tools:src="@color/black" />
 
         <TextView
             android:id="@+id/single_photo_profile_username"

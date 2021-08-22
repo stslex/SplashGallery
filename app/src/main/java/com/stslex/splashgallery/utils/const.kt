@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.stslex.splashgallery.utils
 
 import com.stslex.splashgallery.BuildConfig
@@ -10,7 +12,6 @@ const val BASE_URL = "https://api.unsplash.com/"
 
 /*GET*/
 const val GET_PHOTOS = "photos"
-const val GET_TOPICS = "topics"
 const val GET_COLLECTIONS = "collections"
 const val GET_USERS = "users"
 const val GET_DOWNLOAD = "download"

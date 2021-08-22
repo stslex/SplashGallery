@@ -6,6 +6,5 @@
     <dimen name="big_padding">32dp</dimen>
 
     <!--Image size-->
-    <dimen name="round_image_size">32dp</dimen>
     <dimen name="height_collection_image">250dp</dimen>
 </resources>

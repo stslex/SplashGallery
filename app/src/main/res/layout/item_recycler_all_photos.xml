@@ -21,7 +21,7 @@
             android:layout_height="@dimen/big_padding"
             android:layout_marginEnd="@dimen/primary_padding"
             android:contentDescription="@string/description_image"
-            tools:src="@drawable/ic_launcher_background" />
+            tools:src="@color/black" />
 
         <TextView
             android:id="@+id/item_pager_author_name"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_image"
-            tools:src="@drawable/ic_launcher_foreground" />
+            tools:src="@color/black" />
 
     </com.google.android.material.card.MaterialCardView>
 
