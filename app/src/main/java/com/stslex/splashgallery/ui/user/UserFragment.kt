@@ -168,15 +168,15 @@ class UserFragment : BaseFragment() {
         ) { tab, position ->
             when (fragmentMap[position]) {
                 is UserPhotosFragment -> {
-                    tab.text = "Photos"
+                    tab.text = getString(R.string.label_photos)
                     setPhotoListeners()
                 }
                 is UserLikesFragment -> {
-                    tab.text = "Likes"
+                    tab.text = getString(R.string.label_likes)
                     setLikesListeners()
                 }
                 is UserCollectionFragment -> {
-                    tab.text = "Collection"
+                    tab.text = getString(R.string.label_collections)
                     setCollectionListeners()
                 }
             }

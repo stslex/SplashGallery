@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SplashGallery</string>
+    <string name="app_name" translatable="false">SplashGallery</string>
 
     <!--Descriptions-->
     <string name="description_image">image</string>
@@ -11,13 +11,11 @@
     <string name="label_focal_length">Focal Length</string>
     <string name="label_aperture">Aperture</string>
     <string name="label_shutter_speed">Shutter Speed</string>
-    <string name="label_dimension">Dimension</string>
+    <string name="label_dimension">ISO</string>
     <string name="label_photos">Photos</string>
     <string name="label_likes">Likes</string>
     <string name="label_download">Download</string>
     <string name="transition_name_username">username</string>
     <string name="string_unknown">Unknown</string>
 
-    <!--Integers-->
-    <integer name="transition_duration">500</integer>
 </resources>
