@@ -12,5 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
+/app/release
 local.properties
 gradle.properties
