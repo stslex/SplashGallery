@@ -35,6 +35,7 @@ class CollectionsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
+    private var isUser = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,23 +53,25 @@ class CollectionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initFragment()
+        requireParentFragment().getViewModel.apply {
+            initRecyclerView(isUser)
+            recyclerView.addOnScrollListener(scrollListener)
+        }
     }
 
-    private fun initFragment() {
-        when (requireParentFragment()) {
+    private val Fragment.getViewModel
+        get() = when (this) {
             is MainFragment -> {
                 val viewModel: MainSharedCollectionsViewModel by activityViewModels()
-                viewModel.initRecyclerView()
-                recyclerView.addOnScrollListener(viewModel.scrollListener)
+                viewModel
             }
             is UserCollectionFragment -> {
                 val viewModel: UserCollectionSharedViewModel by activityViewModels()
-                viewModel.initRecyclerView(isUser = true)
-                recyclerView.addOnScrollListener(viewModel.scrollListener)
+                isUser = true
+                viewModel
             }
-        }
-    }
+            else -> null
+        } as BaseSharedCollectionsViewModel
 
     private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
         setNumberCollections(numberOfCollections[requireParentFragment().id] ?: 0)

@@ -53,9 +53,10 @@ class AllPhotosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = requireParentFragment().getViewModel
-        viewModel.initRecyclerView(isUser)
-        recyclerView.addOnScrollListener(viewModel.scrollListener)
+        requireParentFragment().getViewModel.apply {
+            initRecyclerView(isUser)
+            recyclerView.addOnScrollListener(scrollListener)
+        }
     }
 
     private val Fragment.getViewModel: BaseSharedPhotosViewModel
