@@ -60,12 +60,12 @@ class CollectionsFragment : Fragment() {
             is MainFragment -> {
                 val viewModel: MainSharedCollectionsViewModel by activityViewModels()
                 viewModel.initRecyclerView()
-                viewModel.initScrollListener()
+                recyclerView.addOnScrollListener(viewModel.scrollListener)
             }
             is UserCollectionFragment -> {
                 val viewModel: UserCollectionSharedViewModel by activityViewModels()
                 viewModel.initRecyclerView(isUser = true)
-                viewModel.initScrollListener()
+                recyclerView.addOnScrollListener(viewModel.scrollListener)
             }
         }
     }
@@ -86,8 +86,9 @@ class CollectionsFragment : Fragment() {
         }
     }
 
-    private fun BaseSharedCollectionsViewModel.initScrollListener() {
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+    private val BaseSharedCollectionsViewModel.scrollListener: RecyclerView.OnScrollListener
+        get() = object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) isScrolling =
@@ -106,8 +107,7 @@ class CollectionsFragment : Fragment() {
                     setNumberCollections(numberOfCollections[requireParentFragment().id] ?: 0)
                 }
             }
-        })
-    }
+        }
 
     private val Fragment.clickListener: CollectionClickListener
         get() = CollectionClickListener({ imageView, title ->

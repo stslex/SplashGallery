@@ -39,7 +39,7 @@ class AllPhotosFragment : Fragment() {
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-
+    private var isUser = false
     private var isScrolling = false
 
     override fun onCreateView(
@@ -53,33 +53,34 @@ class AllPhotosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initFragment()
+        val viewModel = requireParentFragment().getViewModel
+        viewModel.initRecyclerView(isUser)
+        recyclerView.addOnScrollListener(viewModel.scrollListener)
     }
 
-    private fun initFragment() {
-        when (requireParentFragment()) {
+    private val Fragment.getViewModel: BaseSharedPhotosViewModel
+        get() = when (this) {
             is MainFragment -> {
-                val viewModel: MainSharedPhotosViewModel by activityViewModels()
-                viewModel.initRecyclerView()
-                viewModel.initScrollListener()
+                val model: MainSharedPhotosViewModel by activityViewModels()
+                model
             }
             is UserPhotosFragment -> {
-                val viewModel: UserPhotosSharedViewModel by activityViewModels()
-                viewModel.initRecyclerView(true)
-                viewModel.initScrollListener()
+                val model: UserPhotosSharedViewModel by activityViewModels()
+                isUser = true
+                model
             }
             is UserLikesFragment -> {
-                val viewModel: UserLikesSharedViewModel by activityViewModels()
-                viewModel.initRecyclerView()
-                viewModel.initScrollListener()
+                val model: UserLikesSharedViewModel by activityViewModels()
+                model
             }
             is SingleCollectionFragment -> {
-                val viewModel: SingleCollectionSharedViewModel by activityViewModels()
-                viewModel.initRecyclerView()
-                viewModel.initScrollListener()
+                val model: SingleCollectionSharedViewModel by activityViewModels()
+                model
             }
-        }
-    }
+            else -> {
+                null
+            }
+        } as BaseSharedPhotosViewModel
 
     private fun BaseSharedPhotosViewModel.initRecyclerView(isUser: Boolean = false) {
         setNumberPhotos(numberOfPhotos[requireParentFragment().id] ?: 0)
@@ -101,8 +102,8 @@ class AllPhotosFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    private fun BaseSharedPhotosViewModel.initScrollListener() {
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private val BaseSharedPhotosViewModel.scrollListener: RecyclerView.OnScrollListener
+        get() = object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
@@ -121,9 +122,7 @@ class AllPhotosFragment : Fragment() {
                     setNumberPhotos(numberOfPhotos[requireParentFragment().id] ?: 0)
                 }
             }
-        })
-    }
-
+        }
 
     private val Fragment.clickListener: ImageClickListener
         get() = ImageClickListener({ imageView, id ->
