@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark.xml" value="0.29010416666666666" />
+        <entry key="app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.4829689883070666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2864583333333333" />
+        <entry key="app/src/main/res/drawable/ic_launcher_new_foreground.xml" value="0.4829689883070666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2826086956521739" />
         <entry key="app/src/main/res/layout/content_user_container.xml" value="0.3233695652173913" />
         <entry key="app/src/main/res/layout/content_user_head.xml" value="0.3582427536231884" />
@@ -26,6 +28,7 @@
         <entry key="app/src/main/res/layout/recycler_all_photos.xml" value="0.23550724637681159" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2864583333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_new.xml" value="0.4829689883070666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_new_round.xml" value="0.4829689883070666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.29010416666666666" />
       </map>
     </option>
