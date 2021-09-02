@@ -23,7 +23,6 @@ class MainFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels { viewModelFactory.get() }
-    private val sharedPhotosViewModel: MainSharedPhotosViewModel by activityViewModels()
     private val sharedCollectionViewModel: MainSharedCollectionsViewModel by activityViewModels()
 
     @SuppressLint("ResourceType")
@@ -51,26 +50,8 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setViewModelListener() {
-        sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
-            viewModel.getAllPhotos(it)
-        }
         sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
             viewModel.getAllCollections(it)
-        }
-        viewModel.allPhotos.observe(viewLifecycleOwner) {
-            when (it) {
-                is Result.Success -> {
-                    sharedPhotosViewModel.setPhotos(it.data)
-                    binding.mainFragmentProgressBar.visibility = View.GONE
-                }
-                is Result.Failure -> {
-                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
-                    binding.mainFragmentProgressBar.visibility = View.GONE
-                }
-                is Result.Loading -> {
-                    binding.mainFragmentProgressBar.visibility = View.VISIBLE
-                }
-            }
         }
 
         viewModel.allCollections.observe(viewLifecycleOwner) {

@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.user.pager_view_models
+package com.stslex.splashgallery.ui.user
 
 import androidx.lifecycle.LiveData
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel

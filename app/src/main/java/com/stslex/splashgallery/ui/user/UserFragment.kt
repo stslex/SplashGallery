@@ -20,9 +20,6 @@ import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.ui.user.pager_view_models.UserCollectionSharedViewModel
-import com.stslex.splashgallery.ui.user.pager_view_models.UserLikesSharedViewModel
-import com.stslex.splashgallery.ui.user.pager_view_models.UserPhotosSharedViewModel
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -33,8 +30,6 @@ class UserFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
     private val sharedCollectionViewModel: UserCollectionSharedViewModel by activityViewModels()
-    private val sharedPhotosViewModel: UserPhotosSharedViewModel by activityViewModels()
-    private val sharedLikesViewModel: UserLikesSharedViewModel by activityViewModels()
     private lateinit var fragmentMap: List<Fragment>
     private lateinit var username: String
 
@@ -61,43 +56,6 @@ class UserFragment : BaseFragment() {
         getNavigationArgs()
         setToolbar()
         setListenersHead()
-    }
-
-    private fun setLikesListeners() {
-        sharedLikesViewModel.numberPhotos.observe(viewLifecycleOwner) {
-            viewModel.getUserContentLikes(username, it)
-        }
-        viewModel.likes.observe(viewLifecycleOwner) {
-            when (it) {
-                is Result.Success -> {
-                    sharedLikesViewModel.setPhotos(it.data)
-                }
-                is Result.Failure -> {
-                    Log.e("User:Likes:", it.exception)
-                }
-                is Result.Loading -> {
-
-                }
-            }
-        }
-    }
-
-    private fun setPhotoListeners() {
-        sharedPhotosViewModel.numberPhotos.observe(viewLifecycleOwner) {
-            viewModel.getUserContentPhotos(username, it)
-        }
-        viewModel.photos.observe(viewLifecycleOwner) {
-            when (it) {
-                is Result.Success -> {
-                    sharedPhotosViewModel.setPhotos(it.data)
-                }
-                is Result.Failure -> {
-                    Log.e("User:Photos:", it.exception)
-                }
-                is Result.Loading -> {
-                }
-            }
-        }
     }
 
     private fun setCollectionListeners() {
@@ -169,11 +127,9 @@ class UserFragment : BaseFragment() {
             when (fragmentMap[position]) {
                 is UserPhotosFragment -> {
                     tab.text = getString(R.string.label_photos)
-                    setPhotoListeners()
                 }
                 is UserLikesFragment -> {
                     tab.text = getString(R.string.label_likes)
-                    setLikesListeners()
                 }
                 is UserCollectionFragment -> {
                     tab.text = getString(R.string.label_collections)

@@ -30,10 +30,10 @@ class AllPhotosAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    fun addItems(list: List<ImageModel>) {
-        val startItems = this.list.size
-        this.list.addAll(list)
-        notifyItemRangeChanged(startItems, this.list.size)
+    fun addItems(data: List<ImageModel>) {
+        val position = list.size
+        list.addAll(data)
+        notifyItemRangeInserted(position, list.size)
     }
 
 }

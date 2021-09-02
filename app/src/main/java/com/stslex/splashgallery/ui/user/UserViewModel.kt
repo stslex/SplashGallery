@@ -33,18 +33,6 @@ class UserViewModel @Inject constructor(private val repository: UserRepository) 
         }
     }
 
-    fun getUserContentLikes(username: String, page: Int) {
-        viewModelScope.launch {
-            _likes.value = repository.getUserContentLikes(username, page)
-        }
-    }
-
-    fun getUserContentPhotos(username: String, page: Int) {
-        viewModelScope.launch {
-            _photos.value = repository.getUserContentPhotos(username, page)
-        }
-    }
-
     fun getUserContentCollections(username: String, page: Int) {
         viewModelScope.launch {
             _collections.value = repository.getUserContentCollections(username, page)

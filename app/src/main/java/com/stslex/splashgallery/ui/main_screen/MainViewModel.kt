@@ -9,6 +9,9 @@ import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.data.repository.interf.CollectionRepository
 import com.stslex.splashgallery.data.repository.interf.PhotoRepository
 import com.stslex.splashgallery.utils.Result
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,17 +21,15 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _allPhotos = MutableLiveData<Result<List<ImageModel>>>()
-    val allPhotos: LiveData<Result<List<ImageModel>>> get() = _allPhotos
-
     private val _allCollections = MutableLiveData<Result<List<CollectionModel>>>()
     val allCollections: LiveData<Result<List<CollectionModel>>> get() = _allCollections
 
-    fun getAllPhotos(pageNumber: Int) {
-        viewModelScope.launch {
-            _allPhotos.value = photoRepository.getAllPhotos(pageNumber)
-        }
-    }
+    suspend fun getAllPhotos(pageNumber: Int): StateFlow<Result<List<ImageModel>>> =
+        photoRepository.getAllPhotos(pageNumber).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = Result.Loading
+        )
 
     fun getAllCollections(pageNumber: Int) {
         viewModelScope.launch {

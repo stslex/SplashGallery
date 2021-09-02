@@ -18,9 +18,9 @@ import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.main_screen.MainSharedCollectionsViewModel
+import com.stslex.splashgallery.ui.user.UserCollectionSharedViewModel
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
-import com.stslex.splashgallery.ui.user.pager_view_models.UserCollectionSharedViewModel
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseSharedCollectionsViewModel
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener

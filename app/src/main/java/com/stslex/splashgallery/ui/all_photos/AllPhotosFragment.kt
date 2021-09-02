@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.*
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -17,74 +18,49 @@ import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.main_screen.MainSharedPhotosViewModel
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
-import com.stslex.splashgallery.ui.single_collection.SingleCollectionSharedViewModel
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.ui.user.pager_view_models.UserLikesSharedViewModel
-import com.stslex.splashgallery.ui.user.pager_view_models.UserPhotosSharedViewModel
+import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.base.BaseSharedPhotosViewModel
+import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class AllPhotosFragment : Fragment() {
+class AllPhotosFragment : BaseFragment() {
 
     private var _binding: FragmentAllPhotosBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: AllPhotosViewModel by viewModels { viewModelFactory.get() }
     private lateinit var adapter: AllPhotosAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private var isUser = false
     private var isScrolling = false
+
+    private val numberOfPhotos = MutableLiveData(1)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
-        numberOfPhotos[requireParentFragment().id] = 1
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireParentFragment().getViewModel.apply {
-            initRecyclerView(isUser)
-            recyclerView.addOnScrollListener(scrollListener)
-        }
+        numberOfPhotos.observe(viewLifecycleOwner, numberOfPhotosObserver)
+        initRecyclerView()
+        recyclerView.addOnScrollListener(scrollListener)
     }
 
-    private val Fragment.getViewModel: BaseSharedPhotosViewModel
-        get() = when (this) {
-            is MainFragment -> {
-                val model: MainSharedPhotosViewModel by activityViewModels()
-                model
-            }
-            is UserPhotosFragment -> {
-                val model: UserPhotosSharedViewModel by activityViewModels()
-                isUser = true
-                model
-            }
-            is UserLikesFragment -> {
-                val model: UserLikesSharedViewModel by activityViewModels()
-                model
-            }
-            is SingleCollectionFragment -> {
-                val model: SingleCollectionSharedViewModel by activityViewModels()
-                model
-            }
-            else -> {
-                null
-            }
-        } as BaseSharedPhotosViewModel
-
-    private fun BaseSharedPhotosViewModel.initRecyclerView(isUser: Boolean = false) {
-        setNumberPhotos(numberOfPhotos[requireParentFragment().id] ?: 0)
+    private fun initRecyclerView() {
+        val isUser = requireParentFragment() is UserPhotosFragment
         adapter = AllPhotosAdapter(
             this@AllPhotosFragment.clickListener,
             setImage = setImage,
@@ -92,9 +68,6 @@ class AllPhotosFragment : Fragment() {
         )
         recyclerView = binding.fragmentAllPhotosRecycler.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
-        photos.observe(viewLifecycleOwner) {
-            adapter.addItems(it)
-        }
         postponeEnterTransition()
         recyclerView.doOnPreDraw {
             startPostponedEnterTransition()
@@ -103,8 +76,25 @@ class AllPhotosFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
-    private val BaseSharedPhotosViewModel.scrollListener: RecyclerView.OnScrollListener
-        get() = object : RecyclerView.OnScrollListener() {
+    private val numberOfPhotosObserver: Observer<Int> = Observer {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getAllPhotos(it).collect {
+                when (it) {
+                    is Result.Success -> {
+                        adapter.addItems(it.data)
+                    }
+                    is Result.Failure -> {
+
+                    }
+                    is Result.Loading -> {
+                    }
+                }
+            }
+        }
+    }
+
+    private val scrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
@@ -118,9 +108,7 @@ class AllPhotosFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    numberOfPhotos[requireParentFragment().id] =
-                        numberOfPhotos[requireParentFragment().id] ?: 0 + 1
-                    setNumberPhotos(numberOfPhotos[requireParentFragment().id] ?: 0)
+                    numberOfPhotos.value = numberOfPhotos.value?.plus(1)
                 }
             }
         }
@@ -166,10 +154,6 @@ class AllPhotosFragment : Fragment() {
 
     private val setImage = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
         setImageWithRequest(url, imageView, needCrop, needCircleCrop)
-    }
-
-    companion object {
-        private val numberOfPhotos = mutableMapOf<Int, Int>()
     }
 
     override fun onDestroyView() {
