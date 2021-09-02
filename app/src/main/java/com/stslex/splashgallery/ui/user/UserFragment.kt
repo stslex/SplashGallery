@@ -17,6 +17,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
+import com.stslex.splashgallery.ui.all_photos.AllPhotosFragment.Companion.TestID
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
@@ -82,6 +83,7 @@ class UserFragment : BaseFragment() {
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
+                    TestID = it.data.username.toString()
                     setImageWithRequest(
                         it.data.profile_image!!.large,
                         binding.userProfileImage,

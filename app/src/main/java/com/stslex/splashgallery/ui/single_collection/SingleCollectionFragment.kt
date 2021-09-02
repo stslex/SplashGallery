@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
+import com.stslex.splashgallery.ui.all_photos.AllPhotosFragment.Companion.TestID
 import com.stslex.splashgallery.utils.base.BaseFragment
 
 class SingleCollectionFragment : BaseFragment() {
@@ -52,6 +53,7 @@ class SingleCollectionFragment : BaseFragment() {
         id = extras.transitionName
         binding.mainToolbar.transitionName = id
         titleExtra = extras.title
+        TestID = id
     }
 
     override fun onDestroyView() {

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
@@ -42,22 +43,45 @@ class AllPhotosFragment : BaseFragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
 
-    private val numberOfPhotos = MutableLiveData(1)
+    private val numberOfPhotos = MutableLiveData<Map<Int, Int>>()
+    private var number = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
+        numberOfPhotos.value = mapOf(requireParentFragment().id to 1)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        numberOfPhotos.observe(viewLifecycleOwner, numberOfPhotosObserver)
+        numberOfPhotos.observe(viewLifecycleOwner, observer {
+            startListening(TestID, it)
+        })
         initRecyclerView()
         recyclerView.addOnScrollListener(scrollListener)
     }
+
+    private fun startListening(username: String, page: Int) =
+        viewLifecycleOwner.lifecycleScope.launch {
+            when (requireParentFragment()) {
+                is UserPhotosFragment -> {
+                    viewModel.getUserPhotos(username, page).collect { it.collector }
+                }
+                is UserLikesFragment -> {
+                    viewModel.getUserLikes(username, page).collect { it.collector }
+                }
+                is SingleCollectionFragment -> {
+                    viewModel.getCollectionPhotos(username, page).collect { it.collector }
+                }
+                else -> {
+                    viewModel.getAllPhotos(page).collect { it.collector }
+                }
+            }
+        }
+
 
     private fun initRecyclerView() {
         val isUser = requireParentFragment() is UserPhotosFragment
@@ -76,22 +100,24 @@ class AllPhotosFragment : BaseFragment() {
         recyclerView.adapter = adapter
     }
 
-    private val numberOfPhotosObserver: Observer<Int> = Observer {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getAllPhotos(it).collect {
-                when (it) {
-                    is Result.Success -> {
-                        adapter.addItems(it.data)
-                    }
-                    is Result.Failure -> {
-
-                    }
-                    is Result.Loading -> {
-                    }
-                }
+    private inline fun observer(crossinline function: (Int) -> Unit): Observer<Map<Int, Int>> =
+        Observer {
+            it[requireParentFragment().id]?.let { page ->
+                function(page)
             }
         }
-    }
+
+    private val Result<List<ImageModel>>.collector: Unit
+        get() = when (this) {
+            is Result.Success -> {
+                adapter.addItems(data)
+            }
+            is Result.Failure -> {
+
+            }
+            is Result.Loading -> {
+            }
+        }
 
     private val scrollListener: RecyclerView.OnScrollListener =
         object : RecyclerView.OnScrollListener() {
@@ -108,7 +134,8 @@ class AllPhotosFragment : BaseFragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    numberOfPhotos.value = numberOfPhotos.value?.plus(1)
+                    number++
+                    numberOfPhotos.value = mapOf(requireParentFragment().id to number)
                 }
             }
         }
@@ -161,4 +188,7 @@ class AllPhotosFragment : BaseFragment() {
         _binding = null
     }
 
+    companion object {
+        var TestID = ""
+    }
 }

@@ -3,7 +3,6 @@ package com.stslex.splashgallery.data.repository.impl
 import android.util.Log
 import com.stslex.splashgallery.data.data_source.interf.CollectionSource
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.data.repository.interf.CollectionRepository
 import com.stslex.splashgallery.utils.Result
 import kotlinx.coroutines.Dispatchers
@@ -30,28 +29,6 @@ class CollectionRepositoryImpl @Inject constructor(private val collectionSource:
                 }
             } catch (exception: Exception) {
                 Log.i("Collection::repo:ex", exception.toString())
-                Result.Failure(exception.toString())
-            }
-        }
-
-    override suspend fun getCollectionPhotos(
-        id: String,
-        pageNumber: Int
-    ): Result<List<ImageModel>> =
-        withContext(Dispatchers.IO) {
-            return@withContext try {
-                when (val response = collectionSource.getCollectionPhotos(id, pageNumber)) {
-                    is Result.Success -> {
-                        Result.Success(response.data)
-                    }
-                    is Result.Failure -> {
-                        Result.Failure(response.exception)
-                    }
-                    else -> {
-                        Result.Loading
-                    }
-                }
-            } catch (exception: Exception) {
                 Result.Failure(exception.toString())
             }
         }
