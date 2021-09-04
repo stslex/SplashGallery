@@ -15,8 +15,9 @@ import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class DownloadRepositoryImpl @Inject constructor(private val service: DownloadService) :
-    DownloadRepository {
+class DownloadRepositoryImpl @Inject constructor(
+    private val service: DownloadService
+) : DownloadRepository {
     override suspend fun downloadPhoto(id: String): Flow<Result<DownloadModel>> = callbackFlow {
         val response = service.downloadPhoto(id = id, api_key = API_KEY_SUCCESS)
         ResponseSingleEvent(DownloadMapper(), {

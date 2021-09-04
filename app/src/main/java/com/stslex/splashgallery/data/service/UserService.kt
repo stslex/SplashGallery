@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface UserService {
     @GET("/$GET_USERS/{username}")
-    suspend fun getUserInfo(
+    suspend fun getUser(
         @Path("username") username: String,
         @Query(QUERY_API_KEY) api_key: String
     ): Response<RemoteUserModel>

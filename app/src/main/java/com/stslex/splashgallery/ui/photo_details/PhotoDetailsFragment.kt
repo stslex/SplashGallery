@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
@@ -20,6 +21,7 @@ import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.isNullCheck
 import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -56,9 +58,8 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
         binding.singlePhotoImage.setOnClickListener(this)
     }
 
-    private fun setListener() {
-        viewModel.getCurrentPhoto(id)
-        viewModel.currentPhoto.observe(viewLifecycleOwner) {
+    private fun setListener() = viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.getCurrentPhoto(id).collect {
             when (it) {
                 is Result.Success -> {
                     it.data.run {
@@ -87,6 +88,14 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
+    private val collector: FlowCollector<Result<ImageModel>>
+        get() = object : FlowCollector<Result<ImageModel>> {
+            override suspend fun emit(value: Result<ImageModel>) {
+
+            }
+
+        }
 
     private fun downloadPhoto(id: String) = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.downloadPhoto(id).collect {

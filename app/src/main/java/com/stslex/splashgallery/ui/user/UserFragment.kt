@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
@@ -23,6 +24,8 @@ import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class UserFragment : BaseFragment() {
 
@@ -57,9 +60,8 @@ class UserFragment : BaseFragment() {
         setListenersHead()
     }
 
-    private fun setListenersHead() {
-        viewModel.getUserInfo(username)
-        viewModel.user.observe(viewLifecycleOwner) {
+    private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.getUserInfo(username).collect {
             when (it) {
                 is Result.Success -> {
                     currentId = it.data.username.toString()
