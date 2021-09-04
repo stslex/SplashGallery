@@ -15,6 +15,8 @@ import com.stslex.splashgallery.utils.Resources.collections
 import com.stslex.splashgallery.utils.Resources.likes
 import com.stslex.splashgallery.utils.Resources.photos
 import com.stslex.splashgallery.utils.Resources.unknown
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 val Context.appComponent: AppComponent
     get() = when (this) {
@@ -35,7 +37,7 @@ fun String?.isNullCheck(): String =
         unknown
     } else this
 
-fun Fragment.startDownload(url: String, fileName: String) {
+suspend fun Fragment.startDownload(url: String, fileName: String) = withContext(Dispatchers.IO) {
     val downloadManager = requireActivity().getSystemService(DOWNLOAD_SERVICE) as DownloadManager
     val request = DownloadManager.Request(Uri.parse(url))
     request.setTitle("Downloading")

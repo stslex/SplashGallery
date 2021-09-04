@@ -2,12 +2,12 @@ package com.stslex.splashgallery.ui.photo_details
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +20,8 @@ import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.isNullCheck
 import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
 
@@ -56,18 +58,6 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
 
     private fun setListener() {
         viewModel.getCurrentPhoto(id)
-        viewModel.downloadUrl.observe(viewLifecycleOwner) { urlDownloader ->
-            when (urlDownloader) {
-                is Result.Success -> {
-                    startDownload(urlDownloader.data.url, id)
-                }
-                is Result.Failure -> {
-                    Log.i("DownloadStart", urlDownloader.exception)
-                }
-                is Result.Loading -> {
-                }
-            }
-        }
         viewModel.currentPhoto.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
@@ -86,13 +76,31 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
                             clickListener.onUserCLick(binding.singlePhotoProfileUsername)
                         }
                         binding.singlePhotoDownload.setOnClickListener {
-                            viewModel.downloadPhoto(id)
+                            downloadPhoto(id)
                         }
                     }
                 }
                 is Result.Failure -> {
                 }
                 is Result.Loading -> {
+                }
+            }
+        }
+    }
+
+    private fun downloadPhoto(id: String) = viewLifecycleOwner.lifecycleScope.launch {
+        viewModel.downloadPhoto(id).collect {
+            when (it) {
+                is Result.Success -> {
+                    this.launch {
+                        startDownload(it.data.url, id)
+                    }
+                }
+                is Result.Failure -> {
+
+                }
+                is Result.Loading -> {
+
                 }
             }
         }

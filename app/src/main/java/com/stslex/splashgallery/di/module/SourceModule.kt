@@ -1,9 +1,7 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.data.data_source.impl.DownloadSourceImpl
 import com.stslex.splashgallery.data.data_source.impl.PhotoSourceImpl
 import com.stslex.splashgallery.data.data_source.impl.UserSourceImpl
-import com.stslex.splashgallery.data.data_source.interf.DownloadSource
 import com.stslex.splashgallery.data.data_source.interf.PhotoSource
 import com.stslex.splashgallery.data.data_source.interf.UserSource
 import dagger.Binds
@@ -16,7 +14,4 @@ interface SourceModule {
 
     @Binds
     fun bindsUserSource(source: UserSourceImpl): UserSource
-
-    @Binds
-    fun bindsDownloadSource(sourceImpl: DownloadSourceImpl): DownloadSource
 }
