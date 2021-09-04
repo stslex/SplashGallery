@@ -4,7 +4,9 @@ import com.stslex.splashgallery.data.repository.impl.*
 import com.stslex.splashgallery.data.repository.interf.*
 import dagger.Binds
 import dagger.Module
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @Module
 interface RepositoryModule {
     @Binds

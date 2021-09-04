@@ -16,8 +16,10 @@ import com.stslex.splashgallery.utils.Resources.likes
 import com.stslex.splashgallery.utils.Resources.photos
 import com.stslex.splashgallery.utils.Resources.unknown
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 
+@ExperimentalCoroutinesApi
 val Context.appComponent: AppComponent
     get() = when (this) {
         is GalleryApplication -> appComponent
