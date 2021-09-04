@@ -3,7 +3,7 @@ package com.stslex.splashgallery.di.module
 import androidx.lifecycle.ViewModel
 import com.stslex.splashgallery.di.key.ViewModelKey
 import com.stslex.splashgallery.ui.all_photos.AllPhotosViewModel
-import com.stslex.splashgallery.ui.main_screen.MainViewModel
+import com.stslex.splashgallery.ui.collections.CollectionViewModel
 import com.stslex.splashgallery.ui.photo_details.PhotoDetailsViewModel
 import com.stslex.splashgallery.ui.user.UserViewModel
 import dagger.Binds
@@ -12,11 +12,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 interface ViewModelModule {
-    @IntoMap
-    @Binds
-    @ViewModelKey(MainViewModel::class)
-    fun bindsMainViewModel(viewModel: MainViewModel): ViewModel
-
     @IntoMap
     @Binds
     @ViewModelKey(PhotoDetailsViewModel::class)
@@ -31,4 +26,9 @@ interface ViewModelModule {
     @Binds
     @ViewModelKey(AllPhotosViewModel::class)
     fun bindsAllPhotosViewModel(viewModel: AllPhotosViewModel): ViewModel
+
+    @IntoMap
+    @Binds
+    @ViewModelKey(CollectionViewModel::class)
+    fun bindsCollectionViewModel(viewModel: CollectionViewModel): ViewModel
 }

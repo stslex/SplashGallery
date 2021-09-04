@@ -7,23 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
-import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 
 class MainFragment : BaseFragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: MainViewModel by viewModels { viewModelFactory.get() }
-    private val sharedCollectionViewModel: MainSharedCollectionsViewModel by activityViewModels()
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,30 +38,7 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setViewModelListener()
         initPager()
-    }
-
-    private fun setViewModelListener() {
-        sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
-            viewModel.getAllCollections(it)
-        }
-
-        viewModel.allCollections.observe(viewLifecycleOwner) {
-            when (it) {
-                is Result.Success -> {
-                    sharedCollectionViewModel.setCollection(it.data)
-                    binding.mainFragmentProgressBar.visibility = View.GONE
-                }
-                is Result.Failure -> {
-                    Snackbar.make(binding.root, it.exception, Snackbar.LENGTH_SHORT).show()
-                    binding.mainFragmentProgressBar.visibility = View.GONE
-                }
-                is Result.Loading -> {
-                    binding.mainFragmentProgressBar.visibility = View.VISIBLE
-                }
-            }
-        }
     }
 
     private fun initPager() {

@@ -1,46 +1,52 @@
 package com.stslex.splashgallery.ui.collections
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.collections.adapter.CollectionsAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.main_screen.MainSharedCollectionsViewModel
-import com.stslex.splashgallery.ui.user.UserCollectionSharedViewModel
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
+import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.utils.Resources.currentId
+import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.base.BaseSharedCollectionsViewModel
+import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class CollectionsFragment : Fragment() {
+class CollectionsFragment : BaseFragment() {
 
     private var _binding: FragmentCollectionsBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: CollectionViewModel by viewModels { viewModelFactory.get() }
 
     private lateinit var adapter: CollectionsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
-    private var isUser = false
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        numberOfCollections[requireParentFragment().id] = 1
-    }
+    private val globalPage = MutableLiveData<Map<Int, Int>>()
+    private var number = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,54 +54,56 @@ class CollectionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionsBinding.inflate(inflater, container, false)
+        globalPage.value = mapOf(requireParentFragment().id to 1)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireParentFragment().getViewModel.apply {
-            initRecyclerView(isUser)
-            recyclerView.addOnScrollListener(scrollListener)
-        }
+        globalPage.observe(viewLifecycleOwner, observer {
+            startListening(currentId, it)
+        })
+        initRecyclerView()
+        recyclerView.addOnScrollListener(scrollListener)
     }
 
-    private val Fragment.getViewModel
+    private fun startListening(username: String, page: Int) =
+        viewLifecycleOwner.lifecycleScope.launch {
+            when (requireParentFragment()) {
+                is MainFragment -> {
+                    viewModel.getAllCollections(page).collect { it.collector }
+                }
+                is UserCollectionFragment -> {
+                    viewModel.getUserCollections(username, page).collect { it.collector }
+                }
+            }
+        }
+
+    private inline fun observer(crossinline function: (Int) -> Unit): Observer<Map<Int, Int>> =
+        Observer {
+            it[requireParentFragment().id]?.let { page ->
+                function(page)
+            }
+        }
+
+    private val Result<List<CollectionModel>>.collector: Unit
         get() = when (this) {
-            is MainFragment -> {
-                val viewModel: MainSharedCollectionsViewModel by activityViewModels()
-                viewModel
+            is Result.Success -> {
+                adapter.addItems(data)
             }
-            is UserCollectionFragment -> {
-                val viewModel: UserCollectionSharedViewModel by activityViewModels()
-                isUser = true
-                viewModel
-            }
-            else -> null
-        } as BaseSharedCollectionsViewModel
+            is Result.Failure -> {
 
-    private fun BaseSharedCollectionsViewModel.initRecyclerView(isUser: Boolean = false) {
-        setNumberCollections(numberOfCollections[requireParentFragment().id] ?: 0)
-        adapter = CollectionsAdapter(
-            this@CollectionsFragment.clickListener,
-            setImage = setImage,
-            isUser = isUser
-        )
-        recyclerView = binding.fragmentCollectionsRecyclerView
-        layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = layoutManager
-        collection.observe(viewLifecycleOwner) {
-            adapter.addItems(it)
+            }
+            is Result.Loading -> {
+            }
         }
-    }
 
-
-    private val BaseSharedCollectionsViewModel.scrollListener: RecyclerView.OnScrollListener
-        get() = object : RecyclerView.OnScrollListener() {
+    private val scrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) isScrolling =
-                    true
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+                    isScrolling = true
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -105,12 +113,28 @@ class CollectionsFragment : Fragment() {
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
-                    numberOfCollections[requireParentFragment().id] =
-                        numberOfCollections[requireParentFragment().id] ?: 0 + 1
-                    setNumberCollections(numberOfCollections[requireParentFragment().id] ?: 0)
+                    number++
+                    globalPage.value = mapOf(requireParentFragment().id to number)
                 }
             }
         }
+
+    private fun initRecyclerView() {
+        val isUser = requireParentFragment() is UserPhotosFragment
+        adapter = CollectionsAdapter(
+            this@CollectionsFragment.clickListener,
+            setImage = setImage,
+            isUser = isUser
+        )
+        recyclerView = binding.fragmentCollectionsRecyclerView
+        layoutManager = LinearLayoutManager(requireContext())
+        postponeEnterTransition()
+        recyclerView.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = layoutManager
+    }
 
     private val Fragment.clickListener: CollectionClickListener
         get() = CollectionClickListener({ imageView, title ->
@@ -152,9 +176,5 @@ class CollectionsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private val numberOfCollections = mutableMapOf<Int, Int>()
     }
 }

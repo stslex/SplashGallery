@@ -24,6 +24,7 @@ import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDir
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseFragment
@@ -43,7 +44,7 @@ class AllPhotosFragment : BaseFragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private var isScrolling = false
 
-    private val numberOfPhotos = MutableLiveData<Map<Int, Int>>()
+    private val globalPage = MutableLiveData<Map<Int, Int>>()
     private var number = 1
 
     override fun onCreateView(
@@ -51,14 +52,14 @@ class AllPhotosFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
-        numberOfPhotos.value = mapOf(requireParentFragment().id to 1)
+        globalPage.value = mapOf(requireParentFragment().id to 1)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        numberOfPhotos.observe(viewLifecycleOwner, observer {
-            startListening(TestID, it)
+        globalPage.observe(viewLifecycleOwner, observer {
+            startListening(currentId, it)
         })
         initRecyclerView()
         recyclerView.addOnScrollListener(scrollListener)
@@ -135,7 +136,7 @@ class AllPhotosFragment : BaseFragment() {
                 if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
                     isScrolling = false
                     number++
-                    numberOfPhotos.value = mapOf(requireParentFragment().id to number)
+                    globalPage.value = mapOf(requireParentFragment().id to number)
                 }
             }
         }
@@ -186,9 +187,5 @@ class AllPhotosFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        var TestID = ""
     }
 }

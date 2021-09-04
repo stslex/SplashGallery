@@ -10,14 +10,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
-import com.stslex.splashgallery.ui.all_photos.AllPhotosFragment.Companion.TestID
+import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.base.BaseFragment
 
 class SingleCollectionFragment : BaseFragment() {
 
     private var _binding: FragmentSingleCollectionBinding? = null
     private val binding get() = _binding!!
-    private lateinit var id: String
     private lateinit var titleExtra: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +49,12 @@ class SingleCollectionFragment : BaseFragment() {
 
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()
-        id = extras.transitionName
-        binding.mainToolbar.transitionName = id
-        titleExtra = extras.title
-        TestID = id
+        extras.apply {
+            binding.mainToolbar.transitionName = transitionName
+            titleExtra = title
+            currentId = transitionName
+        }
+
     }
 
     override fun onDestroyView() {

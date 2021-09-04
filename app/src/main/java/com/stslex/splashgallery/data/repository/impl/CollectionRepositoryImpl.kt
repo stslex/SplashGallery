@@ -1,35 +1,44 @@
 package com.stslex.splashgallery.data.repository.impl
 
-import android.util.Log
-import com.stslex.splashgallery.data.data_source.interf.CollectionSource
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.repository.interf.CollectionRepository
+import com.stslex.splashgallery.data.service.CollectionService
+import com.stslex.splashgallery.mapper.CollectionMapper
+import com.stslex.splashgallery.utils.API_KEY_SUCCESS
 import com.stslex.splashgallery.utils.Result
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.stslex.splashgallery.utils.base.ResponseEvent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
-class CollectionRepositoryImpl @Inject constructor(private val collectionSource: CollectionSource) :
+@ExperimentalCoroutinesApi
+class CollectionRepositoryImpl @Inject constructor(private val service: CollectionService) :
     CollectionRepository {
-    override suspend fun getAllCollections(pageNumber: Int): Result<List<CollectionModel>> =
-        withContext(Dispatchers.IO) {
-            return@withContext try {
-                when (val response = collectionSource.getAllCollections(pageNumber)) {
-                    is Result.Success -> {
-                        Log.i("Collection::repo", response.data.toString())
-                        Result.Success(response.data)
-                    }
-                    is Result.Failure -> {
-                        Log.i("Collection::repo:e", response.exception)
-                        Result.Failure(response.exception)
-                    }
-                    else -> {
-                        Result.Loading
-                    }
-                }
-            } catch (exception: Exception) {
-                Log.i("Collection::repo:ex", exception.toString())
-                Result.Failure(exception.toString())
-            }
+    override suspend fun getAllCollections(page: Int): Flow<Result<List<CollectionModel>>> =
+        callbackFlow {
+            val response = service.getAllCollections(page, API_KEY_SUCCESS)
+            ResponseEvent(
+                CollectionMapper(),
+                { trySendBlocking(Result.Success(it)) },
+                { trySendBlocking(Result.Failure(it)) })
+                .apply { response.event() }
+            awaitClose { }
         }
+
+    override suspend fun getUserCollections(
+        username: String,
+        page: Int
+    ): Flow<Result<List<CollectionModel>>> = callbackFlow {
+        val response = service.getUserCollections(username, page, API_KEY_SUCCESS)
+        ResponseEvent(
+            CollectionMapper(),
+            { trySendBlocking(Result.Success(it)) },
+            { trySendBlocking(Result.Failure(it)) })
+            .apply { response.event() }
+        awaitClose { }
+    }
+
 }

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,10 +16,10 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.data.model.domain.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
-import com.stslex.splashgallery.ui.all_photos.AllPhotosFragment.Companion.TestID
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -30,7 +29,6 @@ class UserFragment : BaseFragment() {
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
-    private val sharedCollectionViewModel: UserCollectionSharedViewModel by activityViewModels()
     private lateinit var fragmentMap: List<Fragment>
     private lateinit var username: String
 
@@ -59,31 +57,12 @@ class UserFragment : BaseFragment() {
         setListenersHead()
     }
 
-    private fun setCollectionListeners() {
-        sharedCollectionViewModel.numberCollections.observe(viewLifecycleOwner) {
-            viewModel.getUserContentCollections(username, it)
-        }
-        viewModel.collections.observe(viewLifecycleOwner) {
-            when (it) {
-                is Result.Success -> {
-                    sharedCollectionViewModel.setCollection(it.data)
-                }
-                is Result.Failure -> {
-                    Log.e("User:Failure:", it.exception)
-                }
-                is Result.Loading -> {
-
-                }
-            }
-        }
-    }
-
     private fun setListenersHead() {
         viewModel.getUserInfo(username)
         viewModel.user.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Success -> {
-                    TestID = it.data.username.toString()
+                    currentId = it.data.username.toString()
                     setImageWithRequest(
                         it.data.profile_image!!.large,
                         binding.userProfileImage,
@@ -135,7 +114,6 @@ class UserFragment : BaseFragment() {
                 }
                 is UserCollectionFragment -> {
                     tab.text = getString(R.string.label_collections)
-                    setCollectionListeners()
                 }
             }
             binding.userViewPager.setCurrentItem(tab.position, true)
