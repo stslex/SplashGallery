@@ -112,6 +112,7 @@ class AllPhotosFragment : BaseFragment() {
         get() = when (this) {
             is Result.Success -> {
                 adapter.addItems(data)
+                recyclerView.scrollToPosition(data.size - 1)
             }
             is Result.Failure -> {
 
