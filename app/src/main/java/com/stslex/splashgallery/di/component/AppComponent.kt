@@ -14,7 +14,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
         RepositoryModule::class,
         ResponseModule::class,
         TestResponseModule::class,
-        InteractorModule::class
+        InteractorModule::class,
+        MapperModule::class
     ]
 )
 interface AppComponent {

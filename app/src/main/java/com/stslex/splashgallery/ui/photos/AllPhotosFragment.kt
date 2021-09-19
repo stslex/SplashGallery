@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
-import com.stslex.splashgallery.ui.core.UIResult
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.photos.adapter.AllPhotosAdapter
@@ -109,19 +108,19 @@ class AllPhotosFragment : BaseFragment() {
             }
         }
 
-    private val UIResult<List<PhotosUI>>.collector: Unit
+    private val PhotosUIResult.collector: Unit
         get() = when (this) {
-            is UIResult.Success -> {
+            is PhotosUIResult.Success -> {
                 val result = data.map {
                     it.getItems()
                 }
                 adapter.addItems(result)
                 recyclerView.scrollToPosition(data.size - 1)
             }
-            is UIResult.Failure -> {
+            is PhotosUIResult.Failure -> {
 
             }
-            is UIResult.Loading -> {
+            is PhotosUIResult.Loading -> {
             }
         }
 

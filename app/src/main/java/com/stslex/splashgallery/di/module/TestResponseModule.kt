@@ -1,10 +1,7 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.data.core.DataResponse
-import com.stslex.splashgallery.data.photos.PhotosData
-import com.stslex.splashgallery.domain.PhotosDomain
-import com.stslex.splashgallery.domain.core.DomainResponse
-import com.stslex.splashgallery.domain.core.DomainResult
+import com.stslex.splashgallery.data.photos.PhotosDataResponse
+import com.stslex.splashgallery.domain.PhotosDomainResponse
 import dagger.Binds
 import dagger.Module
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,9 +11,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 interface TestResponseModule {
 
     @Binds
-    fun bindsDataResponse(response: DataResponse.Base): DataResponse
+    fun bindsPhotoDataResponse(response: PhotosDataResponse.Base): PhotosDataResponse
 
     @Binds
-    fun bindsDomainPhotosResponse(response: DomainResponse.Base<List<PhotosData>, DomainResult<List<PhotosDomain>>>):
-            DomainResponse<List<PhotosData>, DomainResult<List<PhotosDomain>>>
+    fun bindsPhotosDomainResponse(response: PhotosDomainResponse.Base): PhotosDomainResponse
 }

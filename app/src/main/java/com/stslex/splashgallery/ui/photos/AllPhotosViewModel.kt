@@ -2,11 +2,9 @@ package com.stslex.splashgallery.ui.photos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.domain.PhotosDomain
 import com.stslex.splashgallery.domain.PhotosDomainMapper
+import com.stslex.splashgallery.domain.PhotosDomainResult
 import com.stslex.splashgallery.domain.PhotosInteractor
-import com.stslex.splashgallery.domain.core.DomainResult
-import com.stslex.splashgallery.ui.core.UIResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -16,47 +14,47 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 class AllPhotosViewModel @Inject constructor(
     private val interactor: PhotosInteractor,
-    private val mapper: PhotosDomainMapper<UIResult<List<PhotosUI>>>
+    private val mapper: PhotosDomainMapper<PhotosUIResult>
 ) : ViewModel() {
 
-    suspend fun getAllPhotos(page: Int): StateFlow<UIResult<List<PhotosUI>>> =
+    suspend fun getAllPhotos(page: Int): StateFlow<PhotosUIResult> =
         interactor.getAllPhotos(page).mapIt().stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = UIResult.Loading
+            initialValue = PhotosUIResult.Loading
         )
 
     suspend fun getUserPhotos(
         username: String,
         page: Int
-    ): StateFlow<UIResult<List<PhotosUI>>> =
+    ): StateFlow<PhotosUIResult> =
         interactor.getUserPhotos(username, page).mapIt().stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = UIResult.Loading
+            initialValue = PhotosUIResult.Loading
         )
 
     suspend fun getUserLikes(
         username: String,
         page: Int
-    ): StateFlow<UIResult<List<PhotosUI>>> =
+    ): StateFlow<PhotosUIResult> =
         interactor.getUserLikes(username, page).mapIt().stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = UIResult.Loading
+            initialValue = PhotosUIResult.Loading
         )
 
     suspend fun getCollectionPhotos(
         id: String,
         page: Int
-    ): StateFlow<UIResult<List<PhotosUI>>> =
+    ): StateFlow<PhotosUIResult> =
         interactor.getCollectionPhotos(id, page).mapIt().stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = UIResult.Loading
+            initialValue = PhotosUIResult.Loading
         )
 
-    private suspend fun Flow<DomainResult<List<PhotosDomain>>>.mapIt(): Flow<UIResult<List<PhotosUI>>> =
+    private suspend fun Flow<PhotosDomainResult>.mapIt(): Flow<PhotosUIResult> =
         callbackFlow {
             response {
                 trySendBlocking(it)
@@ -64,14 +62,14 @@ class AllPhotosViewModel @Inject constructor(
             awaitClose { }
         }
 
-    private suspend inline fun Flow<DomainResult<List<PhotosDomain>>>.response(
-        crossinline function: (UIResult<List<PhotosUI>>) -> Unit
+    private suspend inline fun Flow<PhotosDomainResult>.response(
+        crossinline function: (PhotosUIResult) -> Unit
     ) = try {
         this@response.collect {
             function(it.map(mapper))
         }
     } catch (exception: Exception) {
-        UIResult.Failure(exception.toString())
+        PhotosUIResult.Failure(exception.toString())
     }
 
 }

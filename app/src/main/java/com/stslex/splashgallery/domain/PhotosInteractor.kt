@@ -1,9 +1,6 @@
 package com.stslex.splashgallery.domain
 
-import com.stslex.splashgallery.data.photos.PhotosData
 import com.stslex.splashgallery.data.photos.PhotosRepository
-import com.stslex.splashgallery.domain.core.DomainResponse
-import com.stslex.splashgallery.domain.core.DomainResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -11,14 +8,14 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 interface PhotosInteractor {
 
-    suspend fun getAllPhotos(page: Int): Flow<DomainResult<List<PhotosDomain>>>
-    suspend fun getUserPhotos(username: String, page: Int): Flow<DomainResult<List<PhotosDomain>>>
-    suspend fun getUserLikes(username: String, page: Int): Flow<DomainResult<List<PhotosDomain>>>
-    suspend fun getCollectionPhotos(id: String, page: Int): Flow<DomainResult<List<PhotosDomain>>>
+    suspend fun getAllPhotos(page: Int): Flow<PhotosDomainResult>
+    suspend fun getUserPhotos(username: String, page: Int): Flow<PhotosDomainResult>
+    suspend fun getUserLikes(username: String, page: Int): Flow<PhotosDomainResult>
+    suspend fun getCollectionPhotos(id: String, page: Int): Flow<PhotosDomainResult>
 
     class Base @Inject constructor(
         private val repository: PhotosRepository,
-        private val response: DomainResponse<List<PhotosData>, DomainResult<List<PhotosDomain>>>
+        private val response: PhotosDomainResponse
     ) : PhotosInteractor {
 
         override suspend fun getAllPhotos(page: Int) =
