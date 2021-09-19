@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.data.photos
 
-import com.stslex.splashgallery.core.DataResult
+import com.stslex.splashgallery.data.core.DataResult
 import com.stslex.splashgallery.data.service.AllPhotosService
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,7 +42,6 @@ interface PhotosRepository {
             page: Int
         ): Flow<DataResult<List<PhotosData>>> =
             create(service.getCollectionPhotos(id, page, API_KEY_SUCCESS))
-
 
         private fun <T> create(response: Response<T>): Flow<DataResult<T>> = callbackFlow {
             response.responseEvent({
