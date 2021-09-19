@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-interface PhotosInteractor<T> {
+interface PhotosInteractor {
 
-    suspend fun getAllPhotos(page: Int): Flow<DomainResult<T>>
-    suspend fun getUserPhotos(username: String, page: Int): Flow<DomainResult<T>>
-    suspend fun getUserLikes(username: String, page: Int): Flow<DomainResult<T>>
-    suspend fun getCollectionPhotos(id: String, page: Int): Flow<DomainResult<T>>
+    suspend fun getAllPhotos(page: Int): Flow<DomainResult<List<PhotosDomain>>>
+    suspend fun getUserPhotos(username: String, page: Int): Flow<DomainResult<List<PhotosDomain>>>
+    suspend fun getUserLikes(username: String, page: Int): Flow<DomainResult<List<PhotosDomain>>>
+    suspend fun getCollectionPhotos(id: String, page: Int): Flow<DomainResult<List<PhotosDomain>>>
 
     class Base @Inject constructor(
         private val repository: PhotosRepository,
         private val response: DomainResponse<List<PhotosData>, DomainResult<List<PhotosDomain>>>
-    ) : PhotosInteractor<List<PhotosDomain>> {
+    ) : PhotosInteractor {
 
         override suspend fun getAllPhotos(page: Int) =
             response.create(repository.getAllPhotos(page))
