@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.ui.photos.PhotosUI
 import com.stslex.splashgallery.utils.ImageDiffUtilCallback
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
@@ -16,7 +16,7 @@ class AllPhotosAdapter(
     private val setImage: SetImageWithGlide
 ) : RecyclerView.Adapter<AllPhotosViewHolder>() {
 
-    private var list = mutableListOf<ImageModel>()
+    private var list = mutableListOf<PhotosUI.Base>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllPhotosViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,7 +31,7 @@ class AllPhotosAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    fun addItems(data: List<ImageModel>) {
+    fun addItems(data: List<PhotosUI.Base>) {
         val result = DiffUtil.calculateDiff(ImageDiffUtilCallback(list, data))
         list.clear()
         list.addAll(data)

@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.ui.photos.PhotosUI
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 
@@ -15,26 +15,26 @@ class AllPhotosViewHolder(private val binding: ItemRecyclerAllPhotosBinding) :
     private lateinit var clickListener: ImageClickListener
     private lateinit var id: String
 
-    fun bind(imageModel: ImageModel, isUser: Boolean, setImage: SetImageWithGlide) {
-        id = imageModel.id
-        binding.itemPagerImage.transitionName = imageModel.urls.regular
+    fun bind(imageModel: PhotosUI.Base, isUser: Boolean, setImage: SetImageWithGlide) {
+        id = imageModel.imageId
+        binding.itemPagerImage.transitionName = imageModel.imageUrl
         setImage.setImage(
-            imageModel.urls.regular,
+            imageModel.imageUrl,
             binding.itemPagerImage,
             needCrop = false,
             needCircleCrop = false
         )
-        binding.itemPagerAuthorName.transitionName = imageModel.user?.username
+        binding.itemPagerAuthorName.transitionName = imageModel.userName
         if (isUser) {
             binding.itemPagerUserContainer.visibility = View.GONE
         } else {
             setImage.setImage(
-                imageModel.user?.profile_image!!.medium,
+                imageModel.userUrl,
                 binding.itemPagerImagePerson,
                 needCrop = false,
                 needCircleCrop = true
             )
-            binding.itemPagerAuthorName.text = imageModel.user.username
+            binding.itemPagerAuthorName.text = imageModel.userName
         }
     }
 
