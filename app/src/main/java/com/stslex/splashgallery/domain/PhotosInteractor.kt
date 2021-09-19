@@ -1,15 +1,11 @@
 package com.stslex.splashgallery.domain
 
-import com.stslex.splashgallery.data.core.DataResult
 import com.stslex.splashgallery.data.photos.PhotosData
-import com.stslex.splashgallery.data.photos.PhotosDataMapper
 import com.stslex.splashgallery.data.photos.PhotosRepository
+import com.stslex.splashgallery.domain.core.DomainResponse
 import com.stslex.splashgallery.domain.core.DomainResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -22,30 +18,20 @@ interface PhotosInteractor<T> {
 
     class Base @Inject constructor(
         private val repository: PhotosRepository,
-        private val mapper: PhotosDataMapper<DomainResult<List<PhotosDomain>>>
+        private val response: DomainResponse<List<PhotosData>, DomainResult<List<PhotosDomain>>>
     ) : PhotosInteractor<List<PhotosDomain>> {
 
-        override suspend fun getAllPhotos(page: Int) = repository.getAllPhotos(page).collect()
+        override suspend fun getAllPhotos(page: Int) =
+            response.create(repository.getAllPhotos(page))
 
         override suspend fun getUserPhotos(username: String, page: Int) =
-            repository.getUserPhotos(username, page).collect()
+            response.create(repository.getUserPhotos(username, page))
 
         override suspend fun getUserLikes(username: String, page: Int) =
-            repository.getUserLikes(username, page).collect()
+            response.create(repository.getUserLikes(username, page))
 
         override suspend fun getCollectionPhotos(id: String, page: Int) =
-            repository.getCollectionPhotos(id, page).collect()
-
-        private suspend fun Flow<DataResult<List<PhotosData>>>.collect(): Flow<DomainResult<List<PhotosDomain>>> =
-            callbackFlow {
-                try {
-                    this@collect.collect {
-                        trySendBlocking(it.map(mapper))
-                    }
-                } catch (exception: Exception) {
-                    trySendBlocking(DomainResult.Failure(exception.toString()))
-                }
-            }
+            response.create(repository.getCollectionPhotos(id, page))
 
     }
 }

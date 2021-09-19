@@ -12,7 +12,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
         ViewModelModule::class,
         ViewModelFactoryModule::class,
         RepositoryModule::class,
-        ResponseModule::class
+        ResponseModule::class,
+        TestResponseModule::class,
+        InteractorModule::class
     ]
 )
 interface AppComponent {

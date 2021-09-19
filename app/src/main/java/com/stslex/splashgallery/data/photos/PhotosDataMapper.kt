@@ -2,12 +2,13 @@ package com.stslex.splashgallery.data.photos
 
 import com.stslex.splashgallery.core.Abstract
 import com.stslex.splashgallery.domain.PhotosDomain
+import com.stslex.splashgallery.domain.core.DomainResult
 
 interface PhotosDataMapper<T> : Abstract.Mapper.DataToDomain<List<PhotosData>, T> {
 
-    class Base : PhotosDataMapper<PhotosDomainResult> {
-        override fun map(data: List<PhotosData>): PhotosDomainResult =
-            PhotosDomainResult.Success(data.map {
+    class Base : PhotosDataMapper<DomainResult<List<PhotosDomain>>> {
+        override fun map(data: List<PhotosData>): DomainResult<List<PhotosDomain>> =
+            DomainResult.Success(data.map {
                 PhotosDomain.Base(
                     imageId = it.imageId(),
                     imageUrl = it.imageUrl(),
@@ -17,8 +18,8 @@ interface PhotosDataMapper<T> : Abstract.Mapper.DataToDomain<List<PhotosData>, T
                 )
             })
 
-        override fun map(exception: Exception): PhotosDomainResult =
-            PhotosDomainResult.Failure(exception)
+        override fun map(exception: String): DomainResult<List<PhotosDomain>> =
+            DomainResult.Failure(exception)
 
     }
 }
