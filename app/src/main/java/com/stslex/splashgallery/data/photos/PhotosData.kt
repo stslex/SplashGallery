@@ -12,7 +12,8 @@ interface PhotosData {
         val id: String = "",
         val urls: UrlsData = UrlsData(),
         val user: UserData = UserData(),
-        val profile_image: ProfileImageData = ProfileImageData()
+        val profile_image: ProfileImageData = ProfileImageData(),
+        val exif: ExifData = ExifData()
     ) : PhotosData {
         data class UrlsData(
             val regular: String = ""
@@ -25,6 +26,15 @@ interface PhotosData {
 
         data class ProfileImageData(
             val medium: String = ""
+        )
+
+        data class ExifData(
+            val make: String = "",
+            val model: String = "",
+            val exposure_time: String = "",
+            val aperture: String = "",
+            val focal_length: String = "",
+            val iso: String = ""
         )
 
         override fun imageId(): String = id
