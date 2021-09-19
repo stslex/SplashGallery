@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.base
+package com.stslex.splashgallery.data.core
 
 import com.stslex.splashgallery.mapper.BaseMapper
 import retrofit2.Response

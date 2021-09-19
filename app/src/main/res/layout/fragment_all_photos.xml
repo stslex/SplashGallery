@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.all_photos.AllPhotosFragment">
+    tools:context=".ui.photos.AllPhotosFragment">
 
     <include
         android:id="@+id/fragment_all_photos_recycler"

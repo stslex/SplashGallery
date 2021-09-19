@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.photo_details
+package com.stslex.splashgallery.ui.detail_photo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

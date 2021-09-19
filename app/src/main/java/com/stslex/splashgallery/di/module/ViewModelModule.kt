@@ -2,9 +2,9 @@ package com.stslex.splashgallery.di.module
 
 import androidx.lifecycle.ViewModel
 import com.stslex.splashgallery.di.key.ViewModelKey
-import com.stslex.splashgallery.ui.all_photos.AllPhotosViewModel
 import com.stslex.splashgallery.ui.collections.CollectionViewModel
-import com.stslex.splashgallery.ui.photo_details.PhotoDetailsViewModel
+import com.stslex.splashgallery.ui.detail_photo.PhotoDetailsViewModel
+import com.stslex.splashgallery.ui.photos.AllPhotosViewModel
 import com.stslex.splashgallery.ui.user.UserViewModel
 import dagger.Binds
 import dagger.Module

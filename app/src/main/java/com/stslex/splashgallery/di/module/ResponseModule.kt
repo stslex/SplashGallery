@@ -1,7 +1,6 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.data.base.impl.CreateResponseImpl
-import com.stslex.splashgallery.data.base.interf.CreateResponse
+import com.stslex.splashgallery.data.core.CreateResponse
 import com.stslex.splashgallery.data.model.domain.DownloadModel
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
@@ -24,17 +23,17 @@ class ResponseModule {
 
     @Provides
     fun provideResponseUser(): CreateResponse<RemoteUserModel, UserModel> =
-        CreateResponseImpl(UserMapper())
+        CreateResponse.Base(UserMapper())
 
     @Provides
     fun provideResponseCollection(): CreateResponse<RemoteCollectionModel, CollectionModel> =
-        CreateResponseImpl(CollectionMapper())
+        CreateResponse.Base(CollectionMapper())
 
     @Provides
     fun provideResponseImage(): CreateResponse<RemoteImageModel, ImageModel> =
-        CreateResponseImpl(ImageMapper())
+        CreateResponse.Base(ImageMapper())
 
     @Provides
     fun provideResponseDownload(): CreateResponse<RemoteDownloadModel, DownloadModel> =
-        CreateResponseImpl(DownloadMapper())
+        CreateResponse.Base(DownloadMapper())
 }

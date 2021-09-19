@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.all_photos
+package com.stslex.splashgallery.ui.photos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
-import com.stslex.splashgallery.ui.all_photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
+import com.stslex.splashgallery.ui.photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
@@ -30,9 +30,11 @@ import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class AllPhotosFragment : BaseFragment() {
 
     private var _binding: FragmentAllPhotosBinding? = null

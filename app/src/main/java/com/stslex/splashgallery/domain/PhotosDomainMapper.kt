@@ -1,0 +1,3 @@
+package com.stslex.splashgallery.domain
+
+interface PhotosDomainMapper

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.single_image.SingleImageFragment">
+    tools:context=".ui.single_photo.SingleImageFragment">
 
     <ImageView
         android:id="@+id/fragment_single_image_image"

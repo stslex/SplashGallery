@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.single_image
+package com.stslex.splashgallery.ui.single_photo
 
 import android.graphics.Color
 import android.os.Bundle

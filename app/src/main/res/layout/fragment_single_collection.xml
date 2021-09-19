@@ -22,7 +22,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/single_collection_fragment_container"
-        android:name="com.stslex.splashgallery.ui.all_photos.AllPhotosFragment"
+        android:name="com.stslex.splashgallery.ui.photos.AllPhotosFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

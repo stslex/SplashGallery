@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.photo_details
+package com.stslex.splashgallery.ui.detail_photo
 
 import android.graphics.Color
 import android.os.Bundle
@@ -20,9 +20,11 @@ import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
 import com.stslex.splashgallery.utils.isNullCheck
 import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
 
     private var _binding: FragmentPhotoDetailsBinding? = null

@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/nav_single_photo"
-        android:name="com.stslex.splashgallery.ui.photo_details.PhotoDetailsFragment"
+        android:name="com.stslex.splashgallery.ui.detail_photo.PhotoDetailsFragment"
         tools:layout="@layout/fragment_photo_details">
         <argument android:name="transition_name" />
         <argument android:name="id" />
@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/nav_single_image"
-        android:name="com.stslex.splashgallery.ui.single_image.SingleImageFragment"
+        android:name="com.stslex.splashgallery.ui.single_photo.SingleImageFragment"
         tools:layout="@layout/fragment_single_image">
         <argument android:name="transition_name" />
         <argument android:name="id" />

@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.data.repository.impl
 
-import com.stslex.splashgallery.data.base.interf.CreateResponse
+import com.stslex.splashgallery.data.core.CreateResponse
 import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.data.repository.interf.CollectionRepository
