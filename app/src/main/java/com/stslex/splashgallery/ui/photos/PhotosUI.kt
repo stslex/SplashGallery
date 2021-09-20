@@ -1,9 +1,18 @@
 package com.stslex.splashgallery.ui.photos
 
+import com.stslex.splashgallery.ui.core.AbstractView
+import com.stslex.splashgallery.ui.core.CustomImageView
+
 interface PhotosUI {
 
-    fun bind()
-    fun getItems(): PhotosUI.Base
+    fun bindPhotos(
+        image: AbstractView.Image,
+        avatar: AbstractView.Image,
+        username: AbstractView.Text,
+        cardView: AbstractView.Card
+    )
+
+    fun openDetail(function: (CustomImageView, String) -> Unit) = Unit
 
     data class Base(
         val imageId: String,
@@ -12,12 +21,19 @@ interface PhotosUI {
         val userName: String,
         val userUrl: String
     ) : PhotosUI {
-        override fun bind() = Unit
-        override fun getItems(): Base = Base(
-            imageId, imageUrl, userId, userName, userUrl
-        )
+        override fun bindPhotos(
+            image: AbstractView.Image,
+            avatar: AbstractView.Image,
+            username: AbstractView.Text,
+            cardView: AbstractView.Card
+        ) {
+            image.load(imageUrl, needCrop = true)
+            avatar.load(userId, needCircle = true)
+            username.map(userName)
+            cardView.transit(userId)
+        }
 
-        //TODO change binding
+        override fun openDetail(function: () -> Unit) = Unit
 
     }
 }
