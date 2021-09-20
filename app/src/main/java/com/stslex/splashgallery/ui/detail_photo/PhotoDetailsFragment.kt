@@ -16,16 +16,13 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
-import com.stslex.splashgallery.utils.click_listeners.ImageClickListener
-import com.stslex.splashgallery.utils.isNullCheck
-import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
+class PhotoDetailsFragment : BaseFragment() {
 
     private var _binding: FragmentPhotoDetailsBinding? = null
     private val binding get() = _binding!!
@@ -55,39 +52,56 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
         getNavigationArgs()
         setToolbar()
         setListener()
-        binding.singlePhotoImage.setOnClickListener(this)
     }
 
     private fun setListener() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.getCurrentPhoto(id).collect {
             when (it) {
-                is Result.Success -> {
-                    it.data.run {
-                        setImageWithRequest(
-                            user?.profile_image!!.medium,
-                            binding.singlePhotoProfileImage,
-                            needCircleCrop = true
+                is PhotoUIResult.Success -> {
+                    val item = it.data
+                    with(binding) {
+                        item.bindDetailPhoto(
+                            image = imageImageView,
+                            avatar = avatarImageView,
+                            username = usernameTextView,
+                            userCardView = userCardView,
+                            photoAperture = apertureTextView,
+                            photoCamera = cameraTextView,
+                            photoDimension = dimensionTextView,
+                            photoFocal = focalTextView,
                         )
-                        binding.singlePhotoProfileUsername.text = user.username
-                        binding.singlePhotoAperture.text = exif?.aperture.isNullCheck()
-                        binding.singlePhotoCamera.text = exif?.model.isNullCheck()
-                        binding.singlePhotoDimension.text = exif?.exposure_time.isNullCheck()
-                        binding.singlePhotoFocal.text = exif?.focal_length.isNullCheck()
-                        binding.singlePhotoProfileContainer.setOnClickListener {
-                            clickListener.onUserCLick(binding.singlePhotoProfileUsername)
-                        }
-                        binding.singlePhotoDownload.setOnClickListener {
+                    }
+
+                    binding.singlePhotoDownload.setOnClickListener {
+                        item.downloadPhoto { id ->
                             downloadPhoto(id)
                         }
                     }
+
+                    binding.imageImageView.setOnClickListener {
+                        val directions =
+                            PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
+                                id = it.transitionName
+                            )
+                        val extras = FragmentNavigatorExtras(it to it.transitionName)
+                        findNavController().navigate(directions, extras)
+                    }
+
+                    binding.userCardView.setOnClickListener {
+                        val directions =
+                            PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavUser(it.transitionName)
+                        val extras = FragmentNavigatorExtras(it to it.transitionName)
+                        findNavController().navigate(directions, extras)
+                    }
                 }
-                is Result.Failure -> {
+                is PhotoUIResult.Failure -> {
                 }
-                is Result.Loading -> {
+                is PhotoUIResult.Loading -> {
                 }
             }
         }
     }
+
 
     private fun downloadPhoto(id: String) = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.downloadPhoto(id).collect {
@@ -111,8 +125,7 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
         postponeEnterTransition()
         val extras: PhotoDetailsFragmentArgs by navArgs()
         id = extras.id
-        binding.singlePhotoImage.transitionName = extras.transitionName
-        setImageWithRequest(url = extras.transitionName, binding.singlePhotoImage, true)
+        binding.imageImageView.transitionName = id
     }
 
     private fun setToolbar() {
@@ -126,28 +139,5 @@ class PhotoDetailsFragment : BaseFragment(), View.OnClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private val clickListener = ImageClickListener({ imageView, id ->
-        val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
-            transitionName = imageView.transitionName,
-            id = id
-        )
-        val extras = FragmentNavigatorExtras(imageView to imageView.transitionName)
-        findNavController().navigate(directions, extras)
-    }, { user ->
-        val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavUser(
-            user.text.toString()
-        )
-        val extras = FragmentNavigatorExtras(user to user.transitionName)
-        findNavController().navigate(directions, extras)
-    })
-
-    override fun onClick(p0: View?) {
-        when (p0) {
-            binding.singlePhotoImage -> {
-                clickListener.onImageClick(binding.singlePhotoImage, id)
-            }
-        }
     }
 }

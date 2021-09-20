@@ -16,5 +16,6 @@ interface AbstractView {
     interface Image : AbstractView {
 
         fun load(url: String, needCrop: Boolean = false, needCircle: Boolean = false)
+        fun getImage(): CustomImageView
     }
 }

@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
-import com.stslex.splashgallery.utils.setImageWithRequest
 
 
 class SingleImageFragment : Fragment() {
@@ -47,9 +46,7 @@ class SingleImageFragment : Fragment() {
     private fun getNavigationArgs() {
         postponeEnterTransition()
         val extras: SingleImageFragmentArgs by navArgs()
-        val url = extras.transitionName
-        binding.fragmentSingleImageImage.transitionName = url
-        setImageWithRequest(url, binding.fragmentSingleImageImage, false)
+        binding.fragmentSingleImageImage.transitionName = extras.id
     }
 
     override fun onDestroyView() {

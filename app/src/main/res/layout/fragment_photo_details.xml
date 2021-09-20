@@ -20,8 +20,8 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/single_photo_image"
+    <com.stslex.splashgallery.ui.core.CustomImageView
+        android:id="@+id/imageImageView"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:adjustViewBounds="true"
@@ -30,37 +30,45 @@
         app:layout_constraintTop_toBottomOf="@id/single_photo_app_bar"
         tools:src="@color/black" />
 
-    <LinearLayout
-        android:id="@+id/single_photo_profile_container"
+    <com.stslex.splashgallery.ui.core.CustomCardView
+        android:id="@+id/userCardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/primary_padding"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@+id/single_photo_download"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_image"
-        tools:ignore="UseCompoundDrawables">
+        app:layout_constraintTop_toBottomOf="@id/imageImageView">
 
-        <ImageView
-            android:id="@+id/single_photo_profile_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginEnd="@dimen/primary_padding"
-            android:contentDescription="@string/description_image"
-            tools:src="@color/black" />
-
-        <TextView
-            android:id="@+id/single_photo_profile_username"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/single_photo_profile_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:transitionName="@string/transition_name_username"
-            tools:text="Username" />
+            android:layout_margin="@dimen/primary_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
-    </LinearLayout>
+            <com.stslex.splashgallery.ui.core.CustomImageView
+                android:id="@+id/avatarImageView"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="@dimen/primary_padding"
+                android:contentDescription="@string/description_image"
+                tools:src="@color/black" />
+
+            <com.stslex.splashgallery.ui.core.CustomTextView
+                android:id="@+id/usernameTextView"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:transitionName="@string/transition_name_username"
+                tools:text="Username" />
+
+        </LinearLayout>
+
+    </com.stslex.splashgallery.ui.core.CustomCardView>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/single_photo_download"
@@ -70,9 +78,9 @@
         android:layout_marginEnd="@dimen/primary_padding"
         android:text="@string/label_download"
         app:icon="@drawable/ic_baseline_save"
-        app:layout_constraintBottom_toBottomOf="@id/single_photo_profile_container"
+        app:layout_constraintBottom_toBottomOf="@id/userCardView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/single_photo_profile_container" />
+        app:layout_constraintTop_toTopOf="@id/userCardView" />
 
     <View
         android:id="@+id/single_photo_line1"
@@ -94,30 +102,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/single_photo_line1" />
 
-    <TextView
-        android:id="@+id/single_photo_camera"
+    <com.stslex.splashgallery.ui.core.CustomTextView
+        android:id="@+id/cameraTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
         app:layout_constraintStart_toStartOf="@id/single_photo_label_camera"
         app:layout_constraintTop_toBottomOf="@id/single_photo_label_camera" />
 
-    <TextView
-        android:id="@+id/single_photo_label_focal"
+    <com.stslex.splashgallery.ui.core.CustomTextView
+        android:id="@+id/focalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/big_padding"
         android:text="@string/label_focal_length"
-        app:layout_constraintStart_toStartOf="@id/single_photo_camera"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_camera" />
+        app:layout_constraintStart_toStartOf="@id/cameraTextView"
+        app:layout_constraintTop_toBottomOf="@id/cameraTextView" />
 
     <TextView
         android:id="@+id/single_photo_focal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
-        app:layout_constraintStart_toStartOf="@id/single_photo_label_focal"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_label_focal" />
+        app:layout_constraintStart_toStartOf="@id/focalTextView"
+        app:layout_constraintTop_toBottomOf="@id/focalTextView" />
 
     <TextView
         android:id="@+id/single_photo_label_aperture"
@@ -128,8 +136,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/single_photo_label_camera" />
 
-    <TextView
-        android:id="@+id/single_photo_aperture"
+    <com.stslex.splashgallery.ui.core.CustomTextView
+        android:id="@+id/apertureTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
@@ -142,11 +150,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/big_padding"
         android:text="@string/label_dimension"
-        app:layout_constraintStart_toStartOf="@id/single_photo_aperture"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_aperture" />
+        app:layout_constraintStart_toStartOf="@id/apertureTextView"
+        app:layout_constraintTop_toBottomOf="@id/apertureTextView" />
 
-    <TextView
-        android:id="@+id/single_photo_dimension"
+    <com.stslex.splashgallery.ui.core.CustomTextView
+        android:id="@+id/dimensionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
@@ -161,6 +169,6 @@
         android:layout_marginTop="@dimen/primary_padding"
         android:layout_marginEnd="@dimen/primary_padding"
         android:background="@color/grey"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_dimension" />
+        app:layout_constraintTop_toBottomOf="@id/dimensionTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

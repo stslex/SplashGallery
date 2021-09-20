@@ -30,5 +30,5 @@ interface TestResponseModule {
     fun bindsPhotoDomainResponse(response: PhotoDomainResponse.Base): PhotoDomainResponse
 
     @Binds
-    fun bindsPhotoUIResponse(response: PhotoUIResponse.Base): PhotosUIResponse
+    fun bindsPhotoUIResponse(response: PhotoUIResponse.Base): PhotoUIResponse
 }

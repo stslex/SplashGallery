@@ -16,7 +16,17 @@ interface PhotosDomainMapper<T> : Abstract.Mapper.DomainToUi<List<PhotoDomain>, 
                     imageUrl = it.imageUrl(),
                     userId = it.userId(),
                     userName = it.userName(),
-                    userUrl = it.userUrl()
+                    userUrl = it.userUrl(),
+                    exif = with(it.getExifDomain()) {
+                        PhotosUI.Base.ExifUI(
+                            make = make(),
+                            model = model(),
+                            exposure_time = exposureTime(),
+                            aperture = aperture(),
+                            focal_length = focalLength(),
+                            iso = iso()
+                        )
+                    }
                 )
             })
 

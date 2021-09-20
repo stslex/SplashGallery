@@ -29,6 +29,8 @@ class CustomImageView : androidx.appcompat.widget.AppCompatImageView, AbstractVi
         glide.into(this)
     }
 
+    override fun getImage(): CustomImageView = this
+
     override fun show() {
         visibility = View.VISIBLE
     }

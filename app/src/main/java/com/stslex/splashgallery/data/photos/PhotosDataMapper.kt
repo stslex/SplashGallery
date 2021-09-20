@@ -15,7 +15,17 @@ interface PhotosDataMapper<T> : Abstract.Mapper.DataToDomain<List<PhotoData>, T>
                     imageUrl = it.imageUrl(),
                     userId = it.userId(),
                     userName = it.userName(),
-                    userUrl = it.userUrl()
+                    userUrl = it.userUrl(),
+                    exif = with(it.getExifData()) {
+                        PhotoDomain.Base.ExifDomain.Base(
+                            make = make(),
+                            model = model(),
+                            exposure_time = exposureTime(),
+                            aperture = aperture(),
+                            focal_length = focalLength(),
+                            iso = iso()
+                        )
+                    }
                 )
             })
 
