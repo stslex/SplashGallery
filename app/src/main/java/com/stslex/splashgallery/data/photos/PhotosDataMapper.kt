@@ -1,16 +1,16 @@
 package com.stslex.splashgallery.data.photos
 
 import com.stslex.splashgallery.core.Abstract
-import com.stslex.splashgallery.domain.PhotosDomain
-import com.stslex.splashgallery.domain.PhotosDomainResult
+import com.stslex.splashgallery.domain.photo.PhotoDomain
+import com.stslex.splashgallery.domain.photos.PhotosDomainResult
 import javax.inject.Inject
 
-interface PhotosDataMapper<T> : Abstract.Mapper.DataToDomain<List<PhotosData>, T> {
+interface PhotosDataMapper<T> : Abstract.Mapper.DataToDomain<List<PhotoData>, T> {
 
     class Base @Inject constructor() : PhotosDataMapper<PhotosDomainResult> {
-        override fun map(data: List<PhotosData>): PhotosDomainResult =
+        override fun map(data: List<PhotoData>): PhotosDomainResult =
             PhotosDomainResult.Success(data.map {
-                PhotosDomain.Base(
+                PhotoDomain.Base(
                     imageId = it.imageId(),
                     imageUrl = it.imageUrl(),
                     userId = it.userId(),

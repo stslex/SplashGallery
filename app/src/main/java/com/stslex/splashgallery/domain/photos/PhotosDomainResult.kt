@@ -1,9 +1,11 @@
-package com.stslex.splashgallery.domain
+package com.stslex.splashgallery.domain.photos
+
+import com.stslex.splashgallery.domain.photo.PhotoDomain
 
 sealed class PhotosDomainResult {
     abstract fun <T> map(mapper: PhotosDomainMapper<T>): T
 
-    data class Success(val data: List<PhotosDomain>) : PhotosDomainResult() {
+    data class Success(val data: List<PhotoDomain>) : PhotosDomainResult() {
         override fun <T> map(mapper: PhotosDomainMapper<T>): T = mapper.map(data)
     }
 

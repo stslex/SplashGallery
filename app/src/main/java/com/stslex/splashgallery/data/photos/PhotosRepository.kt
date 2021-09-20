@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.photos
 
-import com.stslex.splashgallery.data.service.AllPhotosService
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

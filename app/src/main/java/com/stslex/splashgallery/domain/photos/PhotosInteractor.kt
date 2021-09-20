@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.domain
+package com.stslex.splashgallery.domain.photos
 
 import com.stslex.splashgallery.data.photos.PhotosRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi

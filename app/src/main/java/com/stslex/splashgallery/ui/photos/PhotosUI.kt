@@ -17,5 +17,7 @@ interface PhotosUI {
             imageId, imageUrl, userId, userName, userUrl
         )
 
+        //TODO change binding
+
     }
 }

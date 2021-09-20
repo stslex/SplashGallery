@@ -1,5 +1,6 @@
-package com.stslex.splashgallery.data.photos
+package com.stslex.splashgallery.data.photo
 
+import com.stslex.splashgallery.data.photos.PhotoData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -9,12 +10,12 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-interface PhotosDataResponse {
+interface PhotoDataResponse {
 
-    fun create(response: Response<List<PhotoData.Base>>): Flow<PhotosDataResult>
-    class Base @Inject constructor() : PhotosDataResponse {
+    fun create(response: Response<PhotoData.Base>): Flow<PhotoDataResult>
+    class Base @Inject constructor() : PhotoDataResponse {
 
-        override fun create(response: Response<List<PhotoData.Base>>): Flow<PhotosDataResult> =
+        override fun create(response: Response<PhotoData.Base>): Flow<PhotoDataResult> =
             callbackFlow {
                 response.responseEvent {
                     trySendBlocking(it)
@@ -22,18 +23,18 @@ interface PhotosDataResponse {
                 awaitClose { }
             }
 
-        private inline fun Response<List<PhotoData.Base>>.responseEvent(
-            crossinline function: (PhotosDataResult) -> Unit
+        private inline fun Response<PhotoData.Base>.responseEvent(
+            crossinline function: (PhotoDataResult) -> Unit
         ) = try {
             if (isSuccessful && body() != null) {
                 body()?.let {
-                    function(PhotosDataResult.Success(it))
+                    function(PhotoDataResult.Success(it))
                 }
             } else {
-                function(PhotosDataResult.Failure(message().toString()))
+                function(PhotoDataResult.Failure(message().toString()))
             }
         } catch (exception: Exception) {
-            function(PhotosDataResult.Failure(exception.toString()))
+            function(PhotoDataResult.Failure(exception.toString()))
         }
     }
 }

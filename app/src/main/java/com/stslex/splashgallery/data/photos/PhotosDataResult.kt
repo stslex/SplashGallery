@@ -2,7 +2,7 @@ package com.stslex.splashgallery.data.photos
 
 sealed class PhotosDataResult {
     abstract fun <T> map(mapper: PhotosDataMapper<T>): T
-    data class Success(val data: List<PhotosData>) : PhotosDataResult() {
+    data class Success(val data: List<PhotoData>) : PhotosDataResult() {
         override fun <T> map(mapper: PhotosDataMapper<T>): T = mapper.map(data)
     }
 

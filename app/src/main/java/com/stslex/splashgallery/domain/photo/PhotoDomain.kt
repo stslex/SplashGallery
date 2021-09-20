@@ -1,6 +1,6 @@
-package com.stslex.splashgallery.domain
+package com.stslex.splashgallery.domain.photo
 
-interface PhotosDomain {
+interface PhotoDomain {
 
     fun imageId(): String
     fun imageUrl(): String
@@ -14,7 +14,7 @@ interface PhotosDomain {
         private val userId: String,
         private val userName: String,
         private val userUrl: String
-    ) : PhotosDomain {
+    ) : PhotoDomain {
 
         override fun imageId(): String = imageId
         override fun imageUrl(): String = imageUrl

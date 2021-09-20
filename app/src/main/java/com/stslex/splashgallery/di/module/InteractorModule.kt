@@ -1,6 +1,7 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.domain.PhotosInteractor
+import com.stslex.splashgallery.domain.photo.PhotoInteractor
+import com.stslex.splashgallery.domain.photos.PhotosInteractor
 import dagger.Binds
 import dagger.Module
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,4 +12,7 @@ interface InteractorModule {
 
     @Binds
     fun bindsInteractorPhotos(interactor: PhotosInteractor.Base): PhotosInteractor
+
+    @Binds
+    fun bindsInteractorPhoto(interactor: PhotoInteractor.Base): PhotoInteractor
 }

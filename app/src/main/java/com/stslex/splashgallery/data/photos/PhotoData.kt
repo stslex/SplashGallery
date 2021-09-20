@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.data.photos
 
-interface PhotosData {
+interface PhotoData {
 
     fun imageId(): String
     fun imageUrl(): String
@@ -14,7 +14,7 @@ interface PhotosData {
         val user: UserData = UserData(),
         val profile_image: ProfileImageData = ProfileImageData(),
         val exif: ExifData = ExifData()
-    ) : PhotosData {
+    ) : PhotoData {
         data class UrlsData(
             val regular: String = ""
         )

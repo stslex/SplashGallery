@@ -1,7 +1,7 @@
-package com.stslex.splashgallery.domain
+package com.stslex.splashgallery.domain.photo
 
-import com.stslex.splashgallery.data.photos.PhotosDataMapper
-import com.stslex.splashgallery.data.photos.PhotosDataResult
+import com.stslex.splashgallery.data.photo.PhotoDataMapper
+import com.stslex.splashgallery.data.photo.PhotoDataResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-interface PhotosDomainResponse {
+interface PhotoDomainResponse {
 
-    fun create(dataFlow: Flow<PhotosDataResult>): Flow<PhotosDomainResult>
+    fun create(dataFlow: Flow<PhotoDataResult>): Flow<PhotoDomainResult>
     class Base @Inject constructor(
-        private val mapper: PhotosDataMapper<PhotosDomainResult>
-    ) : PhotosDomainResponse {
-        override fun create(dataFlow: Flow<PhotosDataResult>): Flow<PhotosDomainResult> =
+        private val mapper: PhotoDataMapper<PhotoDomainResult>
+    ) : PhotoDomainResponse {
+        override fun create(dataFlow: Flow<PhotoDataResult>): Flow<PhotoDomainResult> =
             callbackFlow {
                 dataFlow.collection {
                     trySendBlocking(it)
@@ -25,14 +25,14 @@ interface PhotosDomainResponse {
                 awaitClose { }
             }
 
-        private suspend inline fun Flow<PhotosDataResult>.collection(
-            crossinline function: (PhotosDomainResult) -> Unit
+        private suspend inline fun Flow<PhotoDataResult>.collection(
+            crossinline function: (PhotoDomainResult) -> Unit
         ) = try {
             this.collect {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            function(PhotosDomainResult.Failure(exception.toString()))
+            function(PhotoDomainResult.Failure(exception.toString()))
         }
 
     }
