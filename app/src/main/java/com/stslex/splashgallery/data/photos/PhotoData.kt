@@ -7,14 +7,19 @@ interface PhotoData {
     fun userId(): String
     fun userName(): String
     fun userUrl(): String
-    fun getExifData(): Base.ExifData
+
+    fun make(): String
+    fun model(): String
+    fun exposureTime(): String
+    fun aperture(): String
+    fun focalLength(): String
+    fun iso(): String
 
     data class Base(
         val id: String = "",
         val urls: UrlsData = UrlsData(),
         val user: UserData = UserData(),
-        val profile_image: ProfileImageData = ProfileImageData(),
-        val exif: ExifData = ExifData.Base()
+        val exif: ExifData = ExifData()
     ) : PhotoData {
         data class UrlsData(
             val regular: String = ""
@@ -22,45 +27,35 @@ interface PhotoData {
 
         data class UserData(
             val id: String = "",
-            val username: String = ""
+            val username: String = "",
+            val profile_image: ProfileImageData = ProfileImageData(),
         )
 
         data class ProfileImageData(
             val medium: String = ""
         )
 
+        data class ExifData(
+            val make: String = "",
+            val model: String = "",
+            val exposure_time: String = "",
+            val aperture: String = "",
+            val focal_length: String = "",
+            val iso: String = ""
+        )
 
         override fun imageId(): String = id
         override fun imageUrl(): String = urls.regular
         override fun userId(): String = user.id
         override fun userName(): String = user.username
-        override fun userUrl(): String = profile_image.medium
-        override fun getExifData(): ExifData = exif
+        override fun userUrl(): String = user.profile_image.medium
 
-        interface ExifData {
-            fun make(): String
-            fun model(): String
-            fun exposureTime(): String
-            fun aperture(): String
-            fun focalLength(): String
-            fun iso(): String
-
-            data class Base(
-                val make: String = "",
-                val model: String = "",
-                val exposure_time: String = "",
-                val aperture: String = "",
-                val focal_length: String = "",
-                val iso: String = ""
-            ) : ExifData {
-                override fun make(): String = make
-                override fun model(): String = model
-                override fun exposureTime(): String = exposure_time
-                override fun aperture(): String = aperture
-                override fun focalLength(): String = focal_length
-                override fun iso(): String = iso
-            }
-        }
+        override fun make(): String = exif.make
+        override fun model(): String = exif.model
+        override fun exposureTime(): String = exif.exposure_time
+        override fun aperture(): String = exif.aperture
+        override fun focalLength(): String = exif.focal_length
+        override fun iso(): String = exif.iso
     }
 
 

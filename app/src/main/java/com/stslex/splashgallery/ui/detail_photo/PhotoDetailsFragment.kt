@@ -15,7 +15,9 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.utils.Result
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseFragment
+import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -61,6 +63,7 @@ class PhotoDetailsFragment : BaseFragment() {
                     val item = it.data
                     with(binding) {
                         item.bindDetailPhoto(
+                            glide = setImageWithGlide,
                             image = imageImageView,
                             avatar = avatarImageView,
                             username = usernameTextView,
@@ -119,6 +122,10 @@ class PhotoDetailsFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private val setImageWithGlide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
     }
 
     private fun getNavigationArgs() {

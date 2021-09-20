@@ -17,16 +17,14 @@ interface PhotosDomainMapper<T> : Abstract.Mapper.DomainToUi<List<PhotoDomain>, 
                     userId = it.userId(),
                     userName = it.userName(),
                     userUrl = it.userUrl(),
-                    exif = with(it.getExifDomain()) {
-                        PhotosUI.Base.ExifUI(
-                            make = make(),
-                            model = model(),
-                            exposure_time = exposureTime(),
-                            aperture = aperture(),
-                            focal_length = focalLength(),
-                            iso = iso()
-                        )
-                    }
+                    exif = PhotosUI.Base.ExifUI(
+                        make = it.make(),
+                        model = it.model(),
+                        exposure_time = it.exposureTime(),
+                        aperture = it.aperture(),
+                        focal_length = it.focalLength(),
+                        iso = it.iso()
+                    )
                 )
             })
 

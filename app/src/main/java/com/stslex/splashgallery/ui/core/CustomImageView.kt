@@ -4,8 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.bumptech.glide.Glide
-import com.stslex.splashgallery.R
+import com.stslex.splashgallery.utils.SetImageWithGlide
 
 class CustomImageView : androidx.appcompat.widget.AppCompatImageView, AbstractView.Image {
 
@@ -18,18 +17,13 @@ class CustomImageView : androidx.appcompat.widget.AppCompatImageView, AbstractVi
     )
 
     @SuppressLint("CheckResult")
-    override fun load(url: String, needCrop: Boolean, needCircle: Boolean) {
-        val urlSet = if (url.isEmpty()) {
-            R.drawable.ic_launcher_new_foreground
-        } else url
-        this.transitionName = url
-        val glide = Glide.with(this).load(urlSet)
-        if (needCrop) glide.centerCrop()
-        if (needCircle) glide.circleCrop()
-        glide.into(this)
+    override fun load(url: String, glide: SetImageWithGlide) {
     }
 
-    override fun getImage(): CustomImageView = this
+    override fun getImage(url: String): CustomImageView {
+        this.transitionName = url
+        return this
+    }
 
     override fun show() {
         visibility = View.VISIBLE

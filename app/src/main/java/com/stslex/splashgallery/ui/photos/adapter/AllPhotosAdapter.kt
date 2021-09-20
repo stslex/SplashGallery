@@ -2,15 +2,15 @@ package com.stslex.splashgallery.ui.photos.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.ClickListener
 import com.stslex.splashgallery.ui.photos.PhotosUI
-import com.stslex.splashgallery.utils.ImageDiffUtilCallback
+import com.stslex.splashgallery.utils.SetImageWithGlide
 
 class AllPhotosAdapter(
     private val clickListener: ClickListener<PhotosUI>,
+    private val setImageWithGlide: SetImageWithGlide,
     private val isUser: Boolean = false,
 ) : RecyclerView.Adapter<AllPhotosViewHolder>() {
 
@@ -19,7 +19,7 @@ class AllPhotosAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllPhotosViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemRecyclerAllPhotosBinding.inflate(inflater, parent, false)
-        return AllPhotosViewHolder.Base(binding, clickListener)
+        return AllPhotosViewHolder.Base(binding, clickListener, setImageWithGlide, isUser)
     }
 
     override fun onBindViewHolder(holder: AllPhotosViewHolder, position: Int) {
@@ -29,10 +29,9 @@ class AllPhotosAdapter(
     override fun getItemCount(): Int = list.size
 
     fun addItems(data: List<PhotosUI>) {
-        val result = DiffUtil.calculateDiff(ImageDiffUtilCallback(list, data))
-        list.clear()
+        val startItems = list.size
         list.addAll(data)
-        result.dispatchUpdatesTo(this)
+        notifyItemRangeChanged(startItems, list.size)
     }
 
 }

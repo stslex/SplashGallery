@@ -3,10 +3,12 @@ package com.stslex.splashgallery.ui.photos
 import com.stslex.splashgallery.ui.core.AbstractView
 import com.stslex.splashgallery.ui.core.CustomCardView
 import com.stslex.splashgallery.ui.core.CustomImageView
+import com.stslex.splashgallery.utils.SetImageWithGlide
 
 interface PhotosUI {
 
     fun bindPhotos(
+        glide: SetImageWithGlide,
         image: AbstractView.Image,
         avatar: AbstractView.Image,
         username: AbstractView.Text,
@@ -15,6 +17,7 @@ interface PhotosUI {
     )
 
     fun bindDetailPhoto(
+        glide: SetImageWithGlide,
         image: AbstractView.Image,
         avatar: AbstractView.Image,
         username: AbstractView.Text,
@@ -59,22 +62,22 @@ interface PhotosUI {
         private val imageView get() = _imageView!!
 
         override fun bindPhotos(
+            glide: SetImageWithGlide,
             image: AbstractView.Image,
             avatar: AbstractView.Image,
             username: AbstractView.Text,
             imageCardView: AbstractView.Card,
             userCardView: AbstractView.Card
         ) {
-            image.load(imageUrl, needCrop = true)
-            avatar.load(userId, needCircle = true)
+            glide.makeGlideImage(imageUrl, image.getImage(imageUrl), true, false)
+            glide.makeGlideImage(imageUrl, avatar.getImage(userUrl), true, true)
             username.map(userName)
-            imageCardView.transit(userId)
-            _imageCardView = imageCardView.getCard()
-            userCardView.transit(userName)
-            _userCardView = userCardView.getCard()
+            _imageCardView = imageCardView.transit(userId)
+            _userCardView = userCardView.transit(userName)
         }
 
         override fun bindDetailPhoto(
+            glide: SetImageWithGlide,
             image: AbstractView.Image,
             avatar: AbstractView.Image,
             username: AbstractView.Text,
@@ -84,12 +87,11 @@ interface PhotosUI {
             photoDimension: AbstractView.Text,
             photoFocal: AbstractView.Text
         ) {
-            image.load(imageUrl, needCrop = true)
-            _imageView = image.getImage()
-            avatar.load(userId, needCircle = true)
+            _imageView = image.getImage(imageId)
+            glide.makeGlideImage(imageUrl, imageView, true, false)
+            glide.makeGlideImage(imageUrl, avatar.getImage(userUrl), true, true)
             username.map(userName)
-            userCardView.transit(userName)
-            _userCardView = userCardView.getCard()
+            _userCardView = userCardView.transit(userName)
             photoAperture.map(exif.aperture)
             photoCamera.map(exif.make)
             photoDimension.map(exif.exposure_time)

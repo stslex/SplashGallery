@@ -26,7 +26,9 @@ import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources.currentId
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.base.BaseFragment
+import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -84,10 +86,11 @@ class AllPhotosFragment : BaseFragment() {
 
 
     private fun initRecyclerView() {
-        val isUser = requireParentFragment() is UserPhotosFragment
+        val isNotUser = requireParentFragment() is UserPhotosFragment
         adapter = AllPhotosAdapter(
             PhotosClickListener(),
-            isUser = isUser
+            setImageWithGlide,
+            isUser = !isNotUser
         )
         recyclerView = binding.fragmentAllPhotosRecyclerView
         layoutManager = LinearLayoutManager(requireContext())
@@ -110,7 +113,6 @@ class AllPhotosFragment : BaseFragment() {
         get() = when (this) {
             is PhotosUIResult.Success -> {
                 adapter.addItems(data)
-                recyclerView.scrollToPosition(data.size - 1)
             }
             is PhotosUIResult.Failure -> {
 
@@ -141,7 +143,7 @@ class AllPhotosFragment : BaseFragment() {
         }
 
     private inner class PhotosClickListener : ClickListener<PhotosUI> {
-        override fun click(item: PhotosUI) {
+        override fun clickImage(item: PhotosUI) {
             item.openDetailImage { imageCard ->
                 val extras = FragmentNavigatorExtras(imageCard to imageCard.transitionName)
                 val directions: NavDirections? = when (requireParentFragment()) {
@@ -161,6 +163,10 @@ class AllPhotosFragment : BaseFragment() {
                 }
 
             }
+
+        }
+
+        override fun clickUser(item: PhotosUI) {
             item.openDetailUser { userCard ->
                 val extras = FragmentNavigatorExtras(userCard to userCard.transitionName)
                 val directions: NavDirections? = when (requireParentFragment()) {
@@ -178,6 +184,10 @@ class AllPhotosFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private val setImageWithGlide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
     }
 
     override fun onDestroyView() {

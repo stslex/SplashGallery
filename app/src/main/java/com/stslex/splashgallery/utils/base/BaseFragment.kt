@@ -15,6 +15,6 @@ open class BaseFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireContext().applicationContext.appComponent.inject(this)
+        requireContext().appComponent.inject(this)
     }
 }
