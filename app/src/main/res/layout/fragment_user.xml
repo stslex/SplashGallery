@@ -133,7 +133,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
                 android:minHeight="?attr/actionBarSize"
-                android:transitionName="@string/transition_name_username"
                 app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

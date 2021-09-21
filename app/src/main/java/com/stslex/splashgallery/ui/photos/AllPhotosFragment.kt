@@ -159,7 +159,6 @@ class AllPhotosFragment : BaseFragment() {
                     else -> null
                 }
                 directions?.let {
-                    startPostponedEnterTransition()
                     findNavController().navigate(it, extras)
                 }
             }

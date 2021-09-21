@@ -128,12 +128,10 @@ class PhotoDetailsFragment : BaseFragment() {
     }
 
     private fun getNavigationArgs() {
-        postponeEnterTransition()
         val extras: PhotoDetailsFragmentArgs by navArgs()
         id = extras.id
-        val url = extras.url
-        binding.imageImageView.transitionName = url
-        setImageWithRequest(url, binding.imageImageView, needCrop = true)
+        binding.imageImageView.transitionName = extras.url
+        setImageWithRequest(extras.url, binding.imageImageView, needCrop = true)
     }
 
     private fun setToolbar() {

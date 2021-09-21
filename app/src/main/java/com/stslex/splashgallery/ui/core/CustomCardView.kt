@@ -14,10 +14,12 @@ class CustomCardView : com.google.android.material.card.MaterialCardView, Abstra
         defStyleAttr
     )
 
-    override fun transit(transitionName: String): CustomCardView {
+    override fun getCardAndSetTransitionName(transitionName: String): CustomCardView {
         this.transitionName = transitionName
         return this
     }
+
+    override fun getCardView(): CustomCardView = this
 
     override fun show() {
         visibility = View.VISIBLE

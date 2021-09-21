@@ -10,12 +10,14 @@ interface AbstractView {
 
     interface Text : AbstractView, TextMapper.Void
     interface Card : AbstractView {
-        fun transit(transitionName: String): CustomCardView
+        fun getCardAndSetTransitionName(transitionName: String): CustomCardView
+        fun getCardView(): CustomCardView
     }
 
     interface Image : AbstractView {
 
         fun load(url: String, glide: SetImageWithGlide)
-        fun getImage(transitionName: String): CustomImageView
+        fun getImage(): CustomImageView
+        fun getImageAndSetTransitionName(transitionName: String): CustomImageView
     }
 }

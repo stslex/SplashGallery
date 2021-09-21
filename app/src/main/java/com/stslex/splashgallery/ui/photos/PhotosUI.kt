@@ -69,11 +69,11 @@ interface PhotosUI {
             imageCardView: AbstractView.Card,
             userCardView: AbstractView.Card
         ) {
-            glide.makeGlideImage(imageUrl, image.getImage(imageUrl), true, false)
-            glide.makeGlideImage(userUrl, avatar.getImage(userUrl), true, true)
+            glide.makeGlideImage(imageUrl, image.getImage(), true, false)
+            glide.makeGlideImage(userUrl, avatar.getImage(), true, true)
             username.map(userName)
-            _imageCardView = imageCardView.transit(userId)
-            _userCardView = userCardView.transit(userName)
+            _imageCardView = imageCardView.getCardAndSetTransitionName(userId)
+            _userCardView = userCardView.getCardAndSetTransitionName(userName)
         }
 
         override fun bindDetailPhoto(
@@ -87,11 +87,10 @@ interface PhotosUI {
             photoDimension: AbstractView.Text,
             photoFocal: AbstractView.Text
         ) {
-            _imageView = image.getImage(imageUrl)
-            //glide.makeGlideImage(imageUrl, imageView, true, false)
-            glide.makeGlideImage(userUrl, avatar.getImage(userUrl), true, true)
+            _imageView = image.getImageAndSetTransitionName(imageUrl)
+            glide.makeGlideImage(userUrl, avatar.getImage(), true, true)
             username.map(userName)
-            _userCardView = userCardView.transit(userName)
+            _userCardView = userCardView.getCardAndSetTransitionName(userName)
             photoAperture.map(exif.aperture)
             photoCamera.map(exif.make)
             photoDimension.map(exif.exposure_time)

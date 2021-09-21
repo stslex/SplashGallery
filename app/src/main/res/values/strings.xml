@@ -18,5 +18,6 @@
 
     <!--Transition name-->
     <string name="transition_name_username" translatable="false">username</string>
+    <string name="transition_name_single_image" translatable="false">single_image</string>
 
 </resources>

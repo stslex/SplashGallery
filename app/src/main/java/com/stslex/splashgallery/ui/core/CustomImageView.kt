@@ -20,10 +20,12 @@ class CustomImageView : androidx.appcompat.widget.AppCompatImageView, AbstractVi
     override fun load(url: String, glide: SetImageWithGlide) {
     }
 
-    override fun getImage(transitionName: String): CustomImageView {
-        this.transitionName = transitionName
-        return this
-    }
+    override fun getImage(): CustomImageView = this
+
+    override fun getImageAndSetTransitionName(transitionName: String): CustomImageView =
+        this.apply {
+            this.transitionName = transitionName
+        }
 
     override fun show() {
         visibility = View.VISIBLE
