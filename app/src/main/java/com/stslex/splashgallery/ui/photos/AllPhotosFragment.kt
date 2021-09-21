@@ -144,26 +144,25 @@ class AllPhotosFragment : BaseFragment() {
 
     private inner class PhotosClickListener : ClickListener<PhotosUI> {
         override fun clickImage(item: PhotosUI) {
-            item.openDetailImage { imageCard ->
+            item.openDetailImage { imageCard, url ->
                 val extras = FragmentNavigatorExtras(imageCard to imageCard.transitionName)
                 val directions: NavDirections? = when (requireParentFragment()) {
                     is MainFragment -> MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-                        imageCard.transitionName
+                        imageCard.transitionName, url
                     )
                     is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserToNavSinglePhoto(
-                        imageCard.transitionName
+                        imageCard.transitionName, url
                     )
                     is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
-                        imageCard.transitionName
+                        imageCard.transitionName, url
                     )
                     else -> null
                 }
                 directions?.let {
+                    startPostponedEnterTransition()
                     findNavController().navigate(it, extras)
                 }
-
             }
-
         }
 
         override fun clickUser(item: PhotosUI) {

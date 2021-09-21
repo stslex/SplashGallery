@@ -16,6 +16,6 @@ interface AbstractView {
     interface Image : AbstractView {
 
         fun load(url: String, glide: SetImageWithGlide)
-        fun getImage(url: String): CustomImageView
+        fun getImage(transitionName: String): CustomImageView
     }
 }

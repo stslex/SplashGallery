@@ -54,6 +54,21 @@ class PhotoDetailsFragment : BaseFragment() {
         getNavigationArgs()
         setToolbar()
         setListener()
+        binding.imageImageView.setOnClickListener { image ->
+            val directions =
+                PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
+                    url = image.transitionName
+                )
+            val extras = FragmentNavigatorExtras(image to image.transitionName)
+            findNavController().navigate(directions, extras)
+        }
+
+        binding.userCardView.setOnClickListener { card ->
+            val directions =
+                PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavUser(card.transitionName)
+            val extras = FragmentNavigatorExtras(card to card.transitionName)
+            findNavController().navigate(directions, extras)
+        }
     }
 
     private fun setListener() = viewLifecycleOwner.lifecycleScope.launch {
@@ -79,22 +94,6 @@ class PhotoDetailsFragment : BaseFragment() {
                         item.downloadPhoto { id ->
                             downloadPhoto(id)
                         }
-                    }
-
-                    binding.imageImageView.setOnClickListener {
-                        val directions =
-                            PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
-                                id = it.transitionName
-                            )
-                        val extras = FragmentNavigatorExtras(it to it.transitionName)
-                        findNavController().navigate(directions, extras)
-                    }
-
-                    binding.userCardView.setOnClickListener {
-                        val directions =
-                            PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavUser(it.transitionName)
-                        val extras = FragmentNavigatorExtras(it to it.transitionName)
-                        findNavController().navigate(directions, extras)
                     }
                 }
                 is PhotoUIResult.Failure -> {
@@ -132,7 +131,9 @@ class PhotoDetailsFragment : BaseFragment() {
         postponeEnterTransition()
         val extras: PhotoDetailsFragmentArgs by navArgs()
         id = extras.id
-        binding.imageImageView.transitionName = id
+        val url = extras.url
+        binding.imageImageView.transitionName = url
+        setImageWithRequest(url, binding.imageImageView, needCrop = true)
     }
 
     private fun setToolbar() {

@@ -28,7 +28,7 @@ interface PhotosUI {
         photoFocal: AbstractView.Text
     )
 
-    fun openDetailImage(function: (CustomCardView) -> Unit)
+    fun openDetailImage(function: (CustomCardView, String) -> Unit)
     fun openDetailUser(function: (CustomCardView) -> Unit)
     fun same(data: PhotosUI): Boolean
     fun downloadPhoto(function: (String) -> Unit)
@@ -70,7 +70,7 @@ interface PhotosUI {
             userCardView: AbstractView.Card
         ) {
             glide.makeGlideImage(imageUrl, image.getImage(imageUrl), true, false)
-            glide.makeGlideImage(imageUrl, avatar.getImage(userUrl), true, true)
+            glide.makeGlideImage(userUrl, avatar.getImage(userUrl), true, true)
             username.map(userName)
             _imageCardView = imageCardView.transit(userId)
             _userCardView = userCardView.transit(userName)
@@ -87,9 +87,9 @@ interface PhotosUI {
             photoDimension: AbstractView.Text,
             photoFocal: AbstractView.Text
         ) {
-            _imageView = image.getImage(imageId)
-            glide.makeGlideImage(imageUrl, imageView, true, false)
-            glide.makeGlideImage(imageUrl, avatar.getImage(userUrl), true, true)
+            _imageView = image.getImage(imageUrl)
+            //glide.makeGlideImage(imageUrl, imageView, true, false)
+            glide.makeGlideImage(userUrl, avatar.getImage(userUrl), true, true)
             username.map(userName)
             _userCardView = userCardView.transit(userName)
             photoAperture.map(exif.aperture)
@@ -98,7 +98,9 @@ interface PhotosUI {
             photoFocal.map(exif.focal_length)
         }
 
-        override fun openDetailImage(function: (CustomCardView) -> Unit) = function(imageCardView)
+        override fun openDetailImage(function: (CustomCardView, String) -> Unit) =
+            function(imageCardView, imageUrl)
+
         override fun openDetailUser(function: (CustomCardView) -> Unit) = function(userCardView)
         override fun downloadPhoto(function: (String) -> Unit) = function(imageId)
         override fun imageClick(function: (CustomImageView) -> Unit) = function(imageView)

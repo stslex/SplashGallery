@@ -134,6 +134,7 @@ class UserFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         username = extras.username
+        binding.userProfileToolbar.transitionName = username
     }
 
     override fun onDestroyView() {

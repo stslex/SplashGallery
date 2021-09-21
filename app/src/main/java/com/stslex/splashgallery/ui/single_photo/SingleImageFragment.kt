@@ -5,15 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
+import com.stslex.splashgallery.utils.base.BaseFragment
+import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
-class SingleImageFragment : Fragment() {
+@ExperimentalCoroutinesApi
+class SingleImageFragment : BaseFragment() {
     private var _binding: FragmentSingleImageBinding? = null
     private val binding get() = _binding!!
 
@@ -46,7 +49,8 @@ class SingleImageFragment : Fragment() {
     private fun getNavigationArgs() {
         postponeEnterTransition()
         val extras: SingleImageFragmentArgs by navArgs()
-        binding.fragmentSingleImageImage.transitionName = extras.id
+        binding.fragmentSingleImageImage.transitionName = extras.url
+        setImageWithRequest(extras.url, binding.fragmentSingleImageImage)
     }
 
     override fun onDestroyView() {
