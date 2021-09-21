@@ -6,169 +6,179 @@
     android:layout_height="match_parent"
     tools:context=".ui.detail_photo.PhotoDetailsFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/single_photo_app_bar"
-        style="@style/AppBar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/single_photo_toolbar"
-            style="@style/Toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/single_photo_app_bar"
+            style="@style/AppBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content">
 
-    <com.stslex.splashgallery.ui.core.CustomImageView
-        android:id="@+id/imageImageView"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/description_image"
-        android:cropToPadding="true"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_app_bar"
-        tools:src="@color/black" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/single_photo_toolbar"
+                style="@style/Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <com.stslex.splashgallery.ui.core.CustomCardView
-        android:id="@+id/userCardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/single_photo_download"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageImageView">
+        <com.stslex.splashgallery.ui.core.CustomImageView
+            android:id="@+id/imageImageView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/description_image"
+            android:cropToPadding="true"
+            tools:src="@color/black" />
 
         <LinearLayout
-            android:id="@+id/single_photo_profile_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/primary_padding"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
+            android:weightSum="5">
 
-            <com.stslex.splashgallery.ui.core.CustomImageView
-                android:id="@+id/avatarImageView"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="@dimen/primary_padding"
-                android:contentDescription="@string/description_image"
-                tools:src="@color/black" />
-
-            <com.stslex.splashgallery.ui.core.CustomTextView
-                android:id="@+id/usernameTextView"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
+            <com.stslex.splashgallery.ui.core.CustomCardView
+                android:id="@+id/userCardView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:transitionName="@string/transition_name_username"
-                tools:text="Username" />
+                android:layout_weight="3"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:id="@+id/single_photo_profile_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/primary_padding"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <com.stslex.splashgallery.ui.core.CustomImageView
+                        android:id="@+id/avatarImageView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="@dimen/primary_padding"
+                        android:contentDescription="@string/description_image"
+                        tools:src="@color/black" />
+
+                    <com.stslex.splashgallery.ui.core.CustomTextView
+                        android:id="@+id/usernameTextView"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:transitionName="@string/transition_name_username"
+                        tools:text="Username" />
+
+                </LinearLayout>
+
+            </com.stslex.splashgallery.ui.core.CustomCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/single_photo_download"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="@dimen/primary_padding"
+                android:layout_weight="2"
+                android:text="@string/label_download"
+                app:icon="@drawable/ic_baseline_save" />
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/primary_padding" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/primary_padding"
+            android:layout_marginEnd="@dimen/primary_padding"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/single_photo_label_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_camera" />
+
+                <com.stslex.splashgallery.ui.core.CustomTextView
+                    android:id="@+id/cameraTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_padding"
+                    tools:text="camera" />
+
+                <TextView
+                    android:id="@+id/single_photo_label_aperture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/primary_padding"
+                    android:text="@string/label_aperture" />
+
+                <com.stslex.splashgallery.ui.core.CustomTextView
+                    android:id="@+id/apertureTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_padding"
+                    tools:text="aperture" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/labelFocalTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_focal_length" />
+
+                <com.stslex.splashgallery.ui.core.CustomTextView
+                    android:id="@+id/focalTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_padding"
+                    tools:text="focal" />
+
+                <TextView
+                    android:id="@+id/single_photo_label_dimension"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/primary_padding"
+                    android:text="@string/label_dimension" />
+
+                <com.stslex.splashgallery.ui.core.CustomTextView
+                    android:id="@+id/dimensionTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_padding"
+                    tools:text="dimension" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </com.stslex.splashgallery.ui.core.CustomCardView>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/primary_padding" />
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/single_photo_download"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/primary_padding"
-        android:text="@string/label_download"
-        app:icon="@drawable/ic_baseline_save"
-        app:layout_constraintBottom_toBottomOf="@id/userCardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/userCardView" />
-
-    <View
-        android:id="@+id/single_photo_line1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="@dimen/primary_padding"
-        android:layout_marginTop="@dimen/primary_padding"
-        android:layout_marginEnd="@dimen/primary_padding"
-        android:background="@color/grey"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_download" />
-
-    <TextView
-        android:id="@+id/single_photo_label_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/primary_padding"
-        android:layout_marginTop="@dimen/primary_padding"
-        android:text="@string/label_camera"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_line1" />
-
-    <com.stslex.splashgallery.ui.core.CustomTextView
-        android:id="@+id/cameraTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/primary_padding"
-        app:layout_constraintStart_toStartOf="@id/single_photo_label_camera"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_label_camera" />
-
-    <com.stslex.splashgallery.ui.core.CustomTextView
-        android:id="@+id/focalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/big_padding"
-        android:text="@string/label_focal_length"
-        app:layout_constraintStart_toStartOf="@id/cameraTextView"
-        app:layout_constraintTop_toBottomOf="@id/cameraTextView" />
-
-    <TextView
-        android:id="@+id/single_photo_focal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/primary_padding"
-        app:layout_constraintStart_toStartOf="@id/focalTextView"
-        app:layout_constraintTop_toBottomOf="@id/focalTextView" />
-
-    <TextView
-        android:id="@+id/single_photo_label_aperture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:text="@string/label_aperture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/single_photo_label_camera" />
-
-    <com.stslex.splashgallery.ui.core.CustomTextView
-        android:id="@+id/apertureTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/primary_padding"
-        app:layout_constraintStart_toStartOf="@id/single_photo_label_aperture"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_label_aperture" />
-
-    <TextView
-        android:id="@+id/single_photo_label_dimension"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/big_padding"
-        android:text="@string/label_dimension"
-        app:layout_constraintStart_toStartOf="@id/apertureTextView"
-        app:layout_constraintTop_toBottomOf="@id/apertureTextView" />
-
-    <com.stslex.splashgallery.ui.core.CustomTextView
-        android:id="@+id/dimensionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/primary_padding"
-        app:layout_constraintStart_toStartOf="@id/single_photo_label_dimension"
-        app:layout_constraintTop_toBottomOf="@id/single_photo_label_dimension" />
-
-    <View
-        android:id="@+id/single_photo_line2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="@dimen/primary_padding"
-        android:layout_marginTop="@dimen/primary_padding"
-        android:layout_marginEnd="@dimen/primary_padding"
-        android:background="@color/grey"
-        app:layout_constraintTop_toBottomOf="@id/dimensionTextView" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
