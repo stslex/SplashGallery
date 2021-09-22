@@ -15,13 +15,12 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
-import com.stslex.splashgallery.core.model.domain.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.utils.Resources.currentId
+import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -33,7 +32,6 @@ class UserFragment : BaseFragment() {
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
-    private lateinit var fragmentMap: List<Fragment>
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,21 +63,17 @@ class UserFragment : BaseFragment() {
         viewModel.getUserInfo(username).collect {
             when (it) {
                 is UserUIResult.Success -> {
-                    currentId = it.data.username.toString()
-                    setImageWithRequest(
-                        it.data.profile_image!!.large,
-                        binding.userProfileImage,
-                        needCircleCrop = true
-                    )
-                    binding.userProfileHeadCollectionsCount.text =
-                        it.data.total_collections.toString()
-                    binding.userProfileHeadLikesCount.text = it.data.total_likes.toString()
-                    binding.userProfileHeadPhotoCount.text =
-                        it.data.total_photos.toString()
-                    if (it.data.bio == null || it.data.bio == "") {
-                        binding.userBio.visibility = View.GONE
-                    } else binding.userBio.text = it.data.bio
-                    setViewPager(it.data)
+                    with(binding) {
+                        it.data.bind(
+                            glide = glide,
+                            profileImageView = avatarImageView,
+                            totalCollectionsTextView = collectionsCountTextView,
+                            totalLikesTextView = likesCountTextView,
+                            totalPhotosTextView = photoCountTextView,
+                            bioTextView = bioTextView
+                        )
+                    }
+                    setViewPager(it.data.getListOfTabs())
                 }
                 is UserUIResult.Failure -> {
                     Log.i("Failure", it.exception)
@@ -91,14 +85,11 @@ class UserFragment : BaseFragment() {
         }
     }
 
-    private fun setViewPager(data: UserModel) {
-        val map = mapOf(
-            (data.total_photos ?: 0) to UserPhotosFragment(),
-            (data.total_likes ?: 0) to UserLikesFragment(),
-            (data.total_collections) to UserCollectionFragment()
-        )
-        fragmentMap = map.filter { it.key != 0 }.values.toList()
+    private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    }
 
+    private fun setViewPager(fragmentMap: List<Fragment>) {
         binding.userViewPager.adapter = UserAdapter(this, fragmentMap)
         postponeEnterTransition()
         binding.userViewPager.doOnPreDraw {

@@ -119,11 +119,11 @@ class CollectionsFragment : BaseFragment() {
         }
 
     private fun initRecyclerView() {
-        val isUser = requireParentFragment() is UserPhotosFragment
+        val notIsUser = requireParentFragment() is UserPhotosFragment
         adapter = CollectionsAdapter(
             ClickUI(),
             setImage = setImage,
-            isUser = isUser
+            isUser = !notIsUser
         )
         recyclerView = binding.fragmentCollectionsRecyclerView
         layoutManager = LinearLayoutManager(requireContext())

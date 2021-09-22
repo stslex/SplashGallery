@@ -109,15 +109,17 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun downloadPhoto(id: String) = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.downloadPhoto(id).collect {
             when (it) {
-                is Result.Success -> {
-                    this.launch {
-                        startDownload(it.data.url, id)
+                is DownloadUIResult.Success -> {
+                    it.url.startDownload {
+                        this.launch {
+                            startDownload(it, id)
+                        }
                     }
                 }
-                is Result.Failure -> {
+                is DownloadUIResult.Failure -> {
 
                 }
-                is Result.Loading -> {
+                is DownloadUIResult.Loading -> {
 
                 }
             }

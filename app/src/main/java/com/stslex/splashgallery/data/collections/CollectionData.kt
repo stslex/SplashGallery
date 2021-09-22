@@ -26,7 +26,7 @@ interface CollectionData {
         )
 
         data class UserData(
-            val name: String = "",
+            val username: String = "",
             val profile_image: ProfileImageData
         )
 
@@ -38,7 +38,7 @@ interface CollectionData {
         override fun title(): String = title
         override fun url(): String = cover_photo.urls.regular
         override fun number(): String = total_photos
-        override fun username(): String = user.name
+        override fun username(): String = user.username
         override fun avatar(): String = user.profile_image.medium
     }
 }

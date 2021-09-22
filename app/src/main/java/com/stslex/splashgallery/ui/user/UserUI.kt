@@ -1,20 +1,25 @@
 package com.stslex.splashgallery.ui.user
 
+import androidx.fragment.app.Fragment
 import com.stslex.splashgallery.ui.core.AbstractView
-import com.stslex.splashgallery.utils.Resources.currentId
+import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
+import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
+import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.utils.Resources
 import com.stslex.splashgallery.utils.SetImageWithGlide
 
 interface UserUI {
 
     fun bind(
         glide: SetImageWithGlide,
-        usernameTextView: AbstractView.Text,
         profileImageView: AbstractView.Image,
         totalCollectionsTextView: AbstractView.Text,
         totalLikesTextView: AbstractView.Text,
         totalPhotosTextView: AbstractView.Text,
         bioTextView: AbstractView.Text
     )
+
+    fun getListOfTabs(): List<Fragment>
 
     data class Base(
         private val username: String,
@@ -26,7 +31,6 @@ interface UserUI {
     ) : UserUI {
         override fun bind(
             glide: SetImageWithGlide,
-            usernameTextView: AbstractView.Text,
             profileImageView: AbstractView.Image,
             totalCollectionsTextView: AbstractView.Text,
             totalLikesTextView: AbstractView.Text,
@@ -39,8 +43,7 @@ interface UserUI {
                 needCrop = false,
                 needCircleCrop = true
             )
-            currentId = username
-            usernameTextView.map(username)
+            Resources.currentId = username
             totalCollectionsTextView.map(totalCollections)
             totalLikesTextView.map(totalLikes)
             totalPhotosTextView.map(totalPhotos)
@@ -51,6 +54,12 @@ interface UserUI {
                 bioTextView.map(bio)
             }
         }
+
+        override fun getListOfTabs(): List<Fragment> = mapOf(
+            totalPhotos.toInt() to UserPhotosFragment(),
+            totalLikes.toInt() to UserLikesFragment(),
+            totalCollections.toInt() to UserCollectionFragment()
+        ).filter { it.key != 0 }.values.toList()
 
     }
 }
