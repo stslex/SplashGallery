@@ -1,8 +1,10 @@
 package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.domain.collections.CollectionInteractor
+import com.stslex.splashgallery.domain.download.DownloadInteractor
 import com.stslex.splashgallery.domain.photo.PhotoInteractor
 import com.stslex.splashgallery.domain.photos.PhotosInteractor
+import com.stslex.splashgallery.domain.user.UserInteractor
 import dagger.Binds
 import dagger.Module
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,4 +21,10 @@ interface InteractorModule {
 
     @Binds
     fun bindsCollectionInteractor(interactor: CollectionInteractor.Base): CollectionInteractor
+
+    @Binds
+    fun bindsUserInteractor(interactor: UserInteractor.Base): UserInteractor
+
+    @Binds
+    fun bindsDownloadInteractor(interactor: DownloadInteractor.Base): DownloadInteractor
 }

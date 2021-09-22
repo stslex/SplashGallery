@@ -1,10 +1,10 @@
 package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.data.collections.CollectionRepository
+import com.stslex.splashgallery.data.download.DownloadRepository
 import com.stslex.splashgallery.data.photo.PhotoRepository
 import com.stslex.splashgallery.data.photos.PhotosRepository
-import com.stslex.splashgallery.data.repository.impl.DownloadRepositoryImpl
-import com.stslex.splashgallery.data.repository.interf.DownloadRepository
+import com.stslex.splashgallery.data.user.UserRepository
 import dagger.Binds
 import dagger.Module
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,10 +19,10 @@ interface RepositoryModule {
     fun bindsCollectionRepository(repository: CollectionRepository.Base): CollectionRepository
 
     @Binds
-    fun bindsUserRepository(repository: UserRepositoryImpl): UserRepository
+    fun bindsUserRepository(repository: UserRepository.Base): UserRepository
 
     @Binds
-    fun bindsDownloadRepository(repository: DownloadRepositoryImpl): DownloadRepository
+    fun bindsDownloadRepository(repository: DownloadRepository.Base): DownloadRepository
 
     @Binds
     fun bindsAllPhotosRepository(repository: PhotosRepository.Base): PhotosRepository

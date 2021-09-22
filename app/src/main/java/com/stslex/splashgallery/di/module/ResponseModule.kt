@@ -1,37 +1,70 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.data.core.CreateResponse
-import com.stslex.splashgallery.data.model.domain.DownloadModel
-import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
-import com.stslex.splashgallery.data.model.domain.user.UserModel
-import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
-import com.stslex.splashgallery.data.model.remote.RemoteDownloadModel
-import com.stslex.splashgallery.data.model.remote.RemoteImageModel
-import com.stslex.splashgallery.data.model.remote.RemoteUserModel
-import com.stslex.splashgallery.mapper.DownloadMapper
-import com.stslex.splashgallery.mapper.UserMapper
+import com.stslex.splashgallery.data.collections.CollectionDataResponse
+import com.stslex.splashgallery.data.download.DownloadDataResponse
+import com.stslex.splashgallery.data.photo.PhotoDataResponse
+import com.stslex.splashgallery.data.photos.PhotosDataResponse
+import com.stslex.splashgallery.data.user.UserDataResponse
+import com.stslex.splashgallery.domain.collections.CollectionDomainResponse
+import com.stslex.splashgallery.domain.download.DownloadDomainResponse
+import com.stslex.splashgallery.domain.photo.PhotoDomainResponse
+import com.stslex.splashgallery.domain.photos.PhotosDomainResponse
+import com.stslex.splashgallery.domain.user.UserDomainResponse
+import com.stslex.splashgallery.ui.collections.CollectionUIResponse
+import com.stslex.splashgallery.ui.detail_photo.DownloadUIResponse
+import com.stslex.splashgallery.ui.detail_photo.PhotoUIResponse
+import com.stslex.splashgallery.ui.photos.PhotosUIResponse
+import com.stslex.splashgallery.ui.user.UserUIResponse
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Module
-class ResponseModule {
+interface ResponseModule {
 
-    @Provides
-    fun provideResponseUser(): CreateResponse<RemoteUserModel, UserModel> =
-        CreateResponse.Base(UserMapper())
+    @Binds
+    fun bindsPhotosDataResponse(response: PhotosDataResponse.Base): PhotosDataResponse
 
-    @Provides
-    fun provideResponseCollection(): CreateResponse<RemoteCollectionModel, CollectionModel> =
-        CreateResponse.Base(CollectionMapper())
+    @Binds
+    fun bindsPhotosDomainResponse(response: PhotosDomainResponse.Base): PhotosDomainResponse
 
-    @Provides
-    fun provideResponseImage(): CreateResponse<RemoteImageModel, ImageModel> =
-        CreateResponse.Base(ImageMapper())
+    @Binds
+    fun bindsPhotosUIResponse(response: PhotosUIResponse.Base): PhotosUIResponse
 
-    @Provides
-    fun provideResponseDownload(): CreateResponse<RemoteDownloadModel, DownloadModel> =
-        CreateResponse.Base(DownloadMapper())
+    @Binds
+    fun bindsPhotoDataResponse(response: PhotoDataResponse.Base): PhotoDataResponse
+
+    @Binds
+    fun bindsPhotoDomainResponse(response: PhotoDomainResponse.Base): PhotoDomainResponse
+
+    @Binds
+    fun bindsPhotoUIResponse(response: PhotoUIResponse.Base): PhotoUIResponse
+
+    @Binds
+    fun bindsCollectionDataResponse(response: CollectionDataResponse.Base): CollectionDataResponse
+
+    @Binds
+    fun bindsCollectionDomainResponse(response: CollectionDomainResponse.Base): CollectionDomainResponse
+
+    @Binds
+    fun bindsCollectionUIResponse(response: CollectionUIResponse.Base): CollectionUIResponse
+
+    @Binds
+    fun bindsUserDataResponse(response: UserDataResponse.Base): UserDataResponse
+
+    @Binds
+    fun bindsUserDomainResponse(response: UserDomainResponse.Base): UserDomainResponse
+
+    @Binds
+    fun bindsUserUIResponse(response: UserUIResponse.Base): UserUIResponse
+
+    @Binds
+    fun bindsDownloadDataResponse(response: DownloadDataResponse.Base): DownloadDataResponse
+
+    @Binds
+    fun bindsDownloadDomainResponse(response: DownloadDomainResponse.Base): DownloadDomainResponse
+
+    @Binds
+    fun bindsDownloadUIResponse(response: DownloadUIResponse.Base): DownloadUIResponse
 }

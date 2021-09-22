@@ -15,13 +15,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
-import com.stslex.splashgallery.data.model.domain.user.UserModel
+import com.stslex.splashgallery.core.model.domain.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
+import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources.currentId
-import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect

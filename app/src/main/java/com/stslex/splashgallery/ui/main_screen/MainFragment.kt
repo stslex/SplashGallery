@@ -11,7 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
-import com.stslex.splashgallery.utils.base.BaseFragment
+import com.stslex.splashgallery.ui.core.BaseFragment
 
 class MainFragment : BaseFragment() {
 

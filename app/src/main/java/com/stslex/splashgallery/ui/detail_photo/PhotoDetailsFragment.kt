@@ -14,9 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
-import com.stslex.splashgallery.utils.Result
+import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
 import kotlinx.coroutines.ExperimentalCoroutinesApi

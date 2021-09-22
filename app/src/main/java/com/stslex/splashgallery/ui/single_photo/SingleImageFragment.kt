@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
-import com.stslex.splashgallery.utils.base.BaseFragment
+import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
