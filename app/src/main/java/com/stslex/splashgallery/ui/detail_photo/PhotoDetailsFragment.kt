@@ -31,6 +31,7 @@ class PhotoDetailsFragment : BaseFragment() {
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
 
     private lateinit var id: String
+    private lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +58,8 @@ class PhotoDetailsFragment : BaseFragment() {
         binding.imageImageView.setOnClickListener { image ->
             val directions =
                 PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
-                    url = image.transitionName
+                    id = image.transitionName,
+                    url = url
                 )
             val extras = FragmentNavigatorExtras(image to image.transitionName)
             findNavController().navigate(directions, extras)
@@ -130,8 +132,9 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: PhotoDetailsFragmentArgs by navArgs()
         id = extras.id
-        binding.imageImageView.transitionName = extras.url
-        setImageWithRequest(extras.url, binding.imageImageView, needCrop = true)
+        url = extras.url
+        binding.imageImageView.transitionName = id
+        setImageWithRequest(url, binding.imageImageView, needCrop = true)
     }
 
     private fun setToolbar() {

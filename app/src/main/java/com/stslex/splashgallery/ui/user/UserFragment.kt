@@ -24,9 +24,11 @@ import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class UserFragment : BaseFragment() {
 
     private var _binding: FragmentUserBinding? = null
@@ -125,7 +127,7 @@ class UserFragment : BaseFragment() {
     private fun setToolbar() {
         val activity = (requireActivity() as AppCompatActivity)
         activity.setSupportActionBar(binding.userProfileToolbar)
-        activity.supportActionBar?.run {
+        activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             title = username
         }
@@ -134,6 +136,7 @@ class UserFragment : BaseFragment() {
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         username = extras.username
+        binding.userProfileToolbar.transitionName = username
     }
 
     override fun onDestroyView() {

@@ -28,8 +28,8 @@ interface PhotosUI {
         photoFocal: AbstractView.Text
     )
 
-    fun openDetailImage(function: (CustomCardView, String) -> Unit)
-    fun openDetailUser(function: (CustomCardView) -> Unit)
+    fun openImage(function: (CustomCardView, String) -> Unit)
+    fun openUser(function: (CustomCardView) -> Unit)
     fun same(data: PhotosUI): Boolean
     fun downloadPhoto(function: (String) -> Unit)
     fun imageClick(function: (CustomImageView) -> Unit)
@@ -72,7 +72,7 @@ interface PhotosUI {
             glide.makeGlideImage(imageUrl, image.getImage(), true, false)
             glide.makeGlideImage(userUrl, avatar.getImage(), true, true)
             username.map(userName)
-            _imageCardView = imageCardView.getCardAndSetTransitionName(userId)
+            _imageCardView = imageCardView.getCardAndSetTransitionName(imageId)
             _userCardView = userCardView.getCardAndSetTransitionName(userName)
         }
 
@@ -87,7 +87,7 @@ interface PhotosUI {
             photoDimension: AbstractView.Text,
             photoFocal: AbstractView.Text
         ) {
-            _imageView = image.getImageAndSetTransitionName(imageUrl)
+            _imageView = image.getImageAndSetTransitionName(imageId)
             glide.makeGlideImage(userUrl, avatar.getImage(), true, true)
             username.map(userName)
             _userCardView = userCardView.getCardAndSetTransitionName(userName)
@@ -97,10 +97,10 @@ interface PhotosUI {
             photoFocal.map(exif.focal_length)
         }
 
-        override fun openDetailImage(function: (CustomCardView, String) -> Unit) =
+        override fun openImage(function: (CustomCardView, String) -> Unit) =
             function(imageCardView, imageUrl)
 
-        override fun openDetailUser(function: (CustomCardView) -> Unit) = function(userCardView)
+        override fun openUser(function: (CustomCardView) -> Unit) = function(userCardView)
         override fun downloadPhoto(function: (String) -> Unit) = function(imageId)
         override fun imageClick(function: (CustomImageView) -> Unit) = function(imageView)
 

@@ -12,8 +12,10 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
+@ExperimentalCoroutinesApi
 class SingleImageFragment : BaseFragment() {
     private var _binding: FragmentSingleImageBinding? = null
     private val binding get() = _binding!!
@@ -47,7 +49,7 @@ class SingleImageFragment : BaseFragment() {
     private fun getNavigationArgs() {
         postponeEnterTransition()
         val extras: SingleImageFragmentArgs by navArgs()
-        binding.fragmentSingleImageImage.transitionName = extras.url
+        binding.fragmentSingleImageImage.transitionName = extras.id
         setImageWithRequest(extras.url, binding.fragmentSingleImageImage)
     }
 

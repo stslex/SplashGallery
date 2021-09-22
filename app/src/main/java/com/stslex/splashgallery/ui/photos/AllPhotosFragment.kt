@@ -144,17 +144,20 @@ class AllPhotosFragment : BaseFragment() {
 
     private inner class PhotosClickListener : ClickListener<PhotosUI> {
         override fun clickImage(item: PhotosUI) {
-            item.openDetailImage { imageCard, url ->
+            item.openImage { imageCard, url ->
                 val extras = FragmentNavigatorExtras(imageCard to imageCard.transitionName)
                 val directions: NavDirections? = when (requireParentFragment()) {
                     is MainFragment -> MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-                        imageCard.transitionName, url
+                        id = imageCard.transitionName,
+                        url = url
                     )
                     is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserToNavSinglePhoto(
-                        imageCard.transitionName, url
+                        id = imageCard.transitionName,
+                        url = url
                     )
                     is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
-                        imageCard.transitionName, url
+                        id = imageCard.transitionName,
+                        url = url
                     )
                     else -> null
                 }
@@ -165,15 +168,15 @@ class AllPhotosFragment : BaseFragment() {
         }
 
         override fun clickUser(item: PhotosUI) {
-            item.openDetailUser { userCard ->
+            item.openUser { userCard ->
                 val extras = FragmentNavigatorExtras(userCard to userCard.transitionName)
                 val directions: NavDirections? = when (requireParentFragment()) {
                     is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(userCard.transitionName)
                     is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserSelf(
-                        userCard.transitionName
+                        username = userCard.transitionName
                     )
                     is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavUser(
-                        userCard.transitionName
+                        username = userCard.transitionName
                     )
                     else -> null
                 }

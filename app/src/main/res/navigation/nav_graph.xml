@@ -53,6 +53,7 @@
         android:id="@+id/nav_single_image"
         android:name="com.stslex.splashgallery.ui.single_photo.SingleImageFragment"
         tools:layout="@layout/fragment_single_image">
+        <argument android:name="id" />
         <argument android:name="url" />
     </fragment>
 
