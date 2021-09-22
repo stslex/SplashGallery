@@ -9,9 +9,7 @@ import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.remote.RemoteDownloadModel
 import com.stslex.splashgallery.data.model.remote.RemoteImageModel
 import com.stslex.splashgallery.data.model.remote.RemoteUserModel
-import com.stslex.splashgallery.mapper.CollectionMapper
 import com.stslex.splashgallery.mapper.DownloadMapper
-import com.stslex.splashgallery.mapper.ImageMapper
 import com.stslex.splashgallery.mapper.UserMapper
 import dagger.Module
 import dagger.Provides

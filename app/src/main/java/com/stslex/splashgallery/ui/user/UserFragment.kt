@@ -21,7 +21,6 @@ import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources.currentId
-import com.stslex.splashgallery.utils.Result
 import com.stslex.splashgallery.utils.base.BaseFragment
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -65,7 +64,7 @@ class UserFragment : BaseFragment() {
     private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.getUserInfo(username).collect {
             when (it) {
-                is Result.Success -> {
+                is UserUIResult.Success -> {
                     currentId = it.data.username.toString()
                     setImageWithRequest(
                         it.data.profile_image!!.large,
@@ -82,10 +81,10 @@ class UserFragment : BaseFragment() {
                     } else binding.userBio.text = it.data.bio
                     setViewPager(it.data)
                 }
-                is Result.Failure -> {
+                is UserUIResult.Failure -> {
                     Log.i("Failure", it.exception)
                 }
-                is Result.Loading -> {
+                is UserUIResult.Loading -> {
 
                 }
             }

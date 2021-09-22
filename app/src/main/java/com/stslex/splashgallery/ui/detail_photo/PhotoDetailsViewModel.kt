@@ -20,7 +20,7 @@ class PhotoDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     suspend fun getCurrentPhoto(id: String): StateFlow<PhotoUIResult> =
-        response.mapIt(interactor.getCurrentPhoto(id)).stateIn(
+        response.create(interactor.getCurrentPhoto(id)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = PhotoUIResult.Loading

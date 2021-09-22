@@ -2,22 +2,23 @@ package com.stslex.splashgallery.ui.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.data.model.domain.user.UserModel
-import com.stslex.splashgallery.data.repository.interf.UserRepository
-import com.stslex.splashgallery.utils.Result
+import com.stslex.splashgallery.domain.user.UserInteractor
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class UserViewModel @Inject constructor(
-    private val repository: UserRepository
+    private val interactor: UserInteractor,
+    private val response: UserUIResponse
 ) : ViewModel() {
 
-    suspend fun getUserInfo(username: String): StateFlow<Result<UserModel>> =
-        repository.getUser(username).stateIn(
+    suspend fun getUserInfo(username: String): StateFlow<UserUIResult> =
+        response.create(interactor.getUser(username)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = Result.Loading
+            initialValue = UserUIResult.Loading
         )
 }

@@ -4,7 +4,7 @@ import com.stslex.splashgallery.data.collections.CollectionService
 import com.stslex.splashgallery.data.photo.PhotoService
 import com.stslex.splashgallery.data.photos.AllPhotosService
 import com.stslex.splashgallery.data.service.DownloadService
-import com.stslex.splashgallery.data.service.UserService
+import com.stslex.splashgallery.data.user.UserService
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

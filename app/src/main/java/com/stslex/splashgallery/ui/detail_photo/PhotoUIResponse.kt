@@ -15,15 +15,15 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 interface PhotoUIResponse {
 
-    suspend fun mapIt(dataFlow: Flow<PhotoDomainResult>): Flow<PhotoUIResult>
+    suspend fun create(data: Flow<PhotoDomainResult>): Flow<PhotoUIResult>
 
     class Base @Inject constructor(
         private val mapper: PhotoDomainMapper<PhotoUIResult>
     ) : PhotoUIResponse {
 
-        override suspend fun mapIt(dataFlow: Flow<PhotoDomainResult>): Flow<PhotoUIResult> =
+        override suspend fun create(data: Flow<PhotoDomainResult>): Flow<PhotoUIResult> =
             callbackFlow {
-                dataFlow.response {
+                data.response {
                     trySendBlocking(it)
                 }
                 awaitClose { }
