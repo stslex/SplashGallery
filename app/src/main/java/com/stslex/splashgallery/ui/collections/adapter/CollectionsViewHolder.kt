@@ -1,59 +1,43 @@
 package com.stslex.splashgallery.ui.collections.adapter
 
-import android.annotation.SuppressLint
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
-import com.stslex.splashgallery.utils.Resources.photos
+import com.stslex.splashgallery.ui.collections.CollectionUI
+import com.stslex.splashgallery.ui.core.ClickListener
 import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.click_listeners.CollectionClickListener
 
-class CollectionsViewHolder(private val binding: ItemRecyclerCollectionsBinding) :
-    RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+abstract class CollectionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    private lateinit var clickListener: CollectionClickListener
-    private lateinit var title: String
-
-    @SuppressLint("SetTextI18n")
-    fun bind(collection: CollectionModel, isUser: Boolean, setImage: SetImageWithGlide) {
-        title = collection.title
-        binding.itemCollectionAuthorName.transitionName = collection.user?.username
-        binding.itemCollectionImage.transitionName = collection.id
-        binding.itemCollectionTitle.text = title
-        binding.itemCollectionNumber.text = "${collection.total_photos} $photos"
-        setImage.makeGlideImage(
-            collection.cover_photo?.urls!!.regular,
-            binding.itemCollectionImage,
-            false,
-            false
-        )
-
-        if (isUser) {
-            binding.itemCollectionUserContainer.visibility = View.GONE
-        } else {
-            binding.itemCollectionAuthorName.text = collection.user?.name
-            setImage.makeGlideImage(
-                collection.user?.profile_image!!.medium,
-                binding.itemCollectionImagePerson,
-                false,
-                true
+    abstract fun bind(item: CollectionUI)
+    class Base(
+        private val binding: ItemRecyclerCollectionsBinding,
+        private val clickListener: ClickListener<CollectionUI>,
+        private val setImageWithGlide: SetImageWithGlide,
+        private val isUser: Boolean
+    ) : CollectionsViewHolder(binding.root) {
+        override fun bind(item: CollectionUI) {
+            if (isUser) {
+                binding.userCardView.visibility = View.GONE
+            } else binding.userCardView.visibility = View.VISIBLE
+            item.bindCollections(
+                glide = setImageWithGlide,
+                collectionTitle = binding.titleTextView,
+                collectionImage = binding.collectionImageView,
+                collectionNum = binding.numberTextView,
+                usernameTextView = binding.usernameTextView,
+                userImage = binding.userImageView,
+                userCardView = binding.userCardView,
+                imageCardView = binding.imageCardView
             )
-        }
-    }
 
-    fun setClickListener(clickListener: CollectionClickListener) {
-        this.clickListener = clickListener
-        binding.itemCollectionImage.setOnClickListener(this)
-        binding.itemCollectionUserContainer.setOnClickListener(this)
-    }
+            binding.imageCardView.setOnClickListener {
+                clickListener.clickImage(item)
+            }
 
-    override fun onClick(p0: View?) {
-        when (p0) {
-            is ImageView -> clickListener.onImageClick(p0, title)
-            is LinearLayout -> clickListener.onUserClick(binding.itemCollectionAuthorName)
+            binding.userCardView.setOnClickListener {
+                clickListener.clickUser(item)
+            }
         }
 
     }

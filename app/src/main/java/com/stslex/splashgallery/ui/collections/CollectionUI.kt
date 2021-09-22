@@ -17,7 +17,7 @@ interface CollectionUI {
         imageCardView: AbstractView.Card
     )
 
-    fun openImage(function: (CustomCardView) -> Unit)
+    fun openImage(function: (CustomCardView, String) -> Unit)
     fun openUser(function: (CustomCardView) -> Unit)
 
     data class Base(
@@ -54,7 +54,9 @@ interface CollectionUI {
             _userCard = userCardView.getCardAndSetTransitionName(username)
         }
 
-        override fun openImage(function: (CustomCardView) -> Unit) = function(imageCard)
+        override fun openImage(function: (CustomCardView, String) -> Unit) =
+            function(imageCard, title)
+
         override fun openUser(function: (CustomCardView) -> Unit) = function(userCard)
 
     }

@@ -7,33 +7,44 @@
     android:layout_margin="@dimen/primary_padding"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/item_collection_user_container"
+    <com.stslex.splashgallery.ui.core.CustomCardView
+        android:id="@+id/userCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/primary_padding"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:cardElevation="0dp">
 
-        <ImageView
-            android:id="@+id/item_collection_image_person"
-            android:layout_width="@dimen/big_padding"
-            android:layout_height="@dimen/big_padding"
-            android:layout_marginEnd="@dimen/primary_padding"
-            android:contentDescription="@string/description_image"
-            tools:src="@color/black" />
-
-        <TextView
-            android:id="@+id/item_collection_author_name"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1" />
+            android:layout_marginStart="@dimen/primary_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <com.stslex.splashgallery.ui.core.CustomImageView
+                android:id="@+id/userImageView"
+                android:layout_width="@dimen/big_padding"
+                android:layout_height="@dimen/big_padding"
+                android:layout_marginEnd="@dimen/primary_padding"
+                android:contentDescription="@string/description_image"
+                tools:src="@color/black" />
 
-    <com.google.android.material.card.MaterialCardView
+            <com.stslex.splashgallery.ui.core.CustomTextView
+                android:id="@+id/usernameTextView"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1" />
+
+        </LinearLayout>
+
+    </com.stslex.splashgallery.ui.core.CustomCardView>
+
+    <com.stslex.splashgallery.ui.core.CustomCardView
+        android:id="@+id/imageCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
@@ -43,8 +54,8 @@
         app:cardCornerRadius="@dimen/primary_padding">
 
 
-        <ImageView
-            android:id="@+id/item_collection_image"
+        <com.stslex.splashgallery.ui.core.CustomImageView
+            android:id="@+id/collectionImageView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_collection_image"
             android:contentDescription="@string/description_image"
@@ -56,7 +67,6 @@
             android:layout_height="@dimen/height_collection_image"
             android:background="@color/frame_grey" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,8 +75,8 @@
             android:orientation="vertical"
             android:padding="@dimen/primary_padding">
 
-            <TextView
-                android:id="@+id/item_collection_title"
+            <com.stslex.splashgallery.ui.core.CustomTextView
+                android:id="@+id/titleTextView"
                 style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,8 +84,8 @@
                 android:textColor="@color/white"
                 tools:text="Title" />
 
-            <TextView
-                android:id="@+id/item_collection_number"
+            <com.stslex.splashgallery.ui.core.CustomTextView
+                android:id="@+id/numberTextView"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,6 +96,6 @@
                 tools:text="Photos" />
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </com.stslex.splashgallery.ui.core.CustomCardView>
 
 </LinearLayout>
