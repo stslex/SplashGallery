@@ -1,6 +1,5 @@
-package com.stslex.splashgallery.data.service
+package com.stslex.splashgallery.data.collections
 
-import com.stslex.splashgallery.data.model.remote.RemoteCollectionModel
 import com.stslex.splashgallery.utils.GET_COLLECTIONS
 import com.stslex.splashgallery.utils.GET_USERS
 import com.stslex.splashgallery.utils.QUERY_API_KEY
@@ -15,12 +14,12 @@ interface CollectionService {
     suspend fun getAllCollections(
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<RemoteCollectionModel>>
+    ): Response<List<CollectionData.Base>>
 
     @GET("$GET_USERS/{username}/$GET_COLLECTIONS")
     suspend fun getUserCollections(
         @Path("username") username: String,
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<RemoteCollectionModel>>
+    ): Response<List<CollectionData.Base>>
 }

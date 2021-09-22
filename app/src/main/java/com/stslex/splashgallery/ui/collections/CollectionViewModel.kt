@@ -2,32 +2,33 @@ package com.stslex.splashgallery.ui.collections
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
-import com.stslex.splashgallery.data.repository.interf.CollectionRepository
-import com.stslex.splashgallery.utils.Result
+import com.stslex.splashgallery.domain.collections.CollectionInteractor
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class CollectionViewModel @Inject constructor(
-    private val repository: CollectionRepository
+    private val interactor: CollectionInteractor,
+    private val response: CollectionUIResponse
 ) : ViewModel() {
 
-    suspend fun getAllCollections(page: Int): StateFlow<Result<List<CollectionModel>>> =
-        repository.getAllCollections(page).stateIn(
+    suspend fun getAllCollections(page: Int): StateFlow<CollectionUIResult> =
+        response.create(interactor.getAllCollections(page)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = Result.Loading
+            initialValue = CollectionUIResult.Loading
         )
 
     suspend fun getUserCollections(
         username: String,
         page: Int
-    ): StateFlow<Result<List<CollectionModel>>> =
-        repository.getUserCollections(username, page).stateIn(
+    ): StateFlow<CollectionUIResult> =
+        response.create(interactor.getUserCollections(username, page)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = Result.Loading
+            initialValue = CollectionUIResult.Loading
         )
 }

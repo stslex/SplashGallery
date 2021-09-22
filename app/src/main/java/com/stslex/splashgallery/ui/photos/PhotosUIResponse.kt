@@ -13,13 +13,13 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 interface PhotosUIResponse {
 
-    suspend fun mapIt(dataFlow: Flow<PhotosDomainResult>): Flow<PhotosUIResult>
+    suspend fun create(dataFlow: Flow<PhotosDomainResult>): Flow<PhotosUIResult>
 
     class Base @Inject constructor(
         private val mapper: PhotosDomainMapper<PhotosUIResult>
     ) : PhotosUIResponse {
 
-        override suspend fun mapIt(dataFlow: Flow<PhotosDomainResult>): Flow<PhotosUIResult> =
+        override suspend fun create(dataFlow: Flow<PhotosDomainResult>): Flow<PhotosUIResult> =
             callbackFlow {
                 dataFlow.response {
                     trySendBlocking(it)

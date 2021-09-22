@@ -1,11 +1,10 @@
 package com.stslex.splashgallery.di.module
 
+import com.stslex.splashgallery.data.collections.CollectionRepository
 import com.stslex.splashgallery.data.photo.PhotoRepository
 import com.stslex.splashgallery.data.photos.PhotosRepository
-import com.stslex.splashgallery.data.repository.impl.CollectionRepositoryImpl
 import com.stslex.splashgallery.data.repository.impl.DownloadRepositoryImpl
 import com.stslex.splashgallery.data.repository.impl.UserRepositoryImpl
-import com.stslex.splashgallery.data.repository.interf.CollectionRepository
 import com.stslex.splashgallery.data.repository.interf.DownloadRepository
 import com.stslex.splashgallery.data.repository.interf.UserRepository
 import dagger.Binds
@@ -19,7 +18,7 @@ interface RepositoryModule {
     fun bindsPhotoRepository(repository: PhotoRepository.Base): PhotoRepository
 
     @Binds
-    fun bindsCollectionRepository(repository: CollectionRepositoryImpl): CollectionRepository
+    fun bindsCollectionRepository(repository: CollectionRepository.Base): CollectionRepository
 
     @Binds
     fun bindsUserRepository(repository: UserRepositoryImpl): UserRepository

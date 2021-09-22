@@ -1,9 +1,12 @@
 package com.stslex.splashgallery.di.module
 
+import com.stslex.splashgallery.data.collections.CollectionDataResponse
 import com.stslex.splashgallery.data.photo.PhotoDataResponse
 import com.stslex.splashgallery.data.photos.PhotosDataResponse
+import com.stslex.splashgallery.domain.collections.CollectionDomainResponse
 import com.stslex.splashgallery.domain.photo.PhotoDomainResponse
 import com.stslex.splashgallery.domain.photos.PhotosDomainResponse
+import com.stslex.splashgallery.ui.collections.CollectionUIResponse
 import com.stslex.splashgallery.ui.detail_photo.PhotoUIResponse
 import com.stslex.splashgallery.ui.photos.PhotosUIResponse
 import dagger.Binds
@@ -31,4 +34,13 @@ interface TestResponseModule {
 
     @Binds
     fun bindsPhotoUIResponse(response: PhotoUIResponse.Base): PhotoUIResponse
+
+    @Binds
+    fun bindsCollectionDataResponse(response: CollectionDataResponse.Base): CollectionDataResponse
+
+    @Binds
+    fun bindsCollectionDomainResponse(response: CollectionDomainResponse.Base): CollectionDomainResponse
+
+    @Binds
+    fun bindsCollectionUIResponse(response: CollectionUIResponse.Base): CollectionUIResponse
 }

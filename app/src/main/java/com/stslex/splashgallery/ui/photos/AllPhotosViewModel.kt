@@ -16,7 +16,7 @@ class AllPhotosViewModel @Inject constructor(
 ) : ViewModel() {
 
     suspend fun getAllPhotos(page: Int): StateFlow<PhotosUIResult> =
-        response.mapIt(interactor.getAllPhotos(page)).stateIn(
+        response.create(interactor.getAllPhotos(page)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = PhotosUIResult.Loading
@@ -26,7 +26,7 @@ class AllPhotosViewModel @Inject constructor(
         username: String,
         page: Int
     ): StateFlow<PhotosUIResult> =
-        response.mapIt(interactor.getUserPhotos(username, page)).stateIn(
+        response.create(interactor.getUserPhotos(username, page)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = PhotosUIResult.Loading
@@ -36,7 +36,7 @@ class AllPhotosViewModel @Inject constructor(
         username: String,
         page: Int
     ): StateFlow<PhotosUIResult> =
-        response.mapIt(interactor.getUserLikes(username, page)).stateIn(
+        response.create(interactor.getUserLikes(username, page)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = PhotosUIResult.Loading
@@ -46,7 +46,7 @@ class AllPhotosViewModel @Inject constructor(
         id: String,
         page: Int
     ): StateFlow<PhotosUIResult> =
-        response.mapIt(interactor.getCollectionPhotos(id, page)).stateIn(
+        response.create(interactor.getCollectionPhotos(id, page)).stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = PhotosUIResult.Loading

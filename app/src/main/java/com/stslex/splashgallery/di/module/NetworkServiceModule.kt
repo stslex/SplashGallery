@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.di.module
 
+import com.stslex.splashgallery.data.collections.CollectionService
 import com.stslex.splashgallery.data.photo.PhotoService
 import com.stslex.splashgallery.data.photos.AllPhotosService
-import com.stslex.splashgallery.data.service.CollectionService
 import com.stslex.splashgallery.data.service.DownloadService
 import com.stslex.splashgallery.data.service.UserService
 import dagger.Module

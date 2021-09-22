@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.di.module
 
+import com.stslex.splashgallery.domain.collections.CollectionInteractor
 import com.stslex.splashgallery.domain.photo.PhotoInteractor
 import com.stslex.splashgallery.domain.photos.PhotosInteractor
 import dagger.Binds
@@ -15,4 +16,7 @@ interface InteractorModule {
 
     @Binds
     fun bindsInteractorPhoto(interactor: PhotoInteractor.Base): PhotoInteractor
+
+    @Binds
+    fun bindsCollectionInteractor(interactor: CollectionInteractor.Base): CollectionInteractor
 }
