@@ -31,8 +31,11 @@ class UserFragment : BaseFragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
-    private lateinit var username: String
+
+    private var _username: String? = null
+    private val username: String get() = _username!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +128,7 @@ class UserFragment : BaseFragment() {
 
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
-        username = extras.username
+        _username = extras.username
         binding.userProfileToolbar.transitionName = username
     }
 

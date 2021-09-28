@@ -17,6 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class SingleImageFragment : BaseFragment() {
+
     private var _binding: FragmentSingleImageBinding? = null
     private val binding get() = _binding!!
 

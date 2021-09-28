@@ -3,6 +3,7 @@ package com.stslex.splashgallery.ui.core
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import com.stslex.splashgallery.utils.isNullCheck
 
 class CustomTextView : androidx.appcompat.widget.AppCompatTextView, AbstractView.Text {
 
@@ -16,7 +17,7 @@ class CustomTextView : androidx.appcompat.widget.AppCompatTextView, AbstractView
 
     override fun map(data: String) {
         show()
-        text = data
+        text = data.isNullCheck()
     }
 
     override fun show() {
