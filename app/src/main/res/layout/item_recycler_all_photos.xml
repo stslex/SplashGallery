@@ -53,7 +53,7 @@
         <com.stslex.splashgallery.ui.core.CustomImageView
             android:id="@+id/imageImageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_image"
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_image"
             tools:src="@color/black" />

@@ -18,7 +18,7 @@ class PhotosAdapter(
     private val layoutInflater = LayoutInflater.from(context)
 
     override fun onBindViewHolder(holder: PhotosViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        holder.bind(getItem(position))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosViewHolder {

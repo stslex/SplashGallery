@@ -50,14 +50,14 @@
         <com.stslex.splashgallery.ui.core.CustomImageView
             android:id="@+id/collectionImageView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_collection_image"
+            android:layout_height="@dimen/height_image"
             android:contentDescription="@string/description_image"
             android:scaleType="centerCrop"
             tools:src="@color/black" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_collection_image"
+            android:layout_height="@dimen/height_image"
             android:background="@color/frame_grey" />
 
         <LinearLayout

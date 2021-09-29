@@ -39,8 +39,8 @@ class PhotosFragment : BaseFragment() {
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         PhotosAdapter(
             clickListener = ClickListener(),
-            glide = setImageWithGlide,
-            context = this.requireContext()
+            glide = glide,
+            context = requireContext()
         )
     }
 
@@ -68,10 +68,11 @@ class PhotosFragment : BaseFragment() {
         }
 
         val query = when (requireParentFragment()) {
-            is UserLikesFragment -> listOf(GET_USERS, Resources.currentId, GET_LIKES)
+            is MainFragment -> listOf(GET_PHOTOS)
             is UserPhotosFragment -> listOf(GET_USERS, Resources.currentId, GET_PHOTOS)
+            is UserLikesFragment -> listOf(GET_USERS, Resources.currentId, GET_LIKES)
             is SingleCollectionFragment -> listOf(GET_COLLECTIONS, Resources.currentId, GET_PHOTOS)
-            else -> listOf(GET_PHOTOS)
+            else -> emptyList()
         }
 
         viewModel.setQuery(query)
@@ -127,7 +128,7 @@ class PhotosFragment : BaseFragment() {
 
     }
 
-    private val setImageWithGlide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
+    private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
         setImageWithRequest(url, imageView, needCrop, needCircleCrop)
     }
 

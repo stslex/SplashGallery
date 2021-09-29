@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface AllPhotosService {
+interface PhotosService {
 
     @GET("{query1}/{query2}/{query3}")
     suspend fun getPhotos(

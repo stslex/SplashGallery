@@ -15,7 +15,7 @@ data class UserModel(
     val instagram_username: String?,
     val twitter_username: String?,
     val portfolio_url: String?,
-    val bio: String?,
+    val bio: String,
     val location: String?,
     val total_likes: Int?,
     val total_photos: Int?,

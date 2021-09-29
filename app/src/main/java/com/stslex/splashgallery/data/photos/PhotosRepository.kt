@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import com.stslex.splashgallery.ui.model.image.ImageModel
 import javax.inject.Inject
 
-class AllPhotosRepository @Inject constructor(
+class PhotosRepository @Inject constructor(
     private val photosPagingSourceFactory: PhotosPagingSource.Factory
 ) {
 

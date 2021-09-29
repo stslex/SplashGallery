@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.domain.collections.CollectionInteractor
 import com.stslex.splashgallery.domain.download.DownloadInteractor
 import com.stslex.splashgallery.domain.photo.PhotoInteractor
 import com.stslex.splashgallery.domain.user.UserInteractor
@@ -14,9 +13,6 @@ interface InteractorModule {
 
     @Binds
     fun bindsInteractorPhoto(interactor: PhotoInteractor.Base): PhotoInteractor
-
-    @Binds
-    fun bindsCollectionInteractor(interactor: CollectionInteractor.Base): CollectionInteractor
 
     @Binds
     fun bindsUserInteractor(interactor: UserInteractor.Base): UserInteractor

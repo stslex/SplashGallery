@@ -1,21 +1,23 @@
-package com.stslex.splashgallery.ui.photos
+package com.stslex.splashgallery.ui.collections
 
+import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.model.image.ImageModel
+import com.stslex.splashgallery.ui.model.collection.CollectionModel
 import com.stslex.splashgallery.utils.Resources.currentId
+import com.stslex.splashgallery.utils.Resources.photos
 import com.stslex.splashgallery.utils.SetImageWithGlide
 
-
-class PhotosViewHolder(
-    private val binding: ItemRecyclerAllPhotosBinding,
-    private val glide: SetImageWithGlide,
-    private val clickListener: OnClickListener
+class CollectionsViewHolder(
+    private val binding: ItemRecyclerCollectionsBinding,
+    private val clickListener: OnClickListener,
+    private val glide: SetImageWithGlide
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ImageModel?) {
+    @SuppressLint("SetTextI18n")
+    fun bind(item: CollectionModel?) {
         with(binding) {
             if (item?.user?.username == currentId) {
                 userCardView.visibility = View.GONE
@@ -23,7 +25,7 @@ class PhotosViewHolder(
                 userCardView.visibility = View.VISIBLE
                 glide.setImage(
                     url = item?.user?.profile_image?.medium!!,
-                    imageView = avatarImageView,
+                    imageView = userImageView,
                     needCrop = true,
                     needCircleCrop = true
                 )
@@ -33,15 +35,17 @@ class PhotosViewHolder(
                     clickListener.clickUser(it)
                 }
             }
+            numberTextView.text = item.total_photos.toString() + photos
+            titleTextView.text = item.title
             glide.setImage(
-                url = item.urls.regular,
-                imageView = imageImageView,
+                url = item.cover_photo?.urls!!.regular,
+                imageView = collectionImageView,
                 needCrop = true,
                 needCircleCrop = false
             )
             imageCardView.transitionName = item.id
             imageCardView.setOnClickListener {
-                clickListener.clickImage(it, item.urls.regular)
+                clickListener.clickImage(it, item.title)
             }
         }
     }

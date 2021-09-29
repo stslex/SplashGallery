@@ -15,7 +15,7 @@ interface UserData {
         val total_collections: String = "",
         val total_likes: String = "",
         val total_photos: String = "",
-        val bio: String
+        val bio: String?
     ) : UserData {
 
         data class ProfileImageData(
@@ -27,6 +27,6 @@ interface UserData {
         override fun totalCollections(): String = total_collections
         override fun totalPhotos(): String = total_photos
         override fun totalLikes(): String = total_likes
-        override fun bio(): String = bio
+        override fun bio(): String = bio ?: ""
     }
 }
