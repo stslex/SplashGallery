@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.data.photos
 
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.utils.*
 import retrofit2.Response
 import retrofit2.http.GET
@@ -12,6 +13,13 @@ interface AllPhotosService {
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_API_KEY) api_key: String
     ): Response<List<PhotoData.Base>>
+
+    @GET("/$GET_PHOTOS/")
+    suspend fun getPhotos(
+        @Query(QUERY_PAGE) page: Int,
+        @Query(QUERY_PAGE_SIZE) page_size: Int,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<List<ImageModel>>
 
     @GET("$GET_USERS/{username}/$GET_PHOTOS")
     suspend fun getUserPhotos(

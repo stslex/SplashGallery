@@ -1,10 +1,10 @@
-package com.stslex.splashgallery.core.model.remote
+package com.stslex.splashgallery.data.model.remote
 
 import com.google.gson.annotations.SerializedName
-import com.stslex.splashgallery.core.model.PhotoStatistics
-import com.stslex.splashgallery.core.model.domain.collection.CollectionModel
-import com.stslex.splashgallery.core.model.domain.image.*
-import com.stslex.splashgallery.core.model.domain.user.UserModel
+import com.stslex.splashgallery.data.model.PhotoStatistics
+import com.stslex.splashgallery.data.model.domain.collection.CollectionModel
+import com.stslex.splashgallery.data.model.domain.image.*
+import com.stslex.splashgallery.data.model.domain.user.UserModel
 
 class RemoteImageModel(
     @SerializedName("id") val id: String,

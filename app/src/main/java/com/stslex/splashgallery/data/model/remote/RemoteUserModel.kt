@@ -1,9 +1,9 @@
-package com.stslex.splashgallery.core.model.remote
+package com.stslex.splashgallery.data.model.remote
 
-import com.stslex.splashgallery.core.model.domain.image.ImageModel
-import com.stslex.splashgallery.core.model.domain.user.BadgeModel
-import com.stslex.splashgallery.core.model.domain.user.ProfileImageModel
-import com.stslex.splashgallery.core.model.domain.user.UserLinksModel
+import com.stslex.splashgallery.data.model.domain.image.ImageModel
+import com.stslex.splashgallery.data.model.domain.user.BadgeModel
+import com.stslex.splashgallery.data.model.domain.user.ProfileImageModel
+import com.stslex.splashgallery.data.model.domain.user.UserLinksModel
 
 data class RemoteUserModel(
     val id: String,

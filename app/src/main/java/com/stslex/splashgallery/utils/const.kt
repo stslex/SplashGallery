@@ -20,3 +20,4 @@ const val GET_LIKES = "likes"
 /*QUERY*/
 const val QUERY_API_KEY = "client_id"
 const val QUERY_PAGE = "page"
+const val QUERY_PAGE_SIZE = "per_page"

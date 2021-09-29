@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.core.model.remote
+package com.stslex.splashgallery.data.model.remote
 
 import com.google.gson.annotations.SerializedName
 

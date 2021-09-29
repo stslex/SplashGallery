@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.core.model.domain.collection
+package com.stslex.splashgallery.data.model.domain.collection
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

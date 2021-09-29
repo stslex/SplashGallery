@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
@@ -21,6 +21,8 @@ import com.stslex.splashgallery.ui.core.ClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.photos.adapter.AllPhotosAdapter
+import com.stslex.splashgallery.ui.photos.adapter.PhotosAdapter
+import com.stslex.splashgallery.ui.photos.adapter.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
@@ -31,7 +33,9 @@ import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @ExperimentalCoroutinesApi
 class AllPhotosFragment : BaseFragment() {
@@ -48,6 +52,10 @@ class AllPhotosFragment : BaseFragment() {
     private val globalPage = MutableLiveData<Map<Int, Int>>()
     private var number = 1
 
+    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        PhotosAdapter(glide = setImageWithGlide, context = this.requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,8 +70,22 @@ class AllPhotosFragment : BaseFragment() {
         globalPage.observe(viewLifecycleOwner, observer {
             startListening(currentId, it)
         })
-        initRecyclerView()
-        recyclerView.addOnScrollListener(scrollListener)
+
+        with(binding) {
+            fragmentAllPhotosRecyclerView.adapter = mAdapter.withLoadStateHeaderAndFooter(
+                header = PhotosLoaderStateAdapter(),
+                footer = PhotosLoaderStateAdapter()
+            )
+        }
+        mAdapter.addLoadStateListener {
+            with(binding) {
+                fragmentAllPhotosRecyclerView.isVisible = it.refresh != LoadState.Loading
+                progress.isVisible = it.refresh == LoadState.Loading
+            }
+        }
+
+        /*initRecyclerView()
+        recyclerView.addOnScrollListener(scrollListener)*/
     }
 
     private fun startListening(username: String, page: Int) =
@@ -77,6 +99,12 @@ class AllPhotosFragment : BaseFragment() {
                 }
                 is SingleCollectionFragment -> {
                     viewModel.getCollectionPhotos(username, page).collect { it.collector }
+                }
+                is MainFragment -> {
+                    addRepeatingJob(Lifecycle.State.STARTED) {
+                        viewModel.photos
+                            .collectLatest(mAdapter::submitData)
+                    }
                 }
                 else -> {
                     viewModel.getAllPhotos(page).collect { it.collector }
