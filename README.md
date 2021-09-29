@@ -17,7 +17,7 @@ The app client with Image library using Unsplash api In order with dark theme su
 - Dagger 2
 - Retrofit 2
 - Coroutines
-- Room
+- Jetpack's pagination 3
 - Navigation component (Jetpack's navigation)
 - ViewPager2
 - Glide
