@@ -2,7 +2,6 @@ package com.stslex.splashgallery.ui.detail_photo
 
 import com.stslex.splashgallery.domain.photo.PhotoDomainMapper
 import com.stslex.splashgallery.domain.photo.PhotoDomainResult
-import com.stslex.splashgallery.ui.photos.PhotosUIResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -36,7 +35,7 @@ interface PhotoUIResponse {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            PhotosUIResult.Failure(exception.toString())
+            PhotoUIResult.Failure(exception.toString())
         }
     }
 }

@@ -4,14 +4,17 @@ import androidx.lifecycle.ViewModel
 import com.stslex.splashgallery.di.key.ViewModelKey
 import com.stslex.splashgallery.ui.collections.CollectionViewModel
 import com.stslex.splashgallery.ui.detail_photo.PhotoDetailsViewModel
-import com.stslex.splashgallery.ui.photos.AllPhotosViewModel
+import com.stslex.splashgallery.ui.photos.PhotosViewModel
 import com.stslex.splashgallery.ui.user.UserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Module
+@ExperimentalCoroutinesApi
 interface ViewModelModule {
+
     @IntoMap
     @Binds
     @ViewModelKey(PhotoDetailsViewModel::class)
@@ -24,8 +27,8 @@ interface ViewModelModule {
 
     @IntoMap
     @Binds
-    @ViewModelKey(AllPhotosViewModel::class)
-    fun bindsAllPhotosViewModel(viewModel: AllPhotosViewModel): ViewModel
+    @ViewModelKey(PhotosViewModel::class)
+    fun bindsAllPhotosViewModel(viewModel: PhotosViewModel): ViewModel
 
     @IntoMap
     @Binds

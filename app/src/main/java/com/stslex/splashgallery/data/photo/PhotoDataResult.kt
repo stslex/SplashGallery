@@ -1,7 +1,5 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.splashgallery.data.photos.PhotoData
-
 sealed interface PhotoDataResult {
     fun <T> map(mapper: PhotoDataMapper<T>): T
     data class Success(private val data: PhotoData) : PhotoDataResult {

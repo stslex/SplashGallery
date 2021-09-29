@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.splashgallery.data.photos.PhotoData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking

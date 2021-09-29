@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.splashgallery.data.photos.PhotoData
 import com.stslex.splashgallery.utils.GET_PHOTOS
 import com.stslex.splashgallery.utils.QUERY_API_KEY
 import retrofit2.Response

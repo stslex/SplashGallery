@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.ui.photos
 
 import androidx.paging.PagingSource
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
 import com.stslex.splashgallery.data.photos.AllPhotosRepository
+import com.stslex.splashgallery.ui.model.image.ImageModel
 import javax.inject.Inject
 
 class QueryPhotosUseCase @Inject constructor(

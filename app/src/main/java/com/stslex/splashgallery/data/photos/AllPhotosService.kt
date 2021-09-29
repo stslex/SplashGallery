@@ -1,28 +1,25 @@
 package com.stslex.splashgallery.data.photos
 
-import com.stslex.splashgallery.data.model.domain.image.ImageModel
-import com.stslex.splashgallery.utils.*
+import com.stslex.splashgallery.data.model.image.RemoteImageModel
+import com.stslex.splashgallery.utils.QUERY_API_KEY
+import com.stslex.splashgallery.utils.QUERY_PAGE
+import com.stslex.splashgallery.utils.QUERY_PAGE_SIZE
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AllPhotosService {
-    @GET("/$GET_PHOTOS/")
-    suspend fun getAllPhotos(
-        @Query(QUERY_PAGE) page: Int,
-        @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<PhotoData.Base>>
 
-    @GET("{q1}/{q2}/{q3}")
+    @GET("{query1}/{query2}/{query3}")
     suspend fun getPhotos(
-        @Path("q1") query1: String,
-        @Path("q2") query2: String,
-        @Path("q3") query3: String,
+        @Path("query1") query1: String,
+        @Path("query2") query2: String,
+        @Path("query3") query3: String,
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_PAGE_SIZE) page_size: Int,
         @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<ImageModel>>
+    ): Response<List<RemoteImageModel>>
 
     @GET("{q}")
     suspend fun getPhotos(
@@ -30,27 +27,5 @@ interface AllPhotosService {
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_PAGE_SIZE) page_size: Int,
         @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<ImageModel>>
-
-    @GET("$GET_USERS/{username}/$GET_PHOTOS")
-    suspend fun getUserPhotos(
-        @Path("username") username: String,
-        @Query(QUERY_PAGE) page: Int,
-        @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<PhotoData.Base>>
-
-    @GET("$GET_USERS/{username}/$GET_LIKES")
-    suspend fun getUserLikes(
-        @Path("username") username: String,
-        @Query(QUERY_PAGE) page: Int,
-        @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<PhotoData.Base>>
-
-    @GET("$GET_COLLECTIONS/{id}/$GET_PHOTOS")
-    suspend fun getCollectionPhotos(
-        @Path("id") id: String,
-        @Query(QUERY_PAGE) page: Int,
-        @Query(QUERY_API_KEY) api_key: String
-    ): Response<List<PhotoData.Base>>
-
+    ): Response<List<RemoteImageModel>>
 }

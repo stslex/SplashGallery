@@ -3,7 +3,6 @@ package com.stslex.splashgallery.di.module
 import com.stslex.splashgallery.data.collections.CollectionDataMapper
 import com.stslex.splashgallery.data.download.DownloadDataMapper
 import com.stslex.splashgallery.data.photo.PhotoDataMapper
-import com.stslex.splashgallery.data.photos.PhotosDataMapper
 import com.stslex.splashgallery.data.user.UserDataMapper
 import com.stslex.splashgallery.domain.collections.CollectionDomainMapper
 import com.stslex.splashgallery.domain.collections.CollectionDomainResult
@@ -11,28 +10,17 @@ import com.stslex.splashgallery.domain.download.DownloadDomainMapper
 import com.stslex.splashgallery.domain.download.DownloadDomainResult
 import com.stslex.splashgallery.domain.photo.PhotoDomainMapper
 import com.stslex.splashgallery.domain.photo.PhotoDomainResult
-import com.stslex.splashgallery.domain.photos.PhotosDomainMapper
-import com.stslex.splashgallery.domain.photos.PhotosDomainResult
 import com.stslex.splashgallery.domain.user.UserDomainMapper
 import com.stslex.splashgallery.domain.user.UserDomainResult
 import com.stslex.splashgallery.ui.collections.CollectionUIResult
 import com.stslex.splashgallery.ui.detail_photo.DownloadUIResult
 import com.stslex.splashgallery.ui.detail_photo.PhotoUIResult
-import com.stslex.splashgallery.ui.photos.PhotosUIResult
 import com.stslex.splashgallery.ui.user.UserUIResult
 import dagger.Module
 import dagger.Provides
 
 @Module
 class MapperModule {
-
-    @Provides
-    fun providesPhotosDataMapper(): PhotosDataMapper<PhotosDomainResult> =
-        PhotosDataMapper.Base()
-
-    @Provides
-    fun providesPhotosDomainMapper(): PhotosDomainMapper<PhotosUIResult> =
-        PhotosDomainMapper.Base()
 
     @Provides
     fun providesPhotoDataMapper(): PhotoDataMapper<PhotoDomainResult> =
