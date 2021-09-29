@@ -12,6 +12,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
+import com.stslex.splashgallery.utils.Resources.currentId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -40,6 +41,7 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        currentId = ""
         initPager()
     }
 

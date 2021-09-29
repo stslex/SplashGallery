@@ -15,7 +15,7 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:theme="@style/CustomTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

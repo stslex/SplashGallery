@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.addRepeatingJob
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
+import com.stslex.splashgallery.ui.activity.MainActivityViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
@@ -35,6 +37,7 @@ class PhotosFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
+    private val stateViewModel: MainActivityViewModel by activityViewModels { viewModelFactory.get() }
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         PhotosAdapter(

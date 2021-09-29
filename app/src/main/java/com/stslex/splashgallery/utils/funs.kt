@@ -1,38 +1,13 @@
 package com.stslex.splashgallery.utils
 
-import android.app.Activity
 import android.app.DownloadManager
-import android.content.Context
 import android.content.Context.DOWNLOAD_SERVICE
 import android.net.Uri
 import android.os.Environment
 import androidx.fragment.app.Fragment
-import com.stslex.splashgallery.GalleryApplication
-import com.stslex.splashgallery.R
-import com.stslex.splashgallery.di.component.AppComponent
-import com.stslex.splashgallery.utils.Resources.cache
-import com.stslex.splashgallery.utils.Resources.collections
-import com.stslex.splashgallery.utils.Resources.likes
-import com.stslex.splashgallery.utils.Resources.photos
 import com.stslex.splashgallery.utils.Resources.unknown
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
-
-@ExperimentalCoroutinesApi
-val Context.appComponent: AppComponent
-    get() = when (this) {
-        is GalleryApplication -> appComponent
-        else -> this.applicationContext.appComponent
-    }
-
-fun Activity.setResources() {
-    photos = getString(R.string.label_photos)
-    likes = getString(R.string.label_likes)
-    collections = getString(R.string.label_collections)
-    cache = cacheDir
-    unknown = getString(R.string.string_unknown)
-}
 
 fun String?.isNullCheck(): String =
     if (this == null || this == "") {

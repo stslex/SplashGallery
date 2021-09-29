@@ -17,9 +17,12 @@ fun Fragment.setImageWithRequest(
     needCrop: Boolean = false,
     needCircleCrop: Boolean = false
 ) {
-    val glide = Glide.with(this).load(url).listener(primaryRequestListener)
+    val glide = Glide.with(this)
+        .load(url)
+        .listener(primaryRequestListener)
     if (needCrop) glide.centerCrop()
     if (needCircleCrop) glide.circleCrop()
+    glide.preload()
     glide.into(imageView)
 }
 

@@ -19,18 +19,18 @@ import com.stslex.splashgallery.ui.model.user.UserModel
 
 internal fun RemoteImageModel.toImageModel(): ImageModel = ImageModel(
     id = id,
-    created_at = created_at,
-    updated_at = updated_at,
-    width = width,
-    height = height,
-    color = color,
-    blur_hash = blur_hash,
-    views = views,
-    downloads = downloads,
-    likes = likes,
-    liked_by_user = liked_by_user,
-    description = description,
-    alt_description = alt_description,
+    created_at = created_at ?: "",
+    updated_at = updated_at ?: "",
+    width = width ?: 0,
+    height = height ?: 0,
+    color = color ?: "",
+    blur_hash = blur_hash ?: "",
+    views = views ?: 0,
+    downloads = downloads ?: 0,
+    likes = likes ?: 0,
+    liked_by_user = liked_by_user ?: false,
+    description = description ?: "",
+    alt_description = alt_description ?: "",
     exif = exif?.toExifModel(),
     location = location?.toLocationModel(),
     tags = tags?.map { it.toTagModel() },
@@ -44,31 +44,36 @@ internal fun RemoteImageModel.toImageModel(): ImageModel = ImageModel(
 
 internal fun RemoteExifModel.toExifModel(): ExifModel =
     ExifModel(
-        make = make,
-        model = model,
-        exposure_time = exposure_time,
-        aperture = aperture,
-        focal_length = focal_length,
-        iso = iso
+        make = make ?: "",
+        model = model ?: "",
+        exposure_time = exposure_time ?: "",
+        aperture = aperture ?: "",
+        focal_length = focal_length ?: "",
+        iso = iso ?: 0
     )
 
 internal fun RemoteLocationModel.toLocationModel(): LocationModel =
-    LocationModel(city = city, country = country, position = position?.toPositionModel())
+    LocationModel(
+        city = city ?: "",
+        country = country ?: "",
+        position = position?.toPositionModel()
+    )
 
-internal fun RemoteTagModel.toTagModel(): TagModel = TagModel(type = type, title = title)
+internal fun RemoteTagModel.toTagModel(): TagModel =
+    TagModel(type = type ?: "", title = title ?: "")
 
 internal fun RemoteCollectionModel.toCollectionModel(): CollectionModel =
     CollectionModel(
         id = id,
         title = title,
-        description = description,
-        published_at = published_at,
-        updated_at = updated_at,
-        curated = curated,
-        featured = featured,
+        description = description ?: "",
+        published_at = published_at ?: "",
+        updated_at = updated_at ?: "",
+        curated = curated ?: false,
+        featured = featured ?: false,
         total_photos = total_photos,
-        private = private,
-        share_key = share_key,
+        private = private ?: false,
+        share_key = share_key ?: "",
         tags = tags?.map { it.toTagModel() },
         cover_photo = cover_photo?.toImageModel(),
         preview_photos = preview_photos?.map { it.toImageModel() },
@@ -99,23 +104,23 @@ internal fun RemoteLinksImageModel.toLinksImageModel(): LinksImageModel =
 internal fun RemoteUserModel.toUserModel(): UserModel =
     UserModel(
         id = id,
-        updated_at = updated_at,
-        username = username,
-        name = name,
-        first_name = first_name,
-        last_name = last_name,
-        instagram_username = instagram_username,
-        twitter_username = twitter_username,
-        portfolio_url = portfolio_url,
+        updated_at = updated_at ?: "",
+        username = username ?: "",
+        name = name ?: "",
+        first_name = first_name ?: "",
+        last_name = last_name ?: "",
+        instagram_username = instagram_username ?: "",
+        twitter_username = twitter_username ?: "",
+        portfolio_url = portfolio_url ?: "",
         bio = bio ?: "",
-        location = location,
-        total_likes = total_likes,
-        total_photos = total_photos,
-        total_collections = total_collections,
-        followed_by_user = followed_by_user,
-        followers_count = followers_count,
-        following_count = following_count,
-        downloads = downloads,
+        location = location ?: "",
+        total_likes = total_likes ?: 0,
+        total_photos = total_photos ?: 0,
+        total_collections = total_collections ?: 0,
+        followed_by_user = followed_by_user ?: false,
+        followers_count = followers_count ?: 0,
+        following_count = following_count ?: 0,
+        downloads = downloads ?: 0,
         profile_image = profile_image?.toProfileImageModel(),
         badge = badge?.toBadgeModel(),
         links = links?.toUserLinksModel(),
@@ -131,7 +136,7 @@ internal fun RemotePhotoStatistics.toPhotoStatistic(): PhotoStatistics =
     )
 
 internal fun RemotePositionModel.toPositionModel(): PositionModel =
-    PositionModel(latitude = latitude, longitude = longitude)
+    PositionModel(latitude = latitude ?: 0.0, longitude = longitude ?: 0.0)
 
 internal fun RemoteLinksCollectionModel.toLinksCollectionModel(): LinksCollectionModel =
     LinksCollectionModel(self = self, html = html, photos = photos)
@@ -140,7 +145,7 @@ internal fun RemoteProfileImageModel.toProfileImageModel(): ProfileImageModel =
     ProfileImageModel(small = small, medium = medium, large = large)
 
 internal fun RemoteBadgeModel.toBadgeModel(): BadgeModel =
-    BadgeModel(title = title, primary = primary, slug = slug, link = link)
+    BadgeModel(title = title ?: "", primary = primary ?: false, slug = slug ?: "", link = link)
 
 internal fun RemoteUserLinksModel.toUserLinksModel(): UserLinksModel =
     UserLinksModel(

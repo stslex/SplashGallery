@@ -29,7 +29,7 @@ class RetrofitModule {
         OkHttpClient.Builder()
             .addInterceptor(mLoggingInterceptor)
             .addInterceptor(interceptor)
-            .cache(Cache(cache, 20 * 1024 * 1024L))
+            .cache(Cache(cache, 100 * 1024 * 1024 * 8L))
             .build()
 
     @Provides
