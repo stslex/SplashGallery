@@ -14,8 +14,19 @@ interface AllPhotosService {
         @Query(QUERY_API_KEY) api_key: String
     ): Response<List<PhotoData.Base>>
 
-    @GET("/$GET_PHOTOS/")
+    @GET("{q1}/{q2}/{q3}")
     suspend fun getPhotos(
+        @Path("q1") query1: String,
+        @Path("q2") query2: String,
+        @Path("q3") query3: String,
+        @Query(QUERY_PAGE) page: Int,
+        @Query(QUERY_PAGE_SIZE) page_size: Int,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<List<ImageModel>>
+
+    @GET("{q}")
+    suspend fun getPhotos(
+        @Path("q") query: String,
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_PAGE_SIZE) page_size: Int,
         @Query(QUERY_API_KEY) api_key: String
@@ -35,7 +46,7 @@ interface AllPhotosService {
         @Query(QUERY_API_KEY) api_key: String
     ): Response<List<PhotoData.Base>>
 
-    @GET("/$GET_COLLECTIONS/{id}/$GET_PHOTOS")
+    @GET("$GET_COLLECTIONS/{id}/$GET_PHOTOS")
     suspend fun getCollectionPhotos(
         @Path("id") id: String,
         @Query(QUERY_PAGE) page: Int,

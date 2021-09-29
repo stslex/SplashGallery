@@ -2,66 +2,38 @@ package com.stslex.splashgallery.ui.photos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
+import androidx.paging.*
 import com.stslex.splashgallery.data.model.domain.image.ImageModel
-import com.stslex.splashgallery.domain.photos.PhotosInteractor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import javax.inject.Provider
 
 @ExperimentalCoroutinesApi
 class AllPhotosViewModel @Inject constructor(
-    private val interactor: PhotosInteractor,
-    private val response: PhotosUIResponse,
-    private val photosPagingSource: PagingSource<Int, ImageModel>
+    private val queryPhotosUseCaseProvider: Provider<QueryPhotosUseCase>
 ) : ViewModel() {
 
-    suspend fun getAllPhotos(page: Int): StateFlow<PhotosUIResult> =
-        response.create(interactor.getAllPhotos(page)).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = PhotosUIResult.Loading
-        )
+    private val _query = MutableStateFlow(emptyList<String>())
+    val query: StateFlow<List<String>> = _query.asStateFlow()
 
-    val photos: StateFlow<PagingData<ImageModel>> = Pager<Int, ImageModel>(
-        PagingConfig(10)
-    ) {
-        photosPagingSource
-    }.flow.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+    private var newPagingSource: PagingSource<*, *>? = null
 
-    suspend fun getUserPhotos(
-        username: String,
-        page: Int
-    ): StateFlow<PhotosUIResult> =
-        response.create(interactor.getUserPhotos(username, page)).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = PhotosUIResult.Loading
-        )
+    val photos: StateFlow<PagingData<ImageModel>> = query
+        .map(::newPager)
+        .flatMapLatest { pager -> pager.flow }
+        .cachedIn(viewModelScope)
+        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
-    suspend fun getUserLikes(
-        username: String,
-        page: Int
-    ): StateFlow<PhotosUIResult> =
-        response.create(interactor.getUserLikes(username, page)).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = PhotosUIResult.Loading
-        )
+    private fun newPager(query: List<String>): Pager<Int, ImageModel> {
+        return Pager(PagingConfig(5, enablePlaceholders = false)) {
+            newPagingSource?.invalidate()
+            val queryPhotosUseCase = queryPhotosUseCaseProvider.get()
+            queryPhotosUseCase(query).also { newPagingSource = it }
+        }
+    }
 
-    suspend fun getCollectionPhotos(
-        id: String,
-        page: Int
-    ): StateFlow<PhotosUIResult> =
-        response.create(interactor.getCollectionPhotos(id, page)).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = PhotosUIResult.Loading
-        )
-
+    fun setQuery(query: List<String>) {
+        _query.tryEmit(query)
+    }
 }

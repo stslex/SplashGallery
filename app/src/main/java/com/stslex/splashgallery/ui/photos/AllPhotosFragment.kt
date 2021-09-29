@@ -4,23 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.core.ClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.photos.adapter.AllPhotosAdapter
 import com.stslex.splashgallery.ui.photos.adapter.PhotosAdapter
 import com.stslex.splashgallery.ui.photos.adapter.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
@@ -28,13 +25,9 @@ import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDir
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.utils.Resources.currentId
-import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.setImageWithRequest
+import com.stslex.splashgallery.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -44,15 +37,8 @@ class AllPhotosFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AllPhotosViewModel by viewModels { viewModelFactory.get() }
-    private lateinit var adapter: AllPhotosAdapter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var layoutManager: LinearLayoutManager
-    private var isScrolling = false
 
-    private val globalPage = MutableLiveData<Map<Int, Int>>()
-    private var number = 1
-
-    private val mAdapter by lazy(LazyThreadSafetyMode.NONE) {
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         PhotosAdapter(glide = setImageWithGlide, context = this.requireContext())
     }
 
@@ -61,114 +47,41 @@ class AllPhotosFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
-        globalPage.value = mapOf(requireParentFragment().id to 1)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        globalPage.observe(viewLifecycleOwner, observer {
-            startListening(currentId, it)
-        })
 
-        with(binding) {
-            fragmentAllPhotosRecyclerView.adapter = mAdapter.withLoadStateHeaderAndFooter(
-                header = PhotosLoaderStateAdapter(),
-                footer = PhotosLoaderStateAdapter()
-            )
-        }
-        mAdapter.addLoadStateListener {
+        binding.photos.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = PhotosLoaderStateAdapter(),
+            footer = PhotosLoaderStateAdapter()
+        )
+
+        adapter.addLoadStateListener {
             with(binding) {
-                fragmentAllPhotosRecyclerView.isVisible = it.refresh != LoadState.Loading
+                photos.isVisible = it.refresh != LoadState.Loading
                 progress.isVisible = it.refresh == LoadState.Loading
             }
         }
 
-        /*initRecyclerView()
-        recyclerView.addOnScrollListener(scrollListener)*/
+        val query = when (requireParentFragment()) {
+            is UserLikesFragment -> listOf(GET_USERS, Resources.currentId, GET_LIKES)
+            is UserPhotosFragment -> listOf(GET_USERS, Resources.currentId, GET_PHOTOS)
+            is SingleCollectionFragment -> listOf(GET_COLLECTIONS, Resources.currentId, GET_PHOTOS)
+            else -> listOf(GET_PHOTOS)
+        }
+
+        viewModel.setQuery(query)
+
+        addRepeatingJob(
+            Lifecycle.State.STARTED,
+            viewLifecycleOwner.lifecycleScope.coroutineContext,
+        ) {
+            viewModel.photos.collectLatest(adapter::submitData)
+        }
     }
 
-    private fun startListening(username: String, page: Int) =
-        viewLifecycleOwner.lifecycleScope.launch {
-            when (requireParentFragment()) {
-                is UserPhotosFragment -> {
-                    viewModel.getUserPhotos(username, page).collect { it.collector }
-                }
-                is UserLikesFragment -> {
-                    viewModel.getUserLikes(username, page).collect { it.collector }
-                }
-                is SingleCollectionFragment -> {
-                    viewModel.getCollectionPhotos(username, page).collect { it.collector }
-                }
-                is MainFragment -> {
-                    addRepeatingJob(Lifecycle.State.STARTED) {
-                        viewModel.photos
-                            .collectLatest(mAdapter::submitData)
-                    }
-                }
-                else -> {
-                    viewModel.getAllPhotos(page).collect { it.collector }
-                }
-            }
-        }
-
-
-    private fun initRecyclerView() {
-        val isNotUser = requireParentFragment() is UserPhotosFragment
-        adapter = AllPhotosAdapter(
-            PhotosClickListener(),
-            setImageWithGlide,
-            isUser = !isNotUser
-        )
-        recyclerView = binding.fragmentAllPhotosRecyclerView
-        layoutManager = LinearLayoutManager(requireContext())
-        postponeEnterTransition()
-        recyclerView.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
-    }
-
-    private inline fun observer(crossinline function: (Int) -> Unit): Observer<Map<Int, Int>> =
-        Observer {
-            it[requireParentFragment().id]?.let { page ->
-                function(page)
-            }
-        }
-
-    private val PhotosUIResult.collector: Unit
-        get() = when (this) {
-            is PhotosUIResult.Success -> {
-                adapter.addItems(data)
-            }
-            is PhotosUIResult.Failure -> {
-
-            }
-            is PhotosUIResult.Loading -> {
-            }
-        }
-
-    private val scrollListener: RecyclerView.OnScrollListener =
-        object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
-                    isScrolling = true
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val visibleItemCount = layoutManager.childCount
-                val totalItemCount = layoutManager.itemCount
-                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-                if (isScrolling && (firstVisibleItemPosition + visibleItemCount) >= (totalItemCount - 6) && dy > 0) {
-                    isScrolling = false
-                    number++
-                    globalPage.value = mapOf(requireParentFragment().id to number)
-                }
-            }
-        }
 
     private inner class PhotosClickListener : ClickListener<PhotosUI> {
         override fun clickImage(item: PhotosUI) {
