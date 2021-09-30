@@ -38,7 +38,7 @@ class CollectionsViewHolder(
             numberTextView.text = item.total_photos.toString() + photos
             titleTextView.text = item.title
             glide.setImage(
-                url = item.cover_photo?.urls!!.regular,
+                url = item.cover_photo?.urls?.regular.toString(),
                 imageView = collectionImageView,
                 needCrop = true,
                 needCircleCrop = false

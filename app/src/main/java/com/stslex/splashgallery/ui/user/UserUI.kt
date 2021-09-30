@@ -1,12 +1,13 @@
 package com.stslex.splashgallery.ui.user
 
 import androidx.fragment.app.Fragment
+import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.core.AbstractView
-import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources
 import com.stslex.splashgallery.utils.SetImageWithGlide
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 interface UserUI {
 
@@ -18,6 +19,8 @@ interface UserUI {
         totalPhotosTextView: AbstractView.Text,
         bioTextView: AbstractView.Text
     )
+
+    fun getId(): String
 
     fun getListOfTabs(): List<Fragment>
 
@@ -55,10 +58,13 @@ interface UserUI {
             }
         }
 
+        override fun getId(): String = username
+
+        @ExperimentalCoroutinesApi
         override fun getListOfTabs(): List<Fragment> = mapOf(
             totalPhotos.toInt() to UserPhotosFragment(),
             totalLikes.toInt() to UserLikesFragment(),
-            totalCollections.toInt() to UserCollectionFragment()
+            totalCollections.toInt() to CollectionsFragment()
         ).filter { it.key != 0 }.values.toList()
 
     }

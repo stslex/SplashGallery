@@ -6,7 +6,7 @@ sealed interface PhotoDataResult {
         override fun <T> map(mapper: PhotoDataMapper<T>): T = mapper.map(data)
     }
 
-    class Failure(private val exception: String) : PhotoDataResult {
+    class Failure(private val exception: Exception) : PhotoDataResult {
         override fun <T> map(mapper: PhotoDataMapper<T>): T = mapper.map(exception)
     }
 }

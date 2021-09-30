@@ -9,10 +9,7 @@ import com.stslex.splashgallery.utils.Resources.unknown
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-fun String?.isNullCheck(): String =
-    if (this == null || this == "") {
-        unknown
-    } else this
+fun String?.isNullCheck(): String = if (isNullOrEmpty()) unknown else this
 
 suspend fun Fragment.startDownload(url: String, fileName: String) = withContext(Dispatchers.IO) {
     val downloadManager = requireActivity().getSystemService(DOWNLOAD_SERVICE) as DownloadManager

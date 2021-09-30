@@ -1,27 +1,19 @@
 package com.stslex.splashgallery.data.user
 
 import com.stslex.splashgallery.core.Abstract
-import com.stslex.splashgallery.domain.user.UserDomain
-import com.stslex.splashgallery.domain.user.UserDomainResult
+import com.stslex.splashgallery.data.model.user.RemoteUserModel
+import com.stslex.splashgallery.data.toUserModel
+import com.stslex.splashgallery.ui.user.UserUIResult
 import javax.inject.Inject
 
-interface UserDataMapper<T> : Abstract.Mapper.DataToDomain<UserData, T> {
+interface UserDataMapper<T> : Abstract.Mapper.DataToUI<RemoteUserModel, T> {
 
-    class Base @Inject constructor() : UserDataMapper<UserDomainResult> {
+    class Base @Inject constructor() : UserDataMapper<UserUIResult> {
+        override fun map(data: RemoteUserModel): UserUIResult =
+            UserUIResult.Success(data.toUserModel())
 
-        override fun map(data: UserData): UserDomainResult = UserDomainResult.Success(
-            with(data) {
-                UserDomain.Base(
-                    username = username(),
-                    url = url(),
-                    totalCollections = totalCollections(),
-                    totalPhotos = totalPhotos(),
-                    totalLikes = totalLikes(),
-                    bio = bio()
-                )
-            }
-        )
+        override fun map(exception: Exception): UserUIResult =
+            UserUIResult.Failure(exception = exception)
 
-        override fun map(exception: String): UserDomainResult = UserDomainResult.Failure(exception)
     }
 }

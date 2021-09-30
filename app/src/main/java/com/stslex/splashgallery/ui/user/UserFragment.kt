@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -16,10 +17,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentUserBinding
+import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.utils.Resources
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,6 +35,7 @@ class UserFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
+    private val sharedViewModel: UserSharedViewModel by activityViewModels()
 
     private var _username: String? = null
     private val username: String get() = _username!!
@@ -63,23 +66,42 @@ class UserFragment : BaseFragment() {
     }
 
     private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
-        viewModel.getUserInfo(username).collect {
-            when (it) {
+        viewModel.getUserInfo(username).collect { user ->
+            when (user) {
                 is UserUIResult.Success -> {
                     with(binding) {
-                        it.data.bind(
-                            glide = glide,
-                            profileImageView = avatarImageView,
-                            totalCollectionsTextView = collectionsCountTextView,
-                            totalLikesTextView = likesCountTextView,
-                            totalPhotosTextView = photoCountTextView,
-                            bioTextView = bioTextView
+
+                        glide.setImage(
+                            user.data.profile_image?.medium.toString(),
+                            avatarImageView.getImage(),
+                            needCrop = false,
+                            needCircleCrop = true
                         )
+
+                        Resources.currentId = username
+                        collectionsCountTextView.map(user.data.total_collections.toString())
+                        likesCountTextView.map(user.data.total_likes.toString())
+                        photoCountTextView.map(user.data.total_photos.toString())
+                        if (user.data.bio.isEmpty()) {
+                            bioTextView.hide()
+                        } else {
+                            bioTextView.show()
+                            bioTextView.map(user.data.bio)
+                        }
                     }
-                    setViewPager(it.data.getListOfTabs())
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        sharedViewModel.setId(user.data.username)
+                    }
+                    val listOfTabs = mapOf(
+                        user.data.total_photos to UserPhotosFragment(),
+                        user.data.total_likes to UserLikesFragment(),
+                        user.data.total_collections to CollectionsFragment()
+                    ).filter { it.key != 0 }.values.toList()
+
+                    setViewPager(listOfTabs)
                 }
                 is UserUIResult.Failure -> {
-                    Log.i("Failure", it.exception)
+                    Log.i("Failure", user.exception.toString())
                 }
                 is UserUIResult.Loading -> {
 
@@ -109,12 +131,13 @@ class UserFragment : BaseFragment() {
                 is UserLikesFragment -> {
                     tab.text = getString(R.string.label_likes)
                 }
-                is UserCollectionFragment -> {
+                is CollectionsFragment -> {
                     tab.text = getString(R.string.label_collections)
                 }
             }
             binding.userViewPager.setCurrentItem(tab.position, true)
         }.attach()
+
     }
 
     private fun setToolbar() {
@@ -130,6 +153,13 @@ class UserFragment : BaseFragment() {
         val extras: UserFragmentArgs by navArgs()
         _username = extras.username
         binding.userProfileToolbar.transitionName = username
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.setId("")
+        }
     }
 
     override fun onDestroyView() {

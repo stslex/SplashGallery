@@ -12,6 +12,7 @@ interface DownloadDomainMapper<T> : Abstract.Mapper.DomainToUi<DownloadDomain, T
         override fun map(data: DownloadDomain): DownloadUIResult =
             DownloadUIResult.Success(DownloadUI.Base(url = data.url()))
 
-        override fun map(exception: String): DownloadUIResult = DownloadUIResult.Failure(exception)
+        override fun map(exception: Exception): DownloadUIResult =
+            DownloadUIResult.Failure(exception)
     }
 }

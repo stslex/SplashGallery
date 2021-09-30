@@ -31,10 +31,10 @@ interface DownloadDataResponse {
                     function(DownloadDataResult.Success(it))
                 }
             } else {
-                function(DownloadDataResult.Failure(message().toString()))
+                function(DownloadDataResult.Failure(Exception(errorBody().toString())))
             }
         } catch (exception: Exception) {
-            function(DownloadDataResult.Failure(exception.toString()))
+            function(DownloadDataResult.Failure(exception))
         }
 
     }

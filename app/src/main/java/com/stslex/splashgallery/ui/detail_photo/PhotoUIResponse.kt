@@ -35,7 +35,7 @@ interface PhotoUIResponse {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            PhotoUIResult.Failure(exception.toString())
+            PhotoUIResult.Failure(exception)
         }
     }
 }

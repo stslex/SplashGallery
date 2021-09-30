@@ -8,7 +8,7 @@ sealed interface PhotoDomainResult {
         override fun <T> map(mapper: PhotoDomainMapper<T>): T = mapper.map(data)
     }
 
-    class Failure(private val exception: String) : PhotoDomainResult {
+    class Failure(private val exception: Exception) : PhotoDomainResult {
         override fun <T> map(mapper: PhotoDomainMapper<T>): T = mapper.map(exception)
     }
 }

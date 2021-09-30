@@ -30,10 +30,10 @@ interface PhotoDataResponse {
                     function(PhotoDataResult.Success(it))
                 }
             } else {
-                function(PhotoDataResult.Failure(message().toString()))
+                function(PhotoDataResult.Failure(Exception(errorBody().toString())))
             }
         } catch (exception: Exception) {
-            function(PhotoDataResult.Failure(exception.toString()))
+            function(PhotoDataResult.Failure(exception))
         }
     }
 }

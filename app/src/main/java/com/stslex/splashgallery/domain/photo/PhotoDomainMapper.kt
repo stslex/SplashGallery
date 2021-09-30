@@ -28,7 +28,7 @@ interface PhotoDomainMapper<T> : Abstract.Mapper.DomainToUi<PhotoDomain, T> {
             )
         }
 
-        override fun map(exception: String): PhotoUIResult =
+        override fun map(exception: Exception): PhotoUIResult =
             PhotoUIResult.Failure(exception)
     }
 }

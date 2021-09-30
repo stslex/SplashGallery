@@ -32,7 +32,7 @@ interface PhotoDomainResponse {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            function(PhotoDomainResult.Failure(exception.toString()))
+            function(PhotoDomainResult.Failure(exception))
         }
 
     }

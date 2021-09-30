@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.addRepeatingJob
@@ -19,11 +20,17 @@ import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.photos.PhotosLoaderStateAdapter
+import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
-import com.stslex.splashgallery.ui.user.pager.UserCollectionFragment
-import com.stslex.splashgallery.utils.*
+import com.stslex.splashgallery.ui.user.UserSharedViewModel
+import com.stslex.splashgallery.utils.GET_COLLECTIONS
+import com.stslex.splashgallery.utils.GET_USERS
+import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class CollectionsFragment : BaseFragment() {
@@ -32,6 +39,7 @@ class CollectionsFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CollectionViewModel by viewModels { viewModelFactory.get() }
+    private val sharedViewModel: UserSharedViewModel by activityViewModels()
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         CollectionsAdapter(
@@ -65,13 +73,16 @@ class CollectionsFragment : BaseFragment() {
             }
         }
 
-        val query = when (requireParentFragment()) {
-            is MainFragment -> listOf(GET_COLLECTIONS)
-            is UserCollectionFragment -> listOf(GET_USERS, Resources.currentId, GET_COLLECTIONS)
-            else -> emptyList()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.currentId.collect {
+                val query = when (requireParentFragment()) {
+                    is MainFragment -> listOf(GET_COLLECTIONS)
+                    is UserFragment -> listOf(GET_USERS, it, GET_COLLECTIONS)
+                    else -> emptyList()
+                }
+                viewModel.setQuery(query)
+            }
         }
-
-        viewModel.setQuery(query)
 
         addRepeatingJob(
             Lifecycle.State.STARTED,
@@ -89,7 +100,7 @@ class CollectionsFragment : BaseFragment() {
                     transitionName = view.transitionName,
                     title = url
                 )
-                is UserCollectionFragment -> UserFragmentDirections.actionNavUserToNavSingleCollection(
+                is UserFragment -> UserFragmentDirections.actionNavUserToNavSingleCollection(
                     transitionName = view.transitionName,
                     title = url
                 )
@@ -104,9 +115,6 @@ class CollectionsFragment : BaseFragment() {
             val extras = FragmentNavigatorExtras(view to view.transitionName)
             val directions: NavDirections? = when (requireParentFragment()) {
                 is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(
-                    username = view.transitionName
-                )
-                is UserCollectionFragment -> UserFragmentDirections.actionNavUserSelf(
                     username = view.transitionName
                 )
                 else -> null

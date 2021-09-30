@@ -31,7 +31,7 @@ interface PhotoDataMapper<T> : Abstract.Mapper.DataToDomain<PhotoData, T> {
                 }
             )
 
-        override fun map(exception: String): PhotoDomainResult =
+        override fun map(exception: Exception): PhotoDomainResult =
             PhotoDomainResult.Failure(exception)
 
     }

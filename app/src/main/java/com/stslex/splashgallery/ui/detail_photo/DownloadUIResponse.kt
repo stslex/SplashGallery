@@ -34,7 +34,7 @@ interface DownloadUIResponse {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            DownloadUIResult.Failure(exception.toString())
+            DownloadUIResult.Failure(exception)
         }
     }
 }

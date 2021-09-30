@@ -2,10 +2,8 @@ package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.data.download.DownloadDataResponse
 import com.stslex.splashgallery.data.photo.PhotoDataResponse
-import com.stslex.splashgallery.data.user.UserDataResponse
 import com.stslex.splashgallery.domain.download.DownloadDomainResponse
 import com.stslex.splashgallery.domain.photo.PhotoDomainResponse
-import com.stslex.splashgallery.domain.user.UserDomainResponse
 import com.stslex.splashgallery.ui.detail_photo.DownloadUIResponse
 import com.stslex.splashgallery.ui.detail_photo.PhotoUIResponse
 import com.stslex.splashgallery.ui.user.UserUIResponse
@@ -25,12 +23,6 @@ interface ResponseModule {
 
     @Binds
     fun bindsPhotoUIResponse(response: PhotoUIResponse.Base): PhotoUIResponse
-
-    @Binds
-    fun bindsUserDataResponse(response: UserDataResponse.Base): UserDataResponse
-
-    @Binds
-    fun bindsUserDomainResponse(response: UserDomainResponse.Base): UserDomainResponse
 
     @Binds
     fun bindsUserUIResponse(response: UserUIResponse.Base): UserUIResponse

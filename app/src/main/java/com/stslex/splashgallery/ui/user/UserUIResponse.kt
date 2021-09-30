@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.ui.user
 
-import com.stslex.splashgallery.domain.user.UserDomainMapper
-import com.stslex.splashgallery.domain.user.UserDomainResult
+import com.stslex.splashgallery.data.user.UserDataMapper
+import com.stslex.splashgallery.data.user.UserDataResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -13,13 +13,13 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 interface UserUIResponse {
 
-    suspend fun create(data: Flow<UserDomainResult>): Flow<UserUIResult>
+    suspend fun create(data: Flow<UserDataResult>): Flow<UserUIResult>
 
     class Base @Inject constructor(
-        private val mapper: UserDomainMapper<UserUIResult>
+        private val mapper: UserDataMapper<UserUIResult>
     ) : UserUIResponse {
 
-        override suspend fun create(data: Flow<UserDomainResult>): Flow<UserUIResult> =
+        override suspend fun create(data: Flow<UserDataResult>): Flow<UserUIResult> =
             callbackFlow {
                 data.response {
                     trySendBlocking(it)
@@ -27,14 +27,14 @@ interface UserUIResponse {
                 awaitClose { }
             }
 
-        private suspend inline fun Flow<UserDomainResult>.response(
+        private suspend inline fun Flow<UserDataResult>.response(
             crossinline function: (UserUIResult) -> Unit
         ) = try {
             this@response.collect {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            UserUIResult.Failure(exception.toString())
+            UserUIResult.Failure(exception)
         }
     }
 }

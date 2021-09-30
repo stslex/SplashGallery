@@ -8,7 +8,7 @@ sealed interface DownloadDataResult {
         override fun <T> map(mapper: DownloadDataMapper<T>): T = mapper.map(data)
     }
 
-    class Failure(private val exception: String) : DownloadDataResult {
+    class Failure(private val exception: Exception) : DownloadDataResult {
         override fun <T> map(mapper: DownloadDataMapper<T>): T = mapper.map(exception)
     }
 }

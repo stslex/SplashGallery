@@ -33,7 +33,7 @@ interface DownloadDomainResponse {
                 function(it.map(mapper))
             }
         } catch (exception: Exception) {
-            function(DownloadDomainResult.Failure(exception.toString()))
+            function(DownloadDomainResult.Failure(exception))
         }
 
     }
