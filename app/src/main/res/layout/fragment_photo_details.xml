@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.stslex.splashgallery.ui.core.CustomImageView
+        <ImageView
             android:id="@+id/imageImageView"
             android:layout_width="match_parent"
             android:layout_height="250dp"
@@ -39,7 +39,7 @@
             android:orientation="horizontal"
             android:weightSum="5">
 
-            <com.stslex.splashgallery.ui.core.CustomCardView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/userCardView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                     android:orientation="horizontal"
                     tools:ignore="UseCompoundDrawables">
 
-                    <com.stslex.splashgallery.ui.core.CustomImageView
+                    <ImageView
                         android:id="@+id/avatarImageView"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
@@ -63,7 +63,7 @@
                         android:contentDescription="@string/description_image"
                         tools:src="@color/black" />
 
-                    <com.stslex.splashgallery.ui.core.CustomTextView
+                    <TextView
                         android:id="@+id/usernameTextView"
                         style="@style/TextAppearance.MaterialComponents.Headline6"
                         android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
 
                 </LinearLayout>
 
-            </com.stslex.splashgallery.ui.core.CustomCardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/single_photo_download"
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_camera" />
 
-                <com.stslex.splashgallery.ui.core.CustomTextView
+                <TextView
                     android:id="@+id/cameraTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                     android:layout_marginTop="@dimen/primary_padding"
                     android:text="@string/label_aperture" />
 
-                <com.stslex.splashgallery.ui.core.CustomTextView
+                <TextView
                     android:id="@+id/apertureTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_focal_length" />
 
-                <com.stslex.splashgallery.ui.core.CustomTextView
+                <TextView
                     android:id="@+id/focalTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                     android:layout_marginTop="@dimen/primary_padding"
                     android:text="@string/label_dimension" />
 
-                <com.stslex.splashgallery.ui.core.CustomTextView
+                <TextView
                     android:id="@+id/dimensionTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

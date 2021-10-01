@@ -1,18 +1,20 @@
 package com.stslex.splashgallery.ui.user
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
@@ -23,8 +25,6 @@ import com.stslex.splashgallery.ui.core.UIResult
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources
-import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -71,21 +71,19 @@ class UserFragment : BaseFragment() {
             when (user) {
                 is UIResult.Success -> {
                     with(binding) {
-                        glide.setImage(
-                            user.data.profile_image?.medium.toString(),
-                            avatarImageView.getImage(),
-                            needCrop = false,
-                            needCircleCrop = true
-                        )
+                        avatarImageView.load(user.data.profile_image?.medium.toString()) {
+                            placeholder(ColorDrawable(Color.GRAY))
+                            transformations(CircleCropTransformation())
+                        }
                         Resources.currentId = username
-                        collectionsCountTextView.map(user.data.total_collections.toString())
-                        likesCountTextView.map(user.data.total_likes.toString())
-                        photoCountTextView.map(user.data.total_photos.toString())
+                        collectionsCountTextView.text = user.data.total_collections.toString()
+                        likesCountTextView.text = user.data.total_likes.toString()
+                        photoCountTextView.text = user.data.total_photos.toString()
                         if (user.data.bio.isEmpty()) {
-                            bioTextView.hide()
+                            bioTextView.visibility = View.VISIBLE
                         } else {
-                            bioTextView.show()
-                            bioTextView.map(user.data.bio)
+                            bioTextView.visibility = View.INVISIBLE
+                            bioTextView.text = user.data.bio
                         }
                     }
                     setId(user.data.username).start()
@@ -107,16 +105,9 @@ class UserFragment : BaseFragment() {
         }
     }
 
-    private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
-        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
-    }
-
     private fun setViewPager(fragmentMap: List<Fragment>) {
         binding.userViewPager.adapter = UserAdapter(this, fragmentMap)
-        postponeEnterTransition()
-        binding.userViewPager.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
+
         TabLayoutMediator(
             binding.userTabLayout,
             binding.userViewPager
@@ -134,7 +125,6 @@ class UserFragment : BaseFragment() {
             }
             binding.userViewPager.setCurrentItem(tab.position, true)
         }.attach()
-
     }
 
     private fun setToolbar() {

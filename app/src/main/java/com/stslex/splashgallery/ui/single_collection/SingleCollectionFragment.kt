@@ -6,18 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.utils.Resources.currentId
+import com.stslex.splashgallery.ui.user.UserSharedViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 class SingleCollectionFragment : BaseFragment() {
 
     private var _binding: FragmentSingleCollectionBinding? = null
     private val binding get() = _binding!!
     private lateinit var titleExtra: String
+    private val sharedViewModel: UserSharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +39,14 @@ class SingleCollectionFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSingleCollectionBinding.inflate(inflater, container, false)
+        return binding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         getNavigationArgs()
         setToolbar()
-        return binding.root
     }
 
     private fun setToolbar() {
@@ -49,12 +60,11 @@ class SingleCollectionFragment : BaseFragment() {
 
     private fun getNavigationArgs() {
         val extras: SingleCollectionFragmentArgs by navArgs()
-        extras.apply {
-            binding.mainToolbar.transitionName = transitionName
-            titleExtra = title
-            currentId = transitionName
-        }
-
+        binding.mainToolbar.transitionName = extras.transitionName
+        titleExtra = extras.title
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.setId(extras.transitionName)
+        }.cancel(cause = null)
     }
 
     override fun onDestroyView() {

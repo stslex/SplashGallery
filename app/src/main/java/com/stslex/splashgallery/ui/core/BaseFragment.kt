@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 open class BaseFragment : Fragment() {
+
     @Inject
     open lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
 

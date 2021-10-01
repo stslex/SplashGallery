@@ -1,7 +1,12 @@
 package com.stslex.splashgallery.ui.detail_photo
 
+import android.app.DownloadManager
+import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +16,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
+import com.stslex.splashgallery.ui.core.CoilListener
 import com.stslex.splashgallery.ui.core.UIResult
-import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.isNullCheck
-import com.stslex.splashgallery.utils.setImageWithRequest
-import com.stslex.splashgallery.utils.startDownload
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @ExperimentalCoroutinesApi
 class PhotoDetailsFragment : BaseFragment() {
@@ -79,14 +87,17 @@ class PhotoDetailsFragment : BaseFragment() {
             when (it) {
                 is UIResult.Success -> {
                     with(it.data) {
-                        setImageWithGlide.setImage(
-                            url = user?.profile_image?.medium.toString(),
-                            imageView = binding.avatarImageView,
-                            needCrop = true,
-                            needCircleCrop = true
-                        )
-                        binding.userCardView.transitionName = user?.username
-                        binding.usernameTextView.text = user?.username
+                        binding.avatarImageView.load(user?.profile_image?.medium.toString()) {
+                            placeholder(ColorDrawable(Color.GRAY))
+                            transformations(RoundedCornersTransformation())
+                            listener(CoilListener { startPostponedEnterTransition() })
+                        }
+                        binding.avatarImageView.load(user?.profile_image?.medium!!) {
+                            placeholder(ColorDrawable(Color.GRAY))
+                            transformations(CircleCropTransformation())
+                        }
+                        binding.userCardView.transitionName = user.username
+                        binding.usernameTextView.text = user.username
                         binding.apertureTextView.text = exif?.aperture.isNullCheck()
                         binding.cameraTextView.text = exif?.make.isNullCheck()
                         binding.dimensionTextView.text = exif?.exposure_time.isNullCheck()
@@ -110,9 +121,9 @@ class PhotoDetailsFragment : BaseFragment() {
         viewModel.downloadPhoto(id).collect {
             when (it) {
                 is UIResult.Success -> {
-                    this.launch {
-                        startDownload(it.data.url, id)
-                    }
+                    async {
+                        download(it.data.url, id)
+                    }.onAwait
 
                 }
                 is UIResult.Failure -> {
@@ -125,8 +136,23 @@ class PhotoDetailsFragment : BaseFragment() {
         }
     }
 
-    private val setImageWithGlide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
-        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    private suspend fun download(url: String, fileName: String) = withContext(
+        viewLifecycleOwner
+            .lifecycleScope
+            .coroutineContext
+    ) {
+        val downloadManager =
+            requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setTitle("Downloading")
+            .setDescription("Downloading image...")
+            .setDestinationInExternalFilesDir(
+                requireContext(),
+                Environment.DIRECTORY_DOWNLOADS,
+                fileName
+            )
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        downloadManager.enqueue(request)
     }
 
     private fun getNavigationArgs() {
@@ -134,7 +160,11 @@ class PhotoDetailsFragment : BaseFragment() {
         id = extras.id
         url = extras.url
         binding.imageImageView.transitionName = id
-        setImageWithRequest(url, binding.imageImageView, needCrop = true)
+        binding.imageImageView.load(url) {
+            placeholder(ColorDrawable(Color.GRAY))
+            transformations(RoundedCornersTransformation())
+            listener(CoilListener { startPostponedEnterTransition() })
+        }
     }
 
     private fun setToolbar() {

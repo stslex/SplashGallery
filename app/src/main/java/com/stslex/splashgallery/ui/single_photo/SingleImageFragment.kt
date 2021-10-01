@@ -1,17 +1,19 @@
 package com.stslex.splashgallery.ui.single_photo
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.utils.setImageWithRequest
+import com.stslex.splashgallery.ui.core.CoilListener
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -50,8 +52,11 @@ class SingleImageFragment : BaseFragment() {
     private fun getNavigationArgs() {
         postponeEnterTransition()
         val extras: SingleImageFragmentArgs by navArgs()
-        binding.fragmentSingleImageImage.transitionName = extras.id
-        setImageWithRequest(extras.url, binding.fragmentSingleImageImage)
+        binding.imageView.transitionName = extras.id
+        binding.imageView.load(extras.url) {
+            placeholder(ColorDrawable(Color.GRAY))
+            listener(CoilListener { startPostponedEnterTransition() })
+        }
     }
 
     override fun onDestroyView() {

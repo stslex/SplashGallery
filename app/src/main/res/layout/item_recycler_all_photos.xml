@@ -7,7 +7,7 @@
     android:layout_margin="@dimen/primary_padding"
     android:orientation="vertical">
 
-    <com.stslex.splashgallery.ui.core.CustomCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/userCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.stslex.splashgallery.ui.core.CustomImageView
+            <ImageView
                 android:id="@+id/avatarImageView"
                 android:layout_width="@dimen/big_padding"
                 android:layout_height="@dimen/big_padding"
@@ -28,7 +28,7 @@
                 android:contentDescription="@string/description_image"
                 tools:src="@color/black" />
 
-            <com.stslex.splashgallery.ui.core.CustomTextView
+            <TextView
                 android:id="@+id/usernameTextView"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
@@ -38,19 +38,19 @@
                 tools:text="Name full" />
 
         </LinearLayout>
-    </com.stslex.splashgallery.ui.core.CustomCardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
-    <com.stslex.splashgallery.ui.core.CustomCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
         android:clickable="true"
         android:focusable="true"
-        app:cardCornerRadius="@dimen/primary_padding">
+        app:cardCornerRadius="@dimen/big_padding">
 
-        <com.stslex.splashgallery.ui.core.CustomImageView
+        <ImageView
             android:id="@+id/imageImageView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_image"
@@ -58,6 +58,6 @@
             android:contentDescription="@string/description_image"
             tools:src="@color/black" />
 
-    </com.stslex.splashgallery.ui.core.CustomCardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

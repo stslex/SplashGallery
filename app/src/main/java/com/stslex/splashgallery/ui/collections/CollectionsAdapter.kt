@@ -4,15 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import coil.request.ImageRequest
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
-import com.stslex.splashgallery.ui.core.OnClickListener
+import com.stslex.splashgallery.ui.core.ClickListener
 import com.stslex.splashgallery.ui.model.collection.CollectionModel
-import com.stslex.splashgallery.utils.SetImageWithGlide
 
 class CollectionsAdapter(
-    private val clickListener: OnClickListener,
-    private val glide: SetImageWithGlide,
-    context: Context
+    private val clickListener: ClickListener,
+    context: Context,
+    private val coilListener: ImageRequest.Listener
 ) : PagingDataAdapter<CollectionModel, CollectionsViewHolder>(CollectionsDiffItemCallback()) {
 
     private val layoutInflater = LayoutInflater.from(context)
@@ -25,6 +25,6 @@ class CollectionsAdapter(
         CollectionsViewHolder(
             binding = ItemRecyclerCollectionsBinding.inflate(layoutInflater, parent, false),
             clickListener = clickListener,
-            glide = glide
+            coilListener = coilListener
         )
 }
