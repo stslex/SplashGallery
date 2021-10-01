@@ -1,38 +1,22 @@
 package com.stslex.splashgallery.data.photo
 
 import com.stslex.splashgallery.core.Abstract
-import com.stslex.splashgallery.domain.photo.PhotoDomain
-import com.stslex.splashgallery.domain.photo.PhotoDomainResult
+import com.stslex.splashgallery.data.model.image.RemoteImageModel
+import com.stslex.splashgallery.data.toImageModel
+import com.stslex.splashgallery.ui.detail_photo.UIResult
+import com.stslex.splashgallery.ui.model.image.ImageModel
 import javax.inject.Inject
 
 
-interface PhotoDataMapper<T> : Abstract.Mapper.DataToDomain<PhotoData, T> {
+interface PhotoDataMapper<T> : Abstract.Mapper.DataToDomain<RemoteImageModel, T> {
 
-    class Base @Inject constructor() : PhotoDataMapper<PhotoDomainResult> {
-        override fun map(data: PhotoData): PhotoDomainResult =
-            PhotoDomainResult.Success(
-                with(data) {
-                    PhotoDomain.Base(
-                        imageId = imageId(),
-                        imageUrl = imageUrl(),
-                        userId = userId(),
-                        userName = userName(),
-                        userUrl = userUrl(),
-                        exif = PhotoDomain.Base.ExifDomain(
-                            make = make(),
-                            model = model(),
-                            exposure_time = exposureTime(),
-                            aperture = aperture(),
-                            focal_length = focalLength(),
-                            iso = iso()
-                        )
+    class Base @Inject constructor() : PhotoDataMapper<UIResult<ImageModel>>,
+        Abstract.Mapper.DataToUI<RemoteImageModel, UIResult<ImageModel>> {
+        override fun map(data: RemoteImageModel): UIResult<ImageModel> =
+            UIResult.Success(data.toImageModel())
 
-                    )
-                }
-            )
-
-        override fun map(exception: Exception): PhotoDomainResult =
-            PhotoDomainResult.Failure(exception)
+        override fun map(exception: Exception): UIResult<ImageModel> =
+            UIResult.Failure(exception)
 
     }
 }

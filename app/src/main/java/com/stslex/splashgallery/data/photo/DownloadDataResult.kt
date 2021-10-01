@@ -1,10 +1,12 @@
-package com.stslex.splashgallery.data.download
+package com.stslex.splashgallery.data.photo
+
+import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
 
 sealed interface DownloadDataResult {
 
     fun <T> map(mapper: DownloadDataMapper<T>): T
 
-    class Success(private val data: DownloadData) : DownloadDataResult {
+    class Success(private val data: RemoteDownloadModel) : DownloadDataResult {
         override fun <T> map(mapper: DownloadDataMapper<T>): T = mapper.map(data)
     }
 

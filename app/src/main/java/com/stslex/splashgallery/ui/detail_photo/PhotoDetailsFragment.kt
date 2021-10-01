@@ -16,6 +16,7 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.isNullCheck
 import com.stslex.splashgallery.utils.setImageWithRequest
 import com.stslex.splashgallery.utils.startDownload
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -75,31 +76,29 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun setListener() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.getCurrentPhoto(id).collect {
             when (it) {
-                is PhotoUIResult.Success -> {
-                    val item = it.data
-                    with(binding) {
-                        item.bindDetailPhoto(
-                            glide = setImageWithGlide,
-                            image = imageImageView,
-                            avatar = avatarImageView,
-                            username = usernameTextView,
-                            userCardView = userCardView,
-                            photoAperture = apertureTextView,
-                            photoCamera = cameraTextView,
-                            photoDimension = dimensionTextView,
-                            photoFocal = focalTextView,
+                is UIResult.Success -> {
+                    with(it.data) {
+                        setImageWithGlide.setImage(
+                            url = user?.profile_image?.medium.toString(),
+                            imageView = binding.avatarImageView,
+                            needCrop = true,
+                            needCircleCrop = true
                         )
+                        binding.userCardView.transitionName = user?.username
+                        binding.usernameTextView.text = user?.username
+                        binding.apertureTextView.text = exif?.aperture.isNullCheck()
+                        binding.cameraTextView.text = exif?.make.isNullCheck()
+                        binding.dimensionTextView.text = exif?.exposure_time.isNullCheck()
+                        binding.focalTextView.text = exif?.focal_length.isNullCheck()
                     }
 
                     binding.singlePhotoDownload.setOnClickListener {
-                        item.downloadPhoto { id ->
-                            downloadPhoto(id)
-                        }
+                        downloadPhoto(id)
                     }
                 }
-                is PhotoUIResult.Failure -> {
+                is UIResult.Failure -> {
                 }
-                is PhotoUIResult.Loading -> {
+                is UIResult.Loading -> {
                 }
             }
         }
@@ -109,17 +108,16 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun downloadPhoto(id: String) = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.downloadPhoto(id).collect {
             when (it) {
-                is DownloadUIResult.Success -> {
-                    it.url.startDownload {
-                        this.launch {
-                            startDownload(it, id)
-                        }
+                is UIResult.Success -> {
+                    this.launch {
+                        startDownload(it.data.url, id)
                     }
-                }
-                is DownloadUIResult.Failure -> {
 
                 }
-                is DownloadUIResult.Loading -> {
+                is UIResult.Failure -> {
+
+                }
+                is UIResult.Loading -> {
 
                 }
             }

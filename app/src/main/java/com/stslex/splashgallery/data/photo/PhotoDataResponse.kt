@@ -11,10 +11,11 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 interface PhotoDataResponse {
 
-    fun create(response: Response<PhotoData.Base>): Flow<PhotoDataResult>
+    fun <T> create(response: Response<T>): Flow<DataResult<T>>
+
     class Base @Inject constructor() : PhotoDataResponse {
 
-        override fun create(response: Response<PhotoData.Base>): Flow<PhotoDataResult> =
+        override fun <T> create(response: Response<T>): Flow<DataResult<T>> =
             callbackFlow {
                 response.responseEvent {
                     trySendBlocking(it)
@@ -22,18 +23,18 @@ interface PhotoDataResponse {
                 awaitClose { }
             }
 
-        private inline fun Response<PhotoData.Base>.responseEvent(
-            crossinline function: (PhotoDataResult) -> Unit
+        private inline fun <T> Response<T>.responseEvent(
+            crossinline function: (DataResult<T>) -> Unit
         ) = try {
             if (isSuccessful && body() != null) {
                 body()?.let {
-                    function(PhotoDataResult.Success(it))
+                    function(DataResult.Success(it))
                 }
             } else {
-                function(PhotoDataResult.Failure(Exception(errorBody().toString())))
+                function(DataResult.Failure(Exception(errorBody().toString())))
             }
         } catch (exception: Exception) {
-            function(PhotoDataResult.Failure(exception))
+            function(DataResult.Failure(exception))
         }
     }
 }

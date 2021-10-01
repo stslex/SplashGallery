@@ -13,7 +13,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
         ViewModelFactoryModule::class,
         RepositoryModule::class,
         ResponseModule::class,
-        InteractorModule::class,
         MapperModule::class
     ]
 )

@@ -29,7 +29,6 @@ import com.stslex.splashgallery.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -65,14 +64,7 @@ class PhotosFragment : BaseFragment() {
             footer = PhotosLoaderStateAdapter()
         )
 
-        adapter.addLoadStateListener {
-            with(binding) {
-                photos.isVisible = it.refresh != LoadState.Loading
-                progress.isVisible = it.refresh == LoadState.Loading
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             sharedViewModel.currentId.collect {
                 val query = when (requireParentFragment()) {
                     is MainFragment -> listOf(GET_PHOTOS)
@@ -87,6 +79,13 @@ class PhotosFragment : BaseFragment() {
                 }
 
                 viewModel.setQuery(query)
+            }
+        }
+
+        adapter.addLoadStateListener {
+            with(binding) {
+                photos.isVisible = it.refresh != LoadState.Loading
+                progress.isVisible = it.refresh == LoadState.Loading
             }
         }
 

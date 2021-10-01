@@ -2,6 +2,7 @@ package com.stslex.splashgallery.data
 
 import com.stslex.splashgallery.data.model.collection.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.collection.RemoteLinksCollectionModel
+import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
 import com.stslex.splashgallery.data.model.image.*
 import com.stslex.splashgallery.data.model.statistic.*
 import com.stslex.splashgallery.data.model.user.RemoteBadgeModel
@@ -176,3 +177,5 @@ internal fun RemoteHistorical.toHistorical(): Historical =
     )
 
 internal fun RemoteValue.toValue(): Value = Value(date = date, value = value)
+
+internal fun RemoteDownloadModel.toDownloadModel(): DownloadModel = DownloadModel(url = url)

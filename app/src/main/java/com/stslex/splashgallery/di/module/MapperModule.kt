@@ -1,14 +1,14 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.data.download.DownloadDataMapper
+import com.stslex.splashgallery.core.Abstract
+import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
+import com.stslex.splashgallery.data.model.image.RemoteImageModel
+import com.stslex.splashgallery.data.photo.DownloadDataMapper
 import com.stslex.splashgallery.data.photo.PhotoDataMapper
 import com.stslex.splashgallery.data.user.UserDataMapper
-import com.stslex.splashgallery.domain.download.DownloadDomainMapper
-import com.stslex.splashgallery.domain.download.DownloadDomainResult
-import com.stslex.splashgallery.domain.photo.PhotoDomainMapper
-import com.stslex.splashgallery.domain.photo.PhotoDomainResult
-import com.stslex.splashgallery.ui.detail_photo.DownloadUIResult
-import com.stslex.splashgallery.ui.detail_photo.PhotoUIResult
+import com.stslex.splashgallery.ui.detail_photo.UIResult
+import com.stslex.splashgallery.ui.model.DownloadModel
+import com.stslex.splashgallery.ui.model.image.ImageModel
 import com.stslex.splashgallery.ui.user.UserUIResult
 import dagger.Module
 import dagger.Provides
@@ -17,23 +17,15 @@ import dagger.Provides
 class MapperModule {
 
     @Provides
-    fun providesPhotoDataMapper(): PhotoDataMapper<PhotoDomainResult> =
+    fun providesPhotoDataMapper(): Abstract.Mapper.DataToUI<RemoteImageModel, UIResult<ImageModel>> =
         PhotoDataMapper.Base()
-
-    @Provides
-    fun providesPhotoDomainMapper(): PhotoDomainMapper<PhotoUIResult> =
-        PhotoDomainMapper.Base()
 
     @Provides
     fun providesUserDataMapper(): UserDataMapper<UserUIResult> =
         UserDataMapper.Base()
 
     @Provides
-    fun providesDownloadDataMapper(): DownloadDataMapper<DownloadDomainResult> =
+    fun providesDownloadDataMapper(): Abstract.Mapper.DataToUI<RemoteDownloadModel, UIResult<DownloadModel>> =
         DownloadDataMapper.Base()
-
-    @Provides
-    fun providesDownloadDomainMapper(): DownloadDomainMapper<DownloadUIResult> =
-        DownloadDomainMapper.Base()
 
 }

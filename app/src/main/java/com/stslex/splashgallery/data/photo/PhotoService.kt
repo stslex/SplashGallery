@@ -1,5 +1,8 @@
 package com.stslex.splashgallery.data.photo
 
+import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
+import com.stslex.splashgallery.data.model.image.RemoteImageModel
+import com.stslex.splashgallery.utils.GET_DOWNLOAD
 import com.stslex.splashgallery.utils.GET_PHOTOS
 import com.stslex.splashgallery.utils.QUERY_API_KEY
 import retrofit2.Response
@@ -12,5 +15,11 @@ interface PhotoService {
     suspend fun getCurrentPhoto(
         @Path("id") id: String,
         @Query(QUERY_API_KEY) api_key: String
-    ): Response<PhotoData.Base>
+    ): Response<RemoteImageModel>
+
+    @GET("/$GET_PHOTOS/{id}/$GET_DOWNLOAD")
+    suspend fun downloadPhoto(
+        @Path("id") id: String,
+        @Query(QUERY_API_KEY) api_key: String
+    ): Response<RemoteDownloadModel>
 }

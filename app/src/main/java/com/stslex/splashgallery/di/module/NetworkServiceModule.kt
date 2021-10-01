@@ -1,7 +1,6 @@
 package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.data.collections.CollectionService
-import com.stslex.splashgallery.data.download.DownloadService
 import com.stslex.splashgallery.data.photo.PhotoService
 import com.stslex.splashgallery.data.photos.PhotosService
 import com.stslex.splashgallery.data.user.UserService
@@ -22,10 +21,6 @@ class NetworkServiceModule {
     @Provides
     fun providesUserService(retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
-
-    @Provides
-    fun providesDownloadService(retrofit: Retrofit): DownloadService =
-        retrofit.create(DownloadService::class.java)
 
     @Provides
     fun providesAllPhotosService(retrofit: Retrofit): PhotosService =
