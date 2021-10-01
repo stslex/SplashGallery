@@ -16,11 +16,12 @@ The app client with Image library using Unsplash api In order with dark theme su
 - MVVM
 - Dagger 2
 - Retrofit 2
-- Coroutines
-- Jetpack's pagination 3
+- Coroutines / Flow
+- Jetpack pagination 3
 - Navigation component (Jetpack's navigation)
 - ViewPager2
-- Glide
+- <s>Glide</s>
+- Coil 
 
 ### Installation
 
