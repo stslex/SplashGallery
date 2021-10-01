@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.detail_photo
+package com.stslex.splashgallery.ui.core
 
 sealed class UIResult<out T> {
     class Success<S>(val data: S) : UIResult<S>()

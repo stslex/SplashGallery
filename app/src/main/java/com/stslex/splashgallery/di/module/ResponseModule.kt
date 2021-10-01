@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.di.module
 
-import com.stslex.splashgallery.data.photo.PhotoDataResponse
-import com.stslex.splashgallery.ui.user.UserUIResponse
+import com.stslex.splashgallery.data.core.DataResponse
+import com.stslex.splashgallery.ui.core.UIResponse
 import dagger.Binds
 import dagger.Module
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,8 +11,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 interface ResponseModule {
 
     @Binds
-    fun bindsPhotoDataResponse(response: PhotoDataResponse.Base): PhotoDataResponse
+    fun bindsDataResponse(response: DataResponse.Base): DataResponse
 
     @Binds
-    fun bindsUserUIResponse(response: UserUIResponse.Base): UserUIResponse
+    fun bindsUIResponse(response: UIResponse.Base): UIResponse
 }

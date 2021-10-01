@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.photo
+package com.stslex.splashgallery.data.core
 
 import com.stslex.splashgallery.core.Abstract
 

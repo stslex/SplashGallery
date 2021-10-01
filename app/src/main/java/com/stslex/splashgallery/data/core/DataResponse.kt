@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data.photo
+package com.stslex.splashgallery.data.core
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -9,11 +9,11 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-interface PhotoDataResponse {
+interface DataResponse {
 
     fun <T> create(response: Response<T>): Flow<DataResult<T>>
 
-    class Base @Inject constructor() : PhotoDataResponse {
+    class Base @Inject constructor() : DataResponse {
 
         override fun <T> create(response: Response<T>): Flow<DataResult<T>> =
             callbackFlow {

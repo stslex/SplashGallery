@@ -3,17 +3,16 @@ package com.stslex.splashgallery.data.user
 import com.stslex.splashgallery.core.Abstract
 import com.stslex.splashgallery.data.model.user.RemoteUserModel
 import com.stslex.splashgallery.data.toUserModel
-import com.stslex.splashgallery.ui.user.UserUIResult
+import com.stslex.splashgallery.ui.core.UIResult
+import com.stslex.splashgallery.ui.model.user.UserModel
 import javax.inject.Inject
 
-interface UserDataMapper<T> : Abstract.Mapper.DataToUI<RemoteUserModel, T> {
+class UserDataMapper @Inject constructor() :
+    Abstract.Mapper.DataToUI<RemoteUserModel, UIResult<UserModel>> {
 
-    class Base @Inject constructor() : UserDataMapper<UserUIResult> {
-        override fun map(data: RemoteUserModel): UserUIResult =
-            UserUIResult.Success(data.toUserModel())
+    override fun map(data: RemoteUserModel): UIResult<UserModel> =
+        UIResult.Success(data.toUserModel())
 
-        override fun map(exception: Exception): UserUIResult =
-            UserUIResult.Failure(exception = exception)
-
-    }
+    override fun map(exception: Exception): UIResult<UserModel> =
+        UIResult.Failure(exception = exception)
 }

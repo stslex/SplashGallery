@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class UserSharedViewModel : ViewModel() {
 
-    private val _currentId = MutableStateFlow<String>("")
+    private val _currentId = MutableStateFlow("")
     val currentId: StateFlow<String> get() = _currentId
 
     suspend fun setId(id: String) {

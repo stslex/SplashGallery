@@ -19,6 +19,7 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.core.BaseFragment
+import com.stslex.splashgallery.ui.core.UIResult
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources
@@ -68,16 +69,14 @@ class UserFragment : BaseFragment() {
     private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.getUserInfo(username).collect { user ->
             when (user) {
-                is UserUIResult.Success -> {
+                is UIResult.Success -> {
                     with(binding) {
-
                         glide.setImage(
                             user.data.profile_image?.medium.toString(),
                             avatarImageView.getImage(),
                             needCrop = false,
                             needCircleCrop = true
                         )
-
                         Resources.currentId = username
                         collectionsCountTextView.map(user.data.total_collections.toString())
                         likesCountTextView.map(user.data.total_likes.toString())
@@ -89,9 +88,7 @@ class UserFragment : BaseFragment() {
                             bioTextView.map(user.data.bio)
                         }
                     }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        sharedViewModel.setId(user.data.username)
-                    }
+                    setId(user.data.username).start()
                     val listOfTabs = mapOf(
                         user.data.total_photos to UserPhotosFragment(),
                         user.data.total_likes to UserLikesFragment(),
@@ -100,10 +97,10 @@ class UserFragment : BaseFragment() {
 
                     setViewPager(listOfTabs)
                 }
-                is UserUIResult.Failure -> {
+                is UIResult.Failure -> {
                     Log.i("Failure", user.exception.toString())
                 }
-                is UserUIResult.Loading -> {
+                is UIResult.Loading -> {
 
                 }
             }
@@ -149,6 +146,10 @@ class UserFragment : BaseFragment() {
         }
     }
 
+    private fun setId(id: String) = viewLifecycleOwner.lifecycleScope.launch {
+        sharedViewModel.setId(id)
+    }
+
     private fun getNavigationArgs() {
         val extras: UserFragmentArgs by navArgs()
         _username = extras.username
@@ -157,9 +158,7 @@ class UserFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        viewLifecycleOwner.lifecycleScope.launch {
-            sharedViewModel.setId("")
-        }
+        setId("").cancel()
     }
 
     override fun onDestroyView() {

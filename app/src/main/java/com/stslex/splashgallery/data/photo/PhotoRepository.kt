@@ -1,5 +1,7 @@
 package com.stslex.splashgallery.data.photo
 
+import com.stslex.splashgallery.data.core.DataResponse
+import com.stslex.splashgallery.data.core.DataResult
 import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
 import com.stslex.splashgallery.data.model.image.RemoteImageModel
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
@@ -13,7 +15,7 @@ interface PhotoRepository {
     suspend fun downloadPhoto(id: String): Flow<DataResult<RemoteDownloadModel>>
     class Base @Inject constructor(
         private val service: PhotoService,
-        private val response: PhotoDataResponse
+        private val response: DataResponse
     ) : PhotoRepository {
 
         override suspend fun getCurrentPhoto(id: String): Flow<DataResult<RemoteImageModel>> =
