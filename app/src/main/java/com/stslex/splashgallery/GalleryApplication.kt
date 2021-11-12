@@ -9,14 +9,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class GalleryApplication : Application() {
 
-    private var _appComponent: AppComponent? = null
-
-    val appComponent: AppComponent
-        get() = checkNotNull(_appComponent)
-
-    override fun onCreate() {
-        super.onCreate()
-        _appComponent = DaggerAppComponent.create()
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.builder().application(this).create()
     }
 }
 

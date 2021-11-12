@@ -9,6 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserService {
+
     @GET("/$GET_USERS/{username}")
     suspend fun getUser(
         @Path("username") username: String,

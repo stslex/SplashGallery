@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.data
+package com.stslex.splashgallery.data.core
 
 import com.stslex.splashgallery.data.model.collection.RemoteCollectionModel
 import com.stslex.splashgallery.data.model.collection.RemoteLinksCollectionModel

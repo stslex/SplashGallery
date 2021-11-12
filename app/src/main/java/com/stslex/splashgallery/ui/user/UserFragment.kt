@@ -16,10 +16,10 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
+import com.stslex.splashgallery.core.Resource
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.ui.core.UIResult
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.Resources
@@ -69,7 +69,7 @@ class UserFragment : BaseFragment() {
     private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.getUserInfo(username).collect { user ->
             when (user) {
-                is UIResult.Success -> {
+                is Resource.Success -> {
                     with(binding) {
                         glide.setImage(
                             user.data.profile_image?.medium.toString(),
@@ -94,13 +94,12 @@ class UserFragment : BaseFragment() {
                         user.data.total_likes to UserLikesFragment(),
                         user.data.total_collections to CollectionsFragment()
                     ).filter { it.key != 0 }.values.toList()
-
                     setViewPager(listOfTabs)
                 }
-                is UIResult.Failure -> {
+                is Resource.Failure -> {
                     Log.i("Failure", user.exception.toString())
                 }
-                is UIResult.Loading -> {
+                is Resource.Loading -> {
 
                 }
             }

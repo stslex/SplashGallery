@@ -11,6 +11,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PhotoService {
+
     @GET("/$GET_PHOTOS/{id}")
     suspend fun getCurrentPhoto(
         @Path("id") id: String,

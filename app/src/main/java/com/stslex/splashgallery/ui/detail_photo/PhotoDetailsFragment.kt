@@ -13,9 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
+import com.stslex.splashgallery.core.Resource
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.ui.core.UIResult
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.isNullCheck
 import com.stslex.splashgallery.utils.setImageWithRequest
@@ -77,7 +77,7 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun setListener() = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.getCurrentPhoto(id).collect {
             when (it) {
-                is UIResult.Success -> {
+                is Resource.Success -> {
                     with(it.data) {
                         setImageWithGlide.setImage(
                             url = user?.profile_image?.medium.toString(),
@@ -97,9 +97,9 @@ class PhotoDetailsFragment : BaseFragment() {
                         downloadPhoto(id)
                     }
                 }
-                is UIResult.Failure -> {
+                is Resource.Failure -> {
                 }
-                is UIResult.Loading -> {
+                is Resource.Loading -> {
                 }
             }
         }
@@ -109,16 +109,16 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun downloadPhoto(id: String) = viewLifecycleOwner.lifecycleScope.launch {
         viewModel.downloadPhoto(id).collect {
             when (it) {
-                is UIResult.Success -> {
+                is Resource.Success -> {
                     this.launch {
                         startDownload(it.data.url, id)
                     }
 
                 }
-                is UIResult.Failure -> {
+                is Resource.Failure -> {
 
                 }
-                is UIResult.Loading -> {
+                is Resource.Loading -> {
 
                 }
             }

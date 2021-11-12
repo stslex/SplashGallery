@@ -2,7 +2,7 @@ package com.stslex.splashgallery.data.collections
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.stslex.splashgallery.data.toCollectionModel
+import com.stslex.splashgallery.data.core.toCollectionModel
 import com.stslex.splashgallery.ui.model.collection.CollectionModel
 import com.stslex.splashgallery.utils.API_KEY_SUCCESS
 import dagger.assisted.Assisted

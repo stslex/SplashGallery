@@ -10,6 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CollectionService {
+
     @GET("{q}")
     suspend fun getCollections(
         @Path("q") query: String,

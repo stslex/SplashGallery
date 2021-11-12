@@ -12,7 +12,9 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.utils.Resources.currentId
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class SingleCollectionFragment : BaseFragment() {
 
     private var _binding: FragmentSingleCollectionBinding? = null

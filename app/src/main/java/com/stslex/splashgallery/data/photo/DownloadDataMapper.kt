@@ -1,18 +1,22 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.splashgallery.core.Abstract
+import com.stslex.splashgallery.core.Mapper
+import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.data.core.toDownloadModel
 import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
-import com.stslex.splashgallery.data.toDownloadModel
-import com.stslex.splashgallery.ui.core.UIResult
 import com.stslex.splashgallery.ui.model.DownloadModel
 import javax.inject.Inject
 
-class DownloadDataMapper @Inject constructor() :
-    Abstract.Mapper.DataToUI<RemoteDownloadModel, UIResult<DownloadModel>> {
+interface DownloadDataMapper : Mapper.DataToUI<RemoteDownloadModel, Resource<DownloadModel>> {
 
-    override fun map(data: RemoteDownloadModel): UIResult<DownloadModel> =
-        UIResult.Success(data.toDownloadModel())
+    class Base @Inject constructor() : DownloadDataMapper {
 
-    override fun map(exception: Exception): UIResult<DownloadModel> =
-        UIResult.Failure(exception)
+        override fun map(data: RemoteDownloadModel): Resource<DownloadModel> =
+            Resource.Success(data.toDownloadModel())
+
+        override fun map(exception: Exception): Resource<DownloadModel> =
+            Resource.Failure(exception)
+
+        override fun map(): Resource<DownloadModel> = Resource.Loading
+    }
 }
