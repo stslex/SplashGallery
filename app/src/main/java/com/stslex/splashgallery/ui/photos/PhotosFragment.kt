@@ -8,8 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -29,6 +29,7 @@ import com.stslex.splashgallery.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @ExperimentalCoroutinesApi
@@ -89,11 +90,10 @@ class PhotosFragment : BaseFragment() {
             }
         }
 
-        addRepeatingJob(
-            Lifecycle.State.STARTED,
-            viewLifecycleOwner.lifecycleScope.coroutineContext,
-        ) {
-            viewModel.photos.collectLatest(adapter::submitData)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.photos.collectLatest(adapter::submitData)
+            }
         }
     }
 

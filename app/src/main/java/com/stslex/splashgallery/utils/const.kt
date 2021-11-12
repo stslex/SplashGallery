@@ -5,7 +5,7 @@ package com.stslex.splashgallery.utils
 import com.stslex.splashgallery.BuildConfig
 
 /*API_KEY*/
-const val API_KEY_SUCCESS = BuildConfig.API_KEY_SUCCESS
+const val API_KEY_SUCCESS = BuildConfig.API_KEY
 
 /*BASE_URL*/
 const val BASE_URL = "https://api.unsplash.com/"
