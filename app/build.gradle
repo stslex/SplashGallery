@@ -16,7 +16,7 @@ android {
         targetSdkVersion 31
         versionCode 5
         versionName "1.05"
-        buildConfigField("String", "API_KEY_SUCCESS", API_KEY_SUCCESS)
+        buildConfigField("String", "API_KEY_SUCCESS", API_KEY)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
