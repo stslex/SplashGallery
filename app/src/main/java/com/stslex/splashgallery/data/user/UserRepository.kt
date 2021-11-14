@@ -2,7 +2,6 @@ package com.stslex.splashgallery.data.user
 
 import com.stslex.splashgallery.core.Resource
 import com.stslex.splashgallery.data.core.DataResponse
-import com.stslex.splashgallery.data.core.FirebaseConstants.API_KEY
 import com.stslex.splashgallery.data.model.user.RemoteUserModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +18,6 @@ interface UserRepository {
     ) : UserRepository {
 
         override suspend fun getUser(username: String): Flow<Resource<RemoteUserModel>> =
-            response.create(service.getUser(username, API_KEY))
+            response.create(service.getUser(username))
     }
 }

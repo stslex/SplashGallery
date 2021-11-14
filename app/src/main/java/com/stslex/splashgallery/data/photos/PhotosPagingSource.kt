@@ -27,17 +27,12 @@ class PhotosPagingSource @AssistedInject constructor(
         }
         try {
             val pageNumber = params.key ?: INITIAL_PAGE_NUMBER
-            val pageSize = params.loadSize
 
             val response = when (query) {
-                is QueryPhotos.AllPhotos ->
-                    service.getPhotos(pageNumber, pageSize)
-                is QueryPhotos.CollectionPhotos ->
-                    service.getPhotos(query.query, pageNumber, pageSize)
-                is QueryPhotos.UserPhotos ->
-                    service.getUserPhotos(query.username, pageNumber, pageSize)
-                is QueryPhotos.UserLikes ->
-                    service.getUserLikes(query.username, pageNumber, pageSize)
+                is QueryPhotos.AllPhotos -> service.getPhotos(pageNumber)
+                is QueryPhotos.CollectionPhotos -> service.getCollectPhotos(query.query, pageNumber)
+                is QueryPhotos.UserPhotos -> service.getUserPhotos(query.username, pageNumber)
+                is QueryPhotos.UserLikes -> service.getUserLikes(query.username, pageNumber)
                 is QueryPhotos.EmptyQuery ->
                     return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
             }
@@ -65,6 +60,6 @@ class PhotosPagingSource @AssistedInject constructor(
     }
 
     companion object {
-        const val INITIAL_PAGE_NUMBER = 1
+        private const val INITIAL_PAGE_NUMBER = 1
     }
 }

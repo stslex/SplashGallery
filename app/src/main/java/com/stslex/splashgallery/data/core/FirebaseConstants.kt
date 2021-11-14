@@ -7,9 +7,6 @@ object FirebaseConstants {
     /*API_KEY*/
     const val API_KEY = BuildConfig.API_KEY
 
-    /*BASE_URL*/
-    const val BASE_URL = "https://api.unsplash.com/"
-
     /*GET*/
     const val GET_PHOTOS = "photos"
     const val GET_COLLECTIONS = "collections"

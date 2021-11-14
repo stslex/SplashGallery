@@ -1,17 +1,15 @@
 package com.stslex.splashgallery.ui.single_collection
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.transition.MaterialContainerTransform
-import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
+import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.utils.Resources.currentId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -20,15 +18,7 @@ class SingleCollectionFragment : BaseFragment() {
     private var _binding: FragmentSingleCollectionBinding? = null
     private val binding get() = _binding!!
     private lateinit var titleExtra: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
-            duration = getString(R.integer.transition_duration).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
-    }
+    private val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,9 +44,8 @@ class SingleCollectionFragment : BaseFragment() {
         extras.apply {
             binding.mainToolbar.transitionName = transitionName
             titleExtra = title
-            currentId = transitionName
+            viewModel.setId(transitionName)
         }
-
     }
 
     override fun onDestroyView() {

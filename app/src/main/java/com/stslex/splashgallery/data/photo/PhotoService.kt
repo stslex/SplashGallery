@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.data.photo
 
+import com.stslex.splashgallery.data.core.FirebaseConstants.API_KEY
 import com.stslex.splashgallery.data.core.FirebaseConstants.GET_DOWNLOAD
 import com.stslex.splashgallery.data.core.FirebaseConstants.GET_PHOTOS
 import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_API_KEY
@@ -12,15 +13,15 @@ import retrofit2.http.Query
 
 interface PhotoService {
 
-    @GET("/$GET_PHOTOS/{id}")
+    @GET("$GET_PHOTOS/{id}")
     suspend fun getCurrentPhoto(
         @Path("id") id: String,
-        @Query(QUERY_API_KEY) api_key: String
+        @Query(QUERY_API_KEY) api_key: String = API_KEY
     ): Response<RemoteImageModel>
 
-    @GET("/$GET_PHOTOS/{id}/$GET_DOWNLOAD")
+    @GET("$GET_PHOTOS/{id}/$GET_DOWNLOAD")
     suspend fun downloadPhoto(
         @Path("id") id: String,
-        @Query(QUERY_API_KEY) api_key: String
+        @Query(QUERY_API_KEY) api_key: String = API_KEY
     ): Response<RemoteDownloadModel>
 }

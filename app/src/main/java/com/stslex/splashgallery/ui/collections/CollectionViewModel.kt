@@ -21,6 +21,10 @@ class CollectionViewModel @Inject constructor(
 
     private var newPagingSource: PagingSource<*, *>? = null
 
+    private val pagingConfig: PagingConfig by lazy {
+        PagingConfig(PAGE_SIZE, enablePlaceholders = false)
+    }
+
     val collections: StateFlow<PagingData<CollectionModel>> = query
         .map(::newPager)
         .flatMapLatest { pager -> pager.flow }
@@ -28,7 +32,7 @@ class CollectionViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
     private fun newPager(query: QueryCollections): Pager<Int, CollectionModel> {
-        return Pager(PagingConfig(5, enablePlaceholders = false)) {
+        return Pager(pagingConfig) {
             newPagingSource?.invalidate()
             val queryPhotosUseCase = queryCollectionsUseCaseProvider.get()
             queryPhotosUseCase(query).also { newPagingSource = it }
@@ -37,5 +41,9 @@ class CollectionViewModel @Inject constructor(
 
     fun setQuery(query: QueryCollections) {
         _query.tryEmit(query)
+    }
+
+    companion object {
+        private const val PAGE_SIZE: Int = 10
     }
 }

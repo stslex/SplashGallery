@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.ui.detail_photo
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.transition.MaterialContainerTransform
-import com.stslex.splashgallery.R
 import com.stslex.splashgallery.core.Resource
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
@@ -33,15 +30,6 @@ class PhotoDetailsFragment : BaseFragment() {
 
     private lateinit var id: String
     private lateinit var url: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
-            duration = getString(R.integer.transition_duration).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

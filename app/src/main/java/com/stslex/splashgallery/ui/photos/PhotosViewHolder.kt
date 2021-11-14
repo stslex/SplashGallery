@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.model.image.ImageModel
-import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.SetImageWithGlide
 
 
 class PhotosViewHolder(
     private val binding: ItemRecyclerAllPhotosBinding,
     private val glide: SetImageWithGlide,
-    private val clickListener: OnClickListener
+    private val clickListener: OnClickListener,
+    private val currentId: String
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: ImageModel?) {

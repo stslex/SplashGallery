@@ -1,18 +1,16 @@
 package com.stslex.splashgallery.ui.main_screen
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
+import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.utils.Resources.currentId
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -21,15 +19,7 @@ class MainFragment : BaseFragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    @SuppressLint("ResourceType")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment
-            duration = getString(R.integer.transition_duration).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
-    }
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,32 +31,39 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        currentId = ""
-        initPager()
+        sharedViewModel.setId("")
+        binding.mainViewPager.adapter = MainFragmentAdapter(this)
+        setPagerAnimation()
+        listOfTabs.tabLayoutMediator.attach()
     }
 
-    private fun initPager() {
-        binding.mainViewPager.adapter = MainFragmentAdapter(this)
-        val listOfTabs = mapOf(
-            0 to getString(R.string.label_tab_layout_all),
-            1 to getString(R.string.label_collections)
-        )
+    private fun setPagerAnimation() {
         postponeEnterTransition()
         binding.mainViewPager.doOnPreDraw {
             startPostponedEnterTransition()
         }
-        TabLayoutMediator(
-            binding.mainTabLayout,
-            binding.mainViewPager
-        ) { tab, position ->
-            tab.text = listOfTabs[position]
-            binding.mainViewPager.setCurrentItem(tab.position, true)
-        }.attach()
     }
+
+    private val listOfTabs: List<String> by lazy {
+        listOf(
+            resources.getString(R.string.label_tab_layout_all),
+            resources.getString(R.string.label_collections)
+        )
+    }
+
+    private val List<String>.tabLayoutMediator: TabLayoutMediator
+        get() = with(binding) {
+            TabLayoutMediator(
+                mainTabLayout,
+                mainViewPager
+            ) { tab, position ->
+                tab.text = this@tabLayoutMediator[position]
+                mainViewPager.setCurrentItem(tab.position, true)
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

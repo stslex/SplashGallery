@@ -10,28 +10,24 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavDirections
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.stslex.splashgallery.data.core.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
+import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
-import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
-import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
-import com.stslex.splashgallery.ui.user.UserFragmentDirections
-import com.stslex.splashgallery.ui.user.UserSharedViewModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.setImageWithRequest
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 
 
 @ExperimentalCoroutinesApi
@@ -41,15 +37,11 @@ class PhotosFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
-    private val sharedViewModel: UserSharedViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        PhotosAdapter(
-            clickListener = ClickListener(),
-            glide = glide,
-            context = requireContext()
-        )
-    }
+    private var _adapter: PhotosAdapter? = null
+    private val adapter: PhotosAdapter
+        get() = checkNotNull(_adapter)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,14 +53,24 @@ class PhotosFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        queryJob.start()
         binding.photos.adapter = adapter.withLoadStateHeaderAndFooter(
             header = PhotosLoaderStateAdapter(),
             footer = PhotosLoaderStateAdapter()
         )
+        adapter.addLoadStateListener {
+            with(binding) {
+                photos.isVisible = it.refresh != LoadState.Loading
+                progress.isVisible = it.refresh == LoadState.Loading
+            }
+        }
+        collectionJob.start()
+    }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+    private val queryJob: Job by lazy {
+        viewLifecycleOwner.lifecycleScope.launch {
             sharedViewModel.currentId.collect {
+                setAdapter(it)
                 val query = when (requireParentFragment()) {
                     is MainFragment -> QueryPhotos.AllPhotos
                     is UserPhotosFragment -> QueryPhotos.UserPhotos(it)
@@ -76,66 +78,28 @@ class PhotosFragment : BaseFragment() {
                     is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(it)
                     else -> QueryPhotos.EmptyQuery
                 }
-
-                viewModel.setQuery(query)
+                launch(Dispatchers.IO) {
+                    viewModel.setQuery(query)
+                }
             }
         }
+    }
 
-        adapter.addLoadStateListener {
-            with(binding) {
-                photos.isVisible = it.refresh != LoadState.Loading
-                progress.isVisible = it.refresh == LoadState.Loading
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
+    private val collectionJob: Job by lazy {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.photos.collectLatest(adapter::submitData)
             }
         }
     }
 
-
-    private inner class ClickListener : OnClickListener {
-        override fun clickImage(view: View, url: String) {
-            val extras = FragmentNavigatorExtras(view to view.transitionName)
-            val directions: NavDirections? = when (requireParentFragment()) {
-                is MainFragment -> MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-                    id = view.transitionName,
-                    url = url
-                )
-                is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserToNavSinglePhoto(
-                    id = view.transitionName,
-                    url = url
-                )
-                is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
-                    id = view.transitionName,
-                    url = url
-                )
-                else -> null
-            }
-            directions?.let {
-                findNavController().navigate(it, extras)
-            }
-        }
-
-        override fun clickUser(view: View) {
-            val extras = FragmentNavigatorExtras(view to view.transitionName)
-            val directions: NavDirections? = when (requireParentFragment()) {
-                is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(view.transitionName)
-                is UserPhotosFragment, is UserLikesFragment -> UserFragmentDirections.actionNavUserSelf(
-                    username = view.transitionName
-                )
-                is SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavUser(
-                    username = view.transitionName
-                )
-                else -> null
-            }
-            directions?.let {
-                findNavController().navigate(it, extras)
-            }
-        }
-
+    private fun setAdapter(currentId: String) {
+        _adapter = PhotosAdapter(
+            clickListener = PhotosClickListener(WeakReference(requireParentFragment())),
+            glide = glide,
+            context = requireContext(),
+            currentId = currentId
+        )
     }
 
     private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
@@ -145,5 +109,7 @@ class PhotosFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        queryJob.cancel()
+        collectionJob.cancel()
     }
 }

@@ -8,6 +8,4 @@ object Resources {
     lateinit var likes: String
     lateinit var cache: File
     lateinit var unknown: String
-
-    var currentId: String = ""
 }

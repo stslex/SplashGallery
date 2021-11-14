@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.model.collection.CollectionModel
-import com.stslex.splashgallery.utils.Resources.currentId
 import com.stslex.splashgallery.utils.Resources.photos
 import com.stslex.splashgallery.utils.SetImageWithGlide
 
 class CollectionsViewHolder(
     private val binding: ItemRecyclerCollectionsBinding,
     private val clickListener: OnClickListener,
-    private val glide: SetImageWithGlide
+    private val glide: SetImageWithGlide,
+    private val currentId: String
 ) : RecyclerView.ViewHolder(binding.root) {
 
     @SuppressLint("SetTextI18n")
@@ -35,7 +35,7 @@ class CollectionsViewHolder(
                     clickListener.clickUser(it)
                 }
             }
-            numberTextView.text = item.total_photos.toString() + photos
+            numberTextView.text = "${item.total_photos} $photos"
             titleTextView.text = item.title
             glide.setImage(
                 url = item.cover_photo?.urls?.regular.toString(),

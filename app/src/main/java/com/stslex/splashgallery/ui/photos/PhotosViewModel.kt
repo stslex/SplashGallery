@@ -27,14 +27,22 @@ class PhotosViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
     private fun newPager(query: QueryPhotos): Pager<Int, ImageModel> {
-        return Pager(PagingConfig(5, enablePlaceholders = false)) {
+        return Pager(pagingConfig) {
             newPagingSource?.invalidate()
             val queryPhotosUseCase = queryPhotosUseCaseProvider.get()
             queryPhotosUseCase(query).also { newPagingSource = it }
         }
     }
 
+    private val pagingConfig: PagingConfig by lazy {
+        PagingConfig(PAGE_SIZE, enablePlaceholders = false)
+    }
+
     fun setQuery(query: QueryPhotos) {
         _query.tryEmit(query)
+    }
+
+    companion object {
+        private const val PAGE_SIZE: Int = 10
     }
 }

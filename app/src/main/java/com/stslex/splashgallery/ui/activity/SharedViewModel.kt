@@ -1,15 +1,15 @@
-package com.stslex.splashgallery.ui.user
+package com.stslex.splashgallery.ui.activity
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class UserSharedViewModel : ViewModel() {
+class SharedViewModel : ViewModel() {
 
     private val _currentId = MutableStateFlow("")
     val currentId: StateFlow<String> get() = _currentId
 
-    suspend fun setId(id: String) {
-        _currentId.emit(id)
+    fun setId(id: String) {
+        _currentId.tryEmit(id)
     }
 }

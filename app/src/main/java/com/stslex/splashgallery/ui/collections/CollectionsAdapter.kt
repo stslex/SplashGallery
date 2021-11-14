@@ -12,6 +12,7 @@ import com.stslex.splashgallery.utils.SetImageWithGlide
 class CollectionsAdapter(
     private val clickListener: OnClickListener,
     private val glide: SetImageWithGlide,
+    private val currentId: String,
     context: Context
 ) : PagingDataAdapter<CollectionModel, CollectionsViewHolder>(CollectionsDiffItemCallback()) {
 
@@ -25,6 +26,7 @@ class CollectionsAdapter(
         CollectionsViewHolder(
             binding = ItemRecyclerCollectionsBinding.inflate(layoutInflater, parent, false),
             clickListener = clickListener,
-            glide = glide
+            glide = glide,
+            currentId = currentId
         )
 }

@@ -2,7 +2,6 @@ package com.stslex.splashgallery.di.module
 
 import androidx.lifecycle.ViewModel
 import com.stslex.splashgallery.di.key.ViewModelKey
-import com.stslex.splashgallery.ui.activity.MainActivityViewModel
 import com.stslex.splashgallery.ui.collections.CollectionViewModel
 import com.stslex.splashgallery.ui.detail_photo.PhotoDetailsViewModel
 import com.stslex.splashgallery.ui.photos.PhotosViewModel
@@ -15,11 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Module
 @ExperimentalCoroutinesApi
 interface ViewModelModule {
-
-    @IntoMap
-    @Binds
-    @ViewModelKey(MainActivityViewModel::class)
-    fun bindsMainActivityViewModel(viewModel: MainActivityViewModel): ViewModel
 
     @IntoMap
     @Binds

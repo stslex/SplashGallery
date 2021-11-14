@@ -27,14 +27,12 @@ class CollectionsPagingSource @AssistedInject constructor(
         }
         try {
             val pageNumber = params.key ?: INITIAL_PAGE_NUMBER
-            val pageSize = params.loadSize
-
 
             val response = when (query) {
                 is QueryCollections.AllCollections ->
-                    service.getCollections(pageNumber, pageSize)
+                    service.getCollections(pageNumber)
                 is QueryCollections.UserCollections ->
-                    service.getCollections(query.query, pageNumber, pageSize)
+                    service.getCollections(query.query, pageNumber)
                 is QueryCollections.EmptyQuery ->
                     return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
             }
@@ -62,6 +60,6 @@ class CollectionsPagingSource @AssistedInject constructor(
     }
 
     companion object {
-        const val INITIAL_PAGE_NUMBER = 1
+        private const val INITIAL_PAGE_NUMBER = 1
     }
 }

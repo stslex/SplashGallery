@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.stslex.splashgallery.data.core.FirebaseConstants.BASE_URL
 import com.stslex.splashgallery.di.scopes.OfflineInterceptor
 import com.stslex.splashgallery.di.scopes.OnlineInterceptor
 import dagger.Module
@@ -80,5 +79,9 @@ class RetrofitModule {
             .removeHeader("Pragma")
             .build()
         chain.proceed(request)
+    }
+
+    companion object {
+        private const val BASE_URL = "https://api.unsplash.com/"
     }
 }
