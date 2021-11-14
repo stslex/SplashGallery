@@ -1,10 +1,10 @@
 package com.stslex.splashgallery.data.photo
 
+import com.stslex.splashgallery.data.core.FirebaseConstants.GET_DOWNLOAD
+import com.stslex.splashgallery.data.core.FirebaseConstants.GET_PHOTOS
+import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_API_KEY
 import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
 import com.stslex.splashgallery.data.model.image.RemoteImageModel
-import com.stslex.splashgallery.utils.GET_DOWNLOAD
-import com.stslex.splashgallery.utils.GET_PHOTOS
-import com.stslex.splashgallery.utils.QUERY_API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

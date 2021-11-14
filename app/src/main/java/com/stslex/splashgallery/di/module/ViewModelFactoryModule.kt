@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.di.module
 
 import androidx.lifecycle.ViewModelProvider
-import com.stslex.splashgallery.core.ViewModelFactory
+import com.stslex.splashgallery.ui.core.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 

@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.core
+package com.stslex.splashgallery.ui.core
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -3,6 +3,7 @@ package com.stslex.splashgallery.ui.collections
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
+import com.stslex.splashgallery.data.core.QueryCollections
 import com.stslex.splashgallery.ui.model.collection.CollectionModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -14,8 +15,9 @@ class CollectionViewModel @Inject constructor(
     private val queryCollectionsUseCaseProvider: Provider<QueryCollectionsUseCase>
 ) : ViewModel() {
 
-    private val _query = MutableStateFlow(emptyList<String>())
-    val query: StateFlow<List<String>> = _query.asStateFlow()
+    private val _query: MutableStateFlow<QueryCollections> =
+        MutableStateFlow(QueryCollections.EmptyQuery)
+    val query: StateFlow<QueryCollections> = _query.asStateFlow()
 
     private var newPagingSource: PagingSource<*, *>? = null
 
@@ -25,7 +27,7 @@ class CollectionViewModel @Inject constructor(
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
-    private fun newPager(query: List<String>): Pager<Int, CollectionModel> {
+    private fun newPager(query: QueryCollections): Pager<Int, CollectionModel> {
         return Pager(PagingConfig(5, enablePlaceholders = false)) {
             newPagingSource?.invalidate()
             val queryPhotosUseCase = queryCollectionsUseCaseProvider.get()
@@ -33,7 +35,7 @@ class CollectionViewModel @Inject constructor(
         }
     }
 
-    fun setQuery(query: List<String>) {
+    fun setQuery(query: QueryCollections) {
         _query.tryEmit(query)
     }
 }

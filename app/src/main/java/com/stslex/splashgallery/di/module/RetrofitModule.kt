@@ -4,9 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.stslex.splashgallery.data.core.FirebaseConstants.BASE_URL
 import com.stslex.splashgallery.di.scopes.OfflineInterceptor
 import com.stslex.splashgallery.di.scopes.OnlineInterceptor
-import com.stslex.splashgallery.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

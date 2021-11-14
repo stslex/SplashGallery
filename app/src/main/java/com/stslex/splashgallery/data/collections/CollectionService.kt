@@ -1,9 +1,12 @@
 package com.stslex.splashgallery.data.collections
 
+import com.stslex.splashgallery.data.core.FirebaseConstants.API_KEY
+import com.stslex.splashgallery.data.core.FirebaseConstants.GET_COLLECTIONS
+import com.stslex.splashgallery.data.core.FirebaseConstants.GET_USERS
+import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_API_KEY
+import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_PAGE
+import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_PAGE_SIZE
 import com.stslex.splashgallery.data.model.collection.RemoteCollectionModel
-import com.stslex.splashgallery.utils.QUERY_API_KEY
-import com.stslex.splashgallery.utils.QUERY_PAGE
-import com.stslex.splashgallery.utils.QUERY_PAGE_SIZE
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,21 +14,18 @@ import retrofit2.http.Query
 
 interface CollectionService {
 
-    @GET("{q}")
+    @GET(GET_COLLECTIONS)
     suspend fun getCollections(
-        @Path("q") query: String,
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_PAGE_SIZE) page_size: Int,
-        @Query(QUERY_API_KEY) api_key: String
+        @Query(QUERY_API_KEY) api_key: String = API_KEY
     ): Response<List<RemoteCollectionModel>>
 
-    @GET("{q1}/{q2}/{q3}")
+    @GET("$GET_USERS/{q2}/$GET_COLLECTIONS")
     suspend fun getCollections(
-        @Path("q1") query1: String,
-        @Path("q2") query2: String,
-        @Path("q3") query3: String,
+        @Path("username") username: String,
         @Query(QUERY_PAGE) page: Int,
         @Query(QUERY_PAGE_SIZE) page_size: Int,
-        @Query(QUERY_API_KEY) api_key: String
+        @Query(QUERY_API_KEY) api_key: String = API_KEY
     ): Response<List<RemoteCollectionModel>>
 }

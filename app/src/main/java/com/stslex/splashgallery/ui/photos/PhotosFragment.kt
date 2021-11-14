@@ -14,6 +14,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.stslex.splashgallery.data.core.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.core.OnClickListener
@@ -25,7 +26,8 @@ import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.UserSharedViewModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.utils.*
+import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -68,15 +70,11 @@ class PhotosFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             sharedViewModel.currentId.collect {
                 val query = when (requireParentFragment()) {
-                    is MainFragment -> listOf(GET_PHOTOS)
-                    is UserPhotosFragment -> listOf(GET_USERS, it, GET_PHOTOS)
-                    is UserLikesFragment -> listOf(GET_USERS, it, GET_LIKES)
-                    is SingleCollectionFragment -> listOf(
-                        GET_COLLECTIONS,
-                        Resources.currentId,
-                        GET_PHOTOS
-                    )
-                    else -> emptyList()
+                    is MainFragment -> QueryPhotos.AllPhotos
+                    is UserPhotosFragment -> QueryPhotos.UserPhotos(it)
+                    is UserLikesFragment -> QueryPhotos.UserLikes(it)
+                    is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(it)
+                    else -> QueryPhotos.EmptyQuery
                 }
 
                 viewModel.setQuery(query)

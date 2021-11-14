@@ -14,6 +14,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.stslex.splashgallery.data.core.QueryCollections
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.core.OnClickListener
@@ -23,8 +24,6 @@ import com.stslex.splashgallery.ui.photos.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
 import com.stslex.splashgallery.ui.user.UserSharedViewModel
-import com.stslex.splashgallery.utils.GET_COLLECTIONS
-import com.stslex.splashgallery.utils.GET_USERS
 import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -76,9 +75,9 @@ class CollectionsFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             sharedViewModel.currentId.collect {
                 val query = when (requireParentFragment()) {
-                    is MainFragment -> listOf(GET_COLLECTIONS)
-                    is UserFragment -> listOf(GET_USERS, it, GET_COLLECTIONS)
-                    else -> emptyList()
+                    is MainFragment -> QueryCollections.AllCollections
+                    is UserFragment -> QueryCollections.UserCollections(it)
+                    else -> QueryCollections.EmptyQuery
                 }
                 viewModel.setQuery(query)
             }
