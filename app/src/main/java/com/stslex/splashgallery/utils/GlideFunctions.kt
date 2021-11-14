@@ -22,6 +22,8 @@ fun Fragment.setImageWithRequest(
         .listener(primaryRequestListener)
     if (needCrop) glide.centerCrop()
     if (needCircleCrop) glide.circleCrop()
+    if (!needCircleCrop && !needCrop) glide.fitCenter()
+    glide.disallowHardwareConfig()
     glide.preload()
     glide.into(imageView)
 }

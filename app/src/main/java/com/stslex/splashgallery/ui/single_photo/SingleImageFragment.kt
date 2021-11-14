@@ -13,10 +13,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 @ExperimentalCoroutinesApi
-class SingleImageFragment : BaseFragment() {
+class SingleImageFragment : BaseFragment(), View.OnClickListener {
 
     private var _binding: FragmentSingleImageBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentSingleImageBinding
+        get() = checkNotNull(_binding)
+
+    private val extras: SingleImageFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,17 +32,13 @@ class SingleImageFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getNavigationArgs()
-        binding.root.setOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
-    private fun getNavigationArgs() {
-        postponeEnterTransition()
-        val extras: SingleImageFragmentArgs by navArgs()
         binding.fragmentSingleImageImage.transitionName = extras.id
         setImageWithRequest(extras.url, binding.fragmentSingleImageImage)
+        binding.root.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        findNavController().popBackStack()
     }
 
     override fun onDestroyView() {

@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.ui.detail_photo
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -67,18 +66,23 @@ class PhotoDetailsFragment : BaseFragment() {
         findNavController().navigate(directions, extras)
     }
 
-    private val getImageJob: Job by lazy {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+    private val getImageJob: Job
+        get() = viewLifecycleOwner.lifecycleScope.launch(
+            context = Dispatchers.IO, start = CoroutineStart.LAZY
+        ) {
             viewModel.getCurrentPhoto(extras.id).collectLatest(::collected)
         }
-    }
+
 
     @JvmName("resultImageModel")
-    private suspend fun collected(response: Resource<ImageModel>) = when (response) {
-        is Resource.Success -> response.result()
-        is Resource.Failure -> response.result()
-        is Resource.Loading -> loading()
-    }
+    private suspend fun collected(response: Resource<ImageModel>) =
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            when (response) {
+                is Resource.Success -> response.result()
+                is Resource.Failure -> response.result()
+                is Resource.Loading -> loading()
+            }
+        }
 
     @JvmName("resultImageModel")
     private suspend fun Resource.Success<ImageModel>.result() = withContext(Dispatchers.Main) {
@@ -147,5 +151,10 @@ class PhotoDetailsFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
         downloadJob?.cancel()
+        getImageJob.cancel()
+    }
+
+    companion object {
+        private const val TAG = "PhotoDetailsFragment"
     }
 }
