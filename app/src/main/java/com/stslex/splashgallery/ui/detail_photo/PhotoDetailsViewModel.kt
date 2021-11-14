@@ -17,6 +17,7 @@ class PhotoDetailsViewModel @Inject constructor(
     private val repository: PhotoRepository,
     private val photoMapper: PhotoDataMapper,
     private val downloadMapper: DownloadDataMapper,
+    private val downloadImageUseCase: DownloadImageUseCase
 ) : ViewModel() {
 
     suspend fun getCurrentPhoto(id: String): StateFlow<Resource<ImageModel>> =
@@ -28,7 +29,7 @@ class PhotoDetailsViewModel @Inject constructor(
             initialValue = Resource.Loading
         )
 
-    suspend fun downloadPhoto(id: String): StateFlow<Resource<DownloadModel>> =
+    suspend fun downloadImageUrl(id: String): StateFlow<Resource<DownloadModel>> =
         repository.downloadPhoto(id).flatMapLatest {
             flowOf(it.map(downloadMapper))
         }.stateIn(
@@ -36,4 +37,15 @@ class PhotoDetailsViewModel @Inject constructor(
             started = SharingStarted.Lazily,
             initialValue = Resource.Loading
         )
+
+    suspend fun downloadImage(
+        url: String,
+        fileName: String
+    ): StateFlow<Resource<Nothing?>> = flow {
+        emit(downloadImageUseCase.download(url, fileName))
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = Resource.Loading
+    )
 }

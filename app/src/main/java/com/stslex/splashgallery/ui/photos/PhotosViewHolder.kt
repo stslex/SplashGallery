@@ -12,12 +12,12 @@ class PhotosViewHolder(
     private val binding: ItemRecyclerAllPhotosBinding,
     private val glide: SetImageWithGlide,
     private val clickListener: OnClickListener,
-    private val currentId: String
+    private val isUser: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: ImageModel?) {
         with(binding) {
-            if (item?.user?.username == currentId) {
+            if (isUser) {
                 userCardView.visibility = View.GONE
             } else {
                 userCardView.visibility = View.VISIBLE
@@ -34,14 +34,14 @@ class PhotosViewHolder(
                 }
             }
             glide.setImage(
-                url = item.urls.regular,
+                url = item?.urls?.regular.toString(),
                 imageView = imageImageView,
                 needCrop = true,
                 needCircleCrop = false
             )
-            imageCardView.transitionName = item.id
+            imageCardView.transitionName = item?.id
             imageCardView.setOnClickListener {
-                clickListener.clickImage(it, item.urls.regular)
+                clickListener.clickImage(it, item?.urls?.regular.toString())
             }
         }
     }

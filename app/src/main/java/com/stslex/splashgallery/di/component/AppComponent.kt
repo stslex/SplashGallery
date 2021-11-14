@@ -15,7 +15,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
         ViewModelFactoryModule::class,
         RepositoryModule::class,
         ResponseModule::class,
-        MappersModule::class
+        MappersModule::class,
+        UtilsModule::class
     ]
 )
 interface AppComponent {

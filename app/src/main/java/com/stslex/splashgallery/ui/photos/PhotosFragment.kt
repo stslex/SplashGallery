@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.stslex.splashgallery.data.core.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
@@ -17,6 +18,7 @@ import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
+import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import com.stslex.splashgallery.utils.SetImageWithGlide
@@ -39,9 +41,14 @@ class PhotosFragment : BaseFragment() {
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private var _adapter: PhotosAdapter? = null
-    private val adapter: PhotosAdapter
-        get() = checkNotNull(_adapter)
+    private val adapter: PhotosAdapter by lazy {
+        PhotosAdapter(
+            clickListener = PhotosClickListener(WeakReference(requireParentFragment())),
+            glide = glide,
+            context = requireContext(),
+            isUser = requireParentFragment().requireParentFragment() is UserFragment
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,19 +65,20 @@ class PhotosFragment : BaseFragment() {
             header = PhotosLoaderStateAdapter(),
             footer = PhotosLoaderStateAdapter()
         )
-        adapter.addLoadStateListener {
-            with(binding) {
-                photos.isVisible = it.refresh != LoadState.Loading
-                progress.isVisible = it.refresh == LoadState.Loading
-            }
-        }
+        adapter.addLoadStateListener(::loadStateListener)
         collectionJob.start()
     }
 
+    private fun loadStateListener(loadState: CombinedLoadStates) {
+        with(binding) {
+            photos.isVisible = loadState.refresh != LoadState.Loading
+            progress.isVisible = loadState.refresh == LoadState.Loading
+        }
+    }
+
     private val queryJob: Job by lazy {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             sharedViewModel.currentId.collect {
-                setAdapter(it)
                 val query = when (requireParentFragment()) {
                     is MainFragment -> QueryPhotos.AllPhotos
                     is UserPhotosFragment -> QueryPhotos.UserPhotos(it)
@@ -91,15 +99,6 @@ class PhotosFragment : BaseFragment() {
                 viewModel.photos.collectLatest(adapter::submitData)
             }
         }
-    }
-
-    private fun setAdapter(currentId: String) {
-        _adapter = PhotosAdapter(
-            clickListener = PhotosClickListener(WeakReference(requireParentFragment())),
-            glide = glide,
-            context = requireContext(),
-            currentId = currentId
-        )
     }
 
     private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->

@@ -13,13 +13,13 @@ class CollectionsViewHolder(
     private val binding: ItemRecyclerCollectionsBinding,
     private val clickListener: OnClickListener,
     private val glide: SetImageWithGlide,
-    private val currentId: String
+    private val isUser: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
     @SuppressLint("SetTextI18n")
     fun bind(item: CollectionModel?) {
         with(binding) {
-            if (item?.user?.username == currentId) {
+            if (isUser) {
                 userCardView.visibility = View.GONE
             } else {
                 userCardView.visibility = View.VISIBLE
@@ -35,17 +35,17 @@ class CollectionsViewHolder(
                     clickListener.clickUser(it)
                 }
             }
-            numberTextView.text = "${item.total_photos} $photos"
-            titleTextView.text = item.title
+            numberTextView.text = "${item?.total_photos} $photos"
+            titleTextView.text = item?.title
             glide.setImage(
-                url = item.cover_photo?.urls?.regular.toString(),
+                url = item?.cover_photo?.urls?.regular.toString(),
                 imageView = collectionImageView,
                 needCrop = true,
                 needCircleCrop = false
             )
-            imageCardView.transitionName = item.id
+            imageCardView.transitionName = item?.id
             imageCardView.setOnClickListener {
-                clickListener.clickImage(it, item.title)
+                clickListener.clickImage(it, item?.title.toString())
             }
         }
     }

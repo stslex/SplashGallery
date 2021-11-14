@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.stslex.splashgallery.data.core.QueryCollections
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
@@ -37,9 +38,14 @@ class CollectionsFragment : BaseFragment() {
     private val viewModel: CollectionViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private var _adapter: CollectionsAdapter? = null
-    private val adapter: CollectionsAdapter
-        get() = checkNotNull(_adapter)
+    private val adapter: CollectionsAdapter by lazy {
+        CollectionsAdapter(
+            clickListener = CollectionClickListener(WeakReference(requireParentFragment())),
+            glide = glide,
+            context = requireContext(),
+            isUser = requireParentFragment() is UserFragment
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,26 +59,24 @@ class CollectionsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         queryJob.start()
-
         binding.collections.adapter = adapter.withLoadStateHeaderAndFooter(
             header = PhotosLoaderStateAdapter(),
             footer = PhotosLoaderStateAdapter()
         )
-
-        adapter.addLoadStateListener {
-            with(binding) {
-                collections.isVisible = it.refresh != LoadState.Loading
-                progress.isVisible = it.refresh == LoadState.Loading
-            }
-        }
-
+        adapter.addLoadStateListener(::loadStateListener)
         collectionJob.start()
     }
 
+    private fun loadStateListener(loadState: CombinedLoadStates) {
+        with(binding) {
+            collections.isVisible = loadState.refresh != LoadState.Loading
+            progress.isVisible = loadState.refresh == LoadState.Loading
+        }
+    }
+
     private val queryJob: Job by lazy {
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             sharedViewModel.currentId.collect {
-                setAdapter(it)
                 val query = when (requireParentFragment()) {
                     is MainFragment -> QueryCollections.AllCollections
                     is UserFragment -> QueryCollections.UserCollections(it)
@@ -83,15 +87,6 @@ class CollectionsFragment : BaseFragment() {
                 }
             }
         }
-    }
-
-    private fun setAdapter(currentId: String) {
-        _adapter = CollectionsAdapter(
-            clickListener = CollectionClickListener(WeakReference(requireParentFragment())),
-            glide = glide,
-            context = requireContext(),
-            currentId = currentId
-        )
     }
 
     private val collectionJob: Job by lazy {
