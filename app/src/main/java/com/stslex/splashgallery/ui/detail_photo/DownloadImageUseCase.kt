@@ -34,14 +34,12 @@ interface DownloadImageUseCase {
                 .setDestinationInExternalFilesDir(application, DIRECTORY_DOWNLOADS, fileName)
                 .setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             downloadManager.enqueue(request)
-            var cursor: Cursor? = null
             val query = DownloadManager.Query()
             query.setFilterByStatus(DownloadManager.STATUS_FAILED)
             query.setFilterByStatus(DownloadManager.STATUS_SUCCESSFUL)
-            cursor = downloadManager.query(query)
+            val cursor: Cursor = downloadManager.query(query)
             if (cursor.moveToFirst()) {
-                val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-                when (status) {
+                when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
                     DownloadManager.STATUS_SUCCESSFUL -> {
                         continuation.resumeWith(Result.success(Resource.Success(null)))
                     }

@@ -19,8 +19,6 @@ import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.photos.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.user.UserFragment
-import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -76,16 +74,18 @@ class CollectionsFragment : BaseFragment() {
 
     private val queryJob: Job by lazy {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            sharedViewModel.currentId.collect {
-                val query = when (requireParentFragment()) {
-                    is MainFragment -> QueryCollections.AllCollections
-                    is UserFragment -> QueryCollections.UserCollections(it)
-                    else -> QueryCollections.EmptyQuery
-                }
-                launch(Dispatchers.IO) {
-                    viewModel.setQuery(query)
-                }
-            }
+            sharedViewModel.currentId.collect(::collectorId)
+        }
+    }
+
+    private fun collectorId(id: String) {
+        val query = when (requireParentFragment()) {
+            is MainFragment -> QueryCollections.AllCollections
+            is UserFragment -> QueryCollections.UserCollections(id)
+            else -> QueryCollections.EmptyQuery
+        }
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.setQuery(query)
         }
     }
 
@@ -97,8 +97,16 @@ class CollectionsFragment : BaseFragment() {
         }
     }
 
-    private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
-        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    private val glide by lazy {
+        setImageWithGlide.create { url, imageView, needCrop, needCircleCrop ->
+            imageSetter.get().setImage(
+                fragment = WeakReference(this),
+                url = url,
+                imageView = imageView,
+                needCrop = needCrop,
+                needCircleCrop = needCircleCrop
+            )
+        }
     }
 
     override fun onDestroyView() {

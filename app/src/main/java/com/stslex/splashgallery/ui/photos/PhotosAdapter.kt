@@ -7,7 +7,7 @@ import androidx.paging.PagingDataAdapter
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.model.image.ImageModel
-import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.glide.SetImageWithGlide
 
 class PhotosAdapter(
     private val clickListener: OnClickListener,

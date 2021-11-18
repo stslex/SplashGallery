@@ -34,6 +34,10 @@ class MainFragment : BaseFragment() {
         sharedViewModel.setId("")
         binding.mainViewPager.adapter = MainFragmentAdapter(this)
         setPagerAnimation()
+        val listOfTabs = listOf(
+            resources.getString(R.string.label_tab_layout_all),
+            resources.getString(R.string.label_collections)
+        )
         listOfTabs.tabLayoutMediator.attach()
     }
 
@@ -42,13 +46,6 @@ class MainFragment : BaseFragment() {
         binding.mainViewPager.doOnPreDraw {
             startPostponedEnterTransition()
         }
-    }
-
-    private val listOfTabs: List<String> by lazy {
-        listOf(
-            resources.getString(R.string.label_tab_layout_all),
-            resources.getString(R.string.label_collections)
-        )
     }
 
     private val List<String>.tabLayoutMediator: TabLayoutMediator

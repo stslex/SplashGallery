@@ -3,7 +3,7 @@ package com.stslex.splashgallery.ui.photos
 import com.stslex.splashgallery.ui.core.AbstractView
 import com.stslex.splashgallery.ui.core.CustomCardView
 import com.stslex.splashgallery.ui.core.CustomImageView
-import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.glide.SetImageWithGlide
 
 interface PhotosUI {
 
@@ -69,8 +69,8 @@ interface PhotosUI {
             imageCardView: AbstractView.Card,
             userCardView: AbstractView.Card
         ) {
-            glide.makeGlideImage(imageUrl, image.getImage(), true, false)
-            glide.makeGlideImage(userUrl, avatar.getImage(), true, true)
+            glide.setImage(imageUrl, image.getImage(), true, false)
+            glide.setImage(userUrl, avatar.getImage(), true, true)
             username.map(userName)
             _imageCardView = imageCardView.getCardAndSetTransitionName(imageId)
             _userCardView = userCardView.getCardAndSetTransitionName(userName)
@@ -88,7 +88,7 @@ interface PhotosUI {
             photoFocal: AbstractView.Text
         ) {
             _imageView = image.getImageAndSetTransitionName(imageId)
-            glide.makeGlideImage(userUrl, avatar.getImage(), true, true)
+            glide.setImage(userUrl, avatar.getImage(), true, true)
             username.map(userName)
             _userCardView = userCardView.getCardAndSetTransitionName(userName)
             photoAperture.map(exif.aperture)

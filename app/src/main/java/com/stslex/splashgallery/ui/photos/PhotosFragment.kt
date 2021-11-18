@@ -21,8 +21,6 @@ import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
 import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -78,18 +76,20 @@ class PhotosFragment : BaseFragment() {
 
     private val queryJob: Job by lazy {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            sharedViewModel.currentId.collect {
-                val query = when (requireParentFragment()) {
-                    is MainFragment -> QueryPhotos.AllPhotos
-                    is UserPhotosFragment -> QueryPhotos.UserPhotos(it)
-                    is UserLikesFragment -> QueryPhotos.UserLikes(it)
-                    is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(it)
-                    else -> QueryPhotos.EmptyQuery
-                }
-                launch(Dispatchers.IO) {
-                    viewModel.setQuery(query)
-                }
-            }
+            sharedViewModel.currentId.collect(::collector)
+        }
+    }
+
+    private fun collector(response: String) {
+        val query = when (requireParentFragment()) {
+            is MainFragment -> QueryPhotos.AllPhotos
+            is UserPhotosFragment -> QueryPhotos.UserPhotos(response)
+            is UserLikesFragment -> QueryPhotos.UserLikes(response)
+            is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(response)
+            else -> QueryPhotos.EmptyQuery
+        }
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.setQuery(query)
         }
     }
 
@@ -101,8 +101,11 @@ class PhotosFragment : BaseFragment() {
         }
     }
 
-    private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
-        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    private val glide by lazy {
+        setImageWithGlide.create { url, imageView, needCrop, needCircleCrop ->
+            imageSetter.get()
+                .setImage(WeakReference(this), url, imageView, needCrop, needCircleCrop)
+        }
     }
 
     override fun onDestroyView() {

@@ -8,8 +8,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.lang.ref.WeakReference
 
 
 @ExperimentalCoroutinesApi
@@ -33,7 +33,8 @@ class SingleImageFragment : BaseFragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.fragmentSingleImageImage.transitionName = extras.id
-        setImageWithRequest(extras.url, binding.fragmentSingleImageImage)
+        val imageSetter = imageSetter.get()
+        imageSetter.setImage(WeakReference(this), extras.url, binding.fragmentSingleImageImage)
         binding.root.setOnClickListener(this)
     }
 

@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.ui.core
 
 import com.stslex.splashgallery.core.TextMapper
-import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.glide.SetImageWithGlide
 
 interface AbstractView {
 

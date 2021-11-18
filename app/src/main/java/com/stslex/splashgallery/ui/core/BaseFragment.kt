@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
+import com.stslex.splashgallery.utils.glide.ImageSetter
+import com.stslex.splashgallery.utils.glide.SetImageWithGlide
 import dagger.Lazy
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -16,7 +18,13 @@ import javax.inject.Inject
 abstract class BaseFragment : Fragment() {
 
     @Inject
-    open lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
+    lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
+
+    @Inject
+    lateinit var imageSetter: Lazy<ImageSetter>
+
+    @Inject
+    lateinit var setImageWithGlide: SetImageWithGlide.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

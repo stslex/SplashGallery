@@ -22,11 +22,10 @@ import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.model.user.UserModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.utils.SetImageWithGlide
-import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 
 @ExperimentalCoroutinesApi
 class UserFragment : BaseFragment() {
@@ -55,54 +54,62 @@ class UserFragment : BaseFragment() {
     }
 
     private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
-        viewModel.getUserInfo(extras.username).collect { user ->
-            when (user) {
-                is Resource.Success -> user.result()
-                is Resource.Failure -> user.result()
-                is Resource.Loading -> loading()
-            }
-        }
+        viewModel.getUserInfo(extras.username).collect(::collector)
+    }
+
+    private fun collector(response: Resource<UserModel>) = when (response) {
+        is Resource.Success -> response.result()
+        is Resource.Failure -> response.result()
+        is Resource.Loading -> showProgress()
     }
 
     private fun Resource.Success<UserModel>.result() = with(data) {
         bindUserHeader()
         sharedViewModel.setId(username)
-        val listOfTabs = mapOf(
+        setViewPager(listOfTabs)
+    }
+
+    private val UserModel.listOfTabs: List<Fragment>
+        get() = mapOf(
             total_photos to UserPhotosFragment(),
             total_likes to UserLikesFragment(),
             total_collections to CollectionsFragment()
         ).filter { it.key != 0 }.values.toList()
-        setViewPager(listOfTabs)
-    }
 
     private fun Resource.Failure<UserModel>.result() {
         Log.i("Failure", exception.toString())
     }
 
-    private fun loading() {
+    private fun hideProgress() {
+
+    }
+
+    private fun showProgress() {
         /*Loading*/
     }
 
     private fun UserModel.bindUserHeader() = with(binding) {
         glide.setImage(
             profile_image?.medium.toString(),
-            avatarImageView.getImage(),
+            avatarImageView,
             needCrop = false,
             needCircleCrop = true
         )
         collectionsCountTextView.map(total_collections.toString())
         likesCountTextView.map(total_likes.toString())
         photoCountTextView.map(total_photos.toString())
-        if (bio.isEmpty()) {
-            bioTextView.hide()
-        } else {
+        if (bio.isEmpty()) bioTextView.hide()
+        else {
             bioTextView.show()
             bioTextView.map(bio)
         }
     }
 
-    private val glide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
-        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    private val glide by lazy {
+        setImageWithGlide.create { url, imageView, needCrop, needCircleCrop ->
+            val reference: WeakReference<Fragment> = WeakReference(this)
+            imageSetter.get().setImage(reference, url, imageView, needCrop, needCircleCrop)
+        }
     }
 
     private fun setViewPager(fragmentMap: List<Fragment>) {

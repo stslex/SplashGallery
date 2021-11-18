@@ -16,12 +16,11 @@ import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.model.DownloadModel
 import com.stslex.splashgallery.ui.model.image.ImageModel
-import com.stslex.splashgallery.utils.SetImageWithGlide
 import com.stslex.splashgallery.utils.isNullCheck
-import com.stslex.splashgallery.utils.setImageWithRequest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import java.lang.ref.WeakReference
 
 @ExperimentalCoroutinesApi
 class PhotoDetailsFragment : BaseFragment() {
@@ -42,7 +41,7 @@ class PhotoDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imageImageView.transitionName = extras.id
-        setImageWithRequest(extras.url, binding.imageImageView, needCrop = true)
+        setImage.setImage(extras.url, binding.imageImageView, needCrop = true, false)
         setToolbar()
         getImageJob.start()
         binding.imageImageView.setOnClickListener(imageClickListener)
@@ -88,7 +87,7 @@ class PhotoDetailsFragment : BaseFragment() {
     private suspend fun Resource.Success<ImageModel>.result() = withContext(Dispatchers.Main) {
         with(binding) {
             with(data) {
-                setImageWithGlide.setImage(
+                setImage.setImage(
                     url = user?.profile_image?.medium.toString(),
                     imageView = avatarImageView,
                     needCrop = true,
@@ -137,8 +136,10 @@ class PhotoDetailsFragment : BaseFragment() {
         Log.e(TAG, exception.message, exception)
     }
 
-    private val setImageWithGlide = SetImageWithGlide { url, imageView, needCrop, needCircleCrop ->
-        setImageWithRequest(url, imageView, needCrop, needCircleCrop)
+    private val setImage by lazy {
+        setImageWithGlide.create { url, imageView, crop, circleCrop ->
+            imageSetter.get().setImage(WeakReference(this), url, imageView, crop, circleCrop)
+        }
     }
 
     private fun setToolbar() = with(requireActivity() as AppCompatActivity) {

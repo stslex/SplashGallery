@@ -2,12 +2,13 @@ package com.stslex.splashgallery.ui.collections
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.model.collection.CollectionModel
-import com.stslex.splashgallery.utils.Resources.photos
-import com.stslex.splashgallery.utils.SetImageWithGlide
+import com.stslex.splashgallery.utils.AppResources.photos
+import com.stslex.splashgallery.utils.glide.SetImageWithGlide
 
 class CollectionsViewHolder(
     private val binding: ItemRecyclerCollectionsBinding,
@@ -23,30 +24,34 @@ class CollectionsViewHolder(
                 userCardView.visibility = View.GONE
             } else {
                 userCardView.visibility = View.VISIBLE
-                glide.setImage(
-                    url = item?.user?.profile_image?.medium!!,
-                    imageView = userImageView,
-                    needCrop = true,
-                    needCircleCrop = true
-                )
-                usernameTextView.text = item.user.username
-                userCardView.transitionName = item.user.username
-                userCardView.setOnClickListener {
-                    clickListener.clickUser(it)
-                }
+                val userUrl = item?.user?.profile_image?.medium.toString()
+                userImageView.setImage(userUrl, true)
+                usernameTextView.text = item?.user?.username
+                userCardView.transitionName = item?.user?.username
+                userCardView.setOnClickListener(userClickListener)
             }
             numberTextView.text = "${item?.total_photos} $photos"
             titleTextView.text = item?.title
-            glide.setImage(
-                url = item?.cover_photo?.urls?.regular.toString(),
-                imageView = collectionImageView,
-                needCrop = true,
-                needCircleCrop = false
-            )
+            val collectionUrl = item?.cover_photo?.urls?.regular.toString()
+            collectionImageView.setImage(collectionUrl, false)
             imageCardView.transitionName = item?.id
-            imageCardView.setOnClickListener {
-                clickListener.clickImage(it, item?.title.toString())
-            }
+            imageCardView.setOnClickListener(item?.title.imageClickListener)
         }
     }
+
+    private fun ImageView.setImage(url: String, crop: Boolean) = glide.setImage(
+        url = url,
+        imageView = this,
+        needCrop = true,
+        needCircleCrop = crop
+    )
+
+    private val userClickListener = View.OnClickListener {
+        clickListener.clickUser(it)
+    }
+
+    private val String?.imageClickListener: View.OnClickListener
+        get() = View.OnClickListener {
+            clickListener.clickImage(it, toString())
+        }
 }
