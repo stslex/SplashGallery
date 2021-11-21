@@ -52,5 +52,4 @@ class SingleCollectionFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.ui.collections
 
 import androidx.recyclerview.widget.DiffUtil
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
+import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 
 class CollectionsDiffItemCallback : DiffUtil.ItemCallback<CollectionModel>() {
 

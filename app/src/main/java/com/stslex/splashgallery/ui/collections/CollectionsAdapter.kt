@@ -1,32 +1,33 @@
 package com.stslex.splashgallery.ui.collections
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
+import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
-import com.stslex.splashgallery.utils.glide.SetImageWithGlide
+import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 class CollectionsAdapter(
     private val clickListener: OnClickListener,
     private val glide: SetImageWithGlide,
-    private val isUser: Boolean,
-    context: Context
+    private val isUser: Boolean
 ) : PagingDataAdapter<CollectionModel, CollectionsViewHolder>(CollectionsDiffItemCallback()) {
 
-    private val layoutInflater = LayoutInflater.from(context)
-
     override fun onBindViewHolder(holder: CollectionsViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionsViewHolder =
-        CollectionsViewHolder(
-            binding = ItemRecyclerCollectionsBinding.inflate(layoutInflater, parent, false),
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionsViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemRecyclerCollectionsBinding.inflate(inflater, parent, false)
+        return CollectionsViewHolder(
+            binding = binding,
             clickListener = clickListener,
             glide = glide,
             isUser = isUser
         )
+    }
 }

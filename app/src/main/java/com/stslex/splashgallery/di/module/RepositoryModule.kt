@@ -9,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Module
 interface RepositoryModule {
+
     @Binds
     fun bindsPhotoRepository(repository: PhotoRepository.Base): PhotoRepository
 

@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.ui.photos
 
 import androidx.recyclerview.widget.DiffUtil
-import com.stslex.splashgallery.ui.model.image.ImageModel
+import com.stslex.splashgallery.data.model.ui.image.ImageModel
 
 
 class PhotosDiffItemCallback : DiffUtil.ItemCallback<ImageModel>() {

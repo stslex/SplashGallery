@@ -9,7 +9,7 @@ import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.ActivityMainBinding
-import com.stslex.splashgallery.utils.AppResources.setResources
+import com.stslex.splashgallery.ui.utils.AppResources.setResources
 
 class MainActivity : AppCompatActivity() {
 

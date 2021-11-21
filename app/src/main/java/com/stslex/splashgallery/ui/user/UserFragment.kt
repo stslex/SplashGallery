@@ -15,17 +15,16 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.data.model.ui.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.ui.model.user.UserModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.ref.WeakReference
 
 @ExperimentalCoroutinesApi
 class UserFragment : BaseFragment() {
@@ -64,6 +63,7 @@ class UserFragment : BaseFragment() {
     }
 
     private fun Resource.Success<UserModel>.result() = with(data) {
+        hideProgress()
         bindUserHeader()
         sharedViewModel.setId(username)
         setViewPager(listOfTabs)
@@ -77,24 +77,20 @@ class UserFragment : BaseFragment() {
         ).filter { it.key != 0 }.values.toList()
 
     private fun Resource.Failure<UserModel>.result() {
-        Log.i("Failure", exception.toString())
+        hideProgress()
+        Log.e(TAG, exception.message, exception)
     }
 
     private fun hideProgress() {
-
+        binding.progress.visibility = View.GONE
     }
 
     private fun showProgress() {
-        /*Loading*/
+        binding.progress.visibility = View.VISIBLE
     }
 
     private fun UserModel.bindUserHeader() = with(binding) {
-        glide.setImage(
-            profile_image?.medium.toString(),
-            avatarImageView,
-            needCrop = false,
-            needCircleCrop = true
-        )
+        setImage.setImage(profile_image.medium, avatarImageView, needCircleCrop = true)
         collectionsCountTextView.map(total_collections.toString())
         likesCountTextView.map(total_likes.toString())
         photoCountTextView.map(total_photos.toString())
@@ -102,13 +98,6 @@ class UserFragment : BaseFragment() {
         else {
             bioTextView.show()
             bioTextView.map(bio)
-        }
-    }
-
-    private val glide by lazy {
-        setImageWithGlide.create { url, imageView, needCrop, needCircleCrop ->
-            val reference: WeakReference<Fragment> = WeakReference(this)
-            imageSetter.get().setImage(reference, url, imageView, needCrop, needCircleCrop)
         }
     }
 
@@ -146,5 +135,9 @@ class UserFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val TAG = "user fragment"
     }
 }

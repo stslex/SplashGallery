@@ -36,7 +36,7 @@ class RetrofitModule {
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(mLoggingInterceptor)
         .addInterceptor(if (checkNetwork(application.applicationContext)) onlineInterceptor else offlineInterceptor)
-        .cache(Cache(application.cacheDir, 10 * 1024 * 1024 * 8L))
+        .cache(Cache(application.cacheDir, MAX_CACHE_SIZE))
         .build()
 
     private fun checkNetwork(context: Context): Boolean {
@@ -62,9 +62,8 @@ class RetrofitModule {
     @OnlineInterceptor
     fun providesOnlineInterceptor(): Interceptor = Interceptor { chain ->
         val response = chain.proceed(chain.request())
-        val maxAge = 60 * 60 * 3
         response.newBuilder()
-            .header("Cache-Control", "public, max-age=$maxAge")
+            .header("Cache-Control", "public, max-age=$MAX_AGE")
             .removeHeader("Pragma")
             .build()
     }
@@ -73,9 +72,8 @@ class RetrofitModule {
     @OfflineInterceptor
     fun providesOfflineInterceptor(): Interceptor = Interceptor { chain ->
         var request: Request = chain.request()
-        val maxStale = 60 * 60 * 12
         request = request.newBuilder()
-            .header("Cache-Control", "public, only-if-cached, max-stale=$maxStale")
+            .header("Cache-Control", "public, only-if-cached, max-stale=$MAX_STALE")
             .removeHeader("Pragma")
             .build()
         chain.proceed(request)
@@ -83,5 +81,8 @@ class RetrofitModule {
 
     companion object {
         private const val BASE_URL = "https://api.unsplash.com/"
+        private const val MAX_STALE = 60 * 60 * 12
+        private const val MAX_AGE = 60 * 60 * 3
+        private const val MAX_CACHE_SIZE = 10 * 1024 * 1024 * 8L
     }
 }

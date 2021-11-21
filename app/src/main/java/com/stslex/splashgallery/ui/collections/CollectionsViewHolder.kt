@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
-import com.stslex.splashgallery.utils.AppResources.photos
-import com.stslex.splashgallery.utils.glide.SetImageWithGlide
+import com.stslex.splashgallery.ui.utils.AppResources.photos
+import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 class CollectionsViewHolder(
     private val binding: ItemRecyclerCollectionsBinding,
@@ -18,24 +18,24 @@ class CollectionsViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     @SuppressLint("SetTextI18n")
-    fun bind(item: CollectionModel?) {
+    fun bind(item: CollectionModel) {
         with(binding) {
             if (isUser) {
                 userCardView.visibility = View.GONE
             } else {
                 userCardView.visibility = View.VISIBLE
-                val userUrl = item?.user?.profile_image?.medium.toString()
+                val userUrl = item.user.profile_image.medium
                 userImageView.setImage(userUrl, true)
-                usernameTextView.text = item?.user?.username
-                userCardView.transitionName = item?.user?.username
+                usernameTextView.text = item.user.username
+                userCardView.transitionName = item.user.username
                 userCardView.setOnClickListener(userClickListener)
             }
-            numberTextView.text = "${item?.total_photos} $photos"
-            titleTextView.text = item?.title
-            val collectionUrl = item?.cover_photo?.urls?.regular.toString()
+            numberTextView.text = "${item.total_photos} $photos"
+            titleTextView.text = item.title
+            val collectionUrl = item.cover_photo.urls.regular
             collectionImageView.setImage(collectionUrl, false)
-            imageCardView.transitionName = item?.id
-            imageCardView.setOnClickListener(item?.title.imageClickListener)
+            imageCardView.transitionName = item.id
+            imageCardView.setOnClickListener(item.title.imageClickListener)
         }
     }
 

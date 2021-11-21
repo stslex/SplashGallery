@@ -12,15 +12,14 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.data.model.ui.DownloadModel
+import com.stslex.splashgallery.data.model.ui.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
-import com.stslex.splashgallery.ui.model.DownloadModel
-import com.stslex.splashgallery.ui.model.image.ImageModel
-import com.stslex.splashgallery.utils.isNullCheck
+import com.stslex.splashgallery.ui.utils.isNullCheck
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import java.lang.ref.WeakReference
 
 @ExperimentalCoroutinesApi
 class PhotoDetailsFragment : BaseFragment() {
@@ -88,17 +87,17 @@ class PhotoDetailsFragment : BaseFragment() {
         with(binding) {
             with(data) {
                 setImage.setImage(
-                    url = user?.profile_image?.medium.toString(),
+                    url = user.profile_image.medium.toString(),
                     imageView = avatarImageView,
                     needCrop = true,
                     needCircleCrop = true
                 )
-                userCardView.transitionName = user?.username
-                usernameTextView.text = user?.username
-                apertureTextView.text = exif?.aperture.isNullCheck()
-                cameraTextView.text = exif?.make.isNullCheck()
-                dimensionTextView.text = exif?.exposure_time.isNullCheck()
-                focalTextView.text = exif?.focal_length.isNullCheck()
+                userCardView.transitionName = user.username
+                usernameTextView.text = user.username
+                apertureTextView.text = exif.aperture.isNullCheck()
+                cameraTextView.text = exif.make.isNullCheck()
+                dimensionTextView.text = exif.exposure_time.isNullCheck()
+                focalTextView.text = exif.focal_length.isNullCheck()
             }
         }
     }
@@ -134,12 +133,6 @@ class PhotoDetailsFragment : BaseFragment() {
     private fun loading() = Unit
     private fun <T> Resource.Failure<T>.result() {
         Log.e(TAG, exception.message, exception)
-    }
-
-    private val setImage by lazy {
-        setImageWithGlide.create { url, imageView, crop, circleCrop ->
-            imageSetter.get().setImage(WeakReference(this), url, imageView, crop, circleCrop)
-        }
     }
 
     private fun setToolbar() = with(requireActivity() as AppCompatActivity) {

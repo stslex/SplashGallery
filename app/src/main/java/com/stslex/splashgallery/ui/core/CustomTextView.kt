@@ -3,7 +3,7 @@ package com.stslex.splashgallery.ui.core
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.stslex.splashgallery.utils.isNullCheck
+import com.stslex.splashgallery.ui.utils.isNullCheck
 
 class CustomTextView : androidx.appcompat.widget.AppCompatTextView, AbstractView.Text {
 

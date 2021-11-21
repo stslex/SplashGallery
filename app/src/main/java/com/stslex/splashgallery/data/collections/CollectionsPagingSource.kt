@@ -2,9 +2,8 @@ package com.stslex.splashgallery.data.collections
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.stslex.splashgallery.data.core.QueryCollections
-import com.stslex.splashgallery.data.core.toCollectionModel
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
+import com.stslex.splashgallery.data.core.map
+import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -38,9 +37,7 @@ class CollectionsPagingSource @AssistedInject constructor(
             }
 
             return if (response.isSuccessful) {
-                val photos = response.body()!!.map {
-                    it.toCollectionModel()
-                }
+                val photos = response.body()!!.map { it.map() }
                 val nextPageNumber = if (photos.isEmpty()) null else pageNumber + 1
                 val prevPageNumber = if (pageNumber > 1) pageNumber - 1 else null
                 LoadResult.Page(photos, prevPageNumber, nextPageNumber)

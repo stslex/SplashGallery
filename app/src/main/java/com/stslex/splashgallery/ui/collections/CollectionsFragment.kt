@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.stslex.splashgallery.data.core.QueryCollections
+import com.stslex.splashgallery.data.collections.QueryCollections
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
@@ -39,8 +39,7 @@ class CollectionsFragment : BaseFragment() {
     private val adapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
             clickListener = CollectionClickListener(WeakReference(requireParentFragment())),
-            glide = glide,
-            context = requireContext(),
+            glide = setImage,
             isUser = requireParentFragment() is UserFragment
         )
     }
@@ -94,18 +93,6 @@ class CollectionsFragment : BaseFragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.collections.collectLatest(adapter::submitData)
             }
-        }
-    }
-
-    private val glide by lazy {
-        setImageWithGlide.create { url, imageView, needCrop, needCircleCrop ->
-            imageSetter.get().setImage(
-                fragment = WeakReference(this),
-                url = url,
-                imageView = imageView,
-                needCrop = needCrop,
-                needCircleCrop = needCircleCrop
-            )
         }
     }
 

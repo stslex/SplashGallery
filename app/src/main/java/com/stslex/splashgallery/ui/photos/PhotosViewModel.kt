@@ -3,8 +3,8 @@ package com.stslex.splashgallery.ui.photos
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.stslex.splashgallery.data.core.QueryPhotos
-import com.stslex.splashgallery.ui.model.image.ImageModel
+import com.stslex.splashgallery.data.model.ui.image.ImageModel
+import com.stslex.splashgallery.data.photos.QueryPhotos
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

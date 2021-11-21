@@ -3,11 +3,11 @@ package com.stslex.splashgallery.ui.detail_photo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.data.model.ui.DownloadModel
+import com.stslex.splashgallery.data.model.ui.image.ImageModel
 import com.stslex.splashgallery.data.photo.DownloadDataMapper
 import com.stslex.splashgallery.data.photo.PhotoDataMapper
 import com.stslex.splashgallery.data.photo.PhotoRepository
-import com.stslex.splashgallery.ui.model.DownloadModel
-import com.stslex.splashgallery.ui.model.image.ImageModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

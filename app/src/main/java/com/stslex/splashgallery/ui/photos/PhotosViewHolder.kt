@@ -2,10 +2,10 @@ package com.stslex.splashgallery.ui.photos
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.splashgallery.data.model.ui.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.model.image.ImageModel
-import com.stslex.splashgallery.utils.glide.SetImageWithGlide
+import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 
 class PhotosViewHolder(
@@ -15,14 +15,14 @@ class PhotosViewHolder(
     private val isUser: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ImageModel?) {
+    fun bind(item: ImageModel) {
         with(binding) {
             if (isUser) {
                 userCardView.visibility = View.GONE
             } else {
                 userCardView.visibility = View.VISIBLE
                 glide.setImage(
-                    url = item?.user?.profile_image?.medium!!,
+                    url = item.user.profile_image.medium,
                     imageView = avatarImageView,
                     needCrop = true,
                     needCircleCrop = true
@@ -34,14 +34,14 @@ class PhotosViewHolder(
                 }
             }
             glide.setImage(
-                url = item?.urls?.regular.toString(),
+                url = item.urls.regular,
                 imageView = imageImageView,
                 needCrop = true,
                 needCircleCrop = false
             )
-            imageCardView.transitionName = item?.id
+            imageCardView.transitionName = item.id
             imageCardView.setOnClickListener {
-                clickListener.clickImage(it, item?.urls?.regular.toString())
+                clickListener.clickImage(it, item.urls.regular)
             }
         }
     }

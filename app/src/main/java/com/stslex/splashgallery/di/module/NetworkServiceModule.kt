@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 
 @Module(includes = [RetrofitModule::class])
 class NetworkServiceModule {
+
     @Provides
     fun providesPhotoService(retrofit: Retrofit): PhotoService =
         retrofit.create(PhotoService::class.java)
