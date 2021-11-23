@@ -21,11 +21,13 @@ class MainActivity : AppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentById(navId) as NavHostFragment
         fragment.navController
     }
+
     private val actionBarConfiguration: AppBarConfiguration by lazy {
         AppBarConfiguration(setOf(R.id.nav_home))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.CustomTheme)
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

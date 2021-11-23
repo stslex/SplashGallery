@@ -25,4 +25,8 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowBackground">@drawable/splash_screen_light</item>
+    </style>
 </resources>

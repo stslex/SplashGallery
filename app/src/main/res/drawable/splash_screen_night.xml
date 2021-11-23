@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/black" />
+    <item
+        android:bottom="@dimen/primary_padding"
+        android:drawable="@mipmap/ic_launcher"
+        android:end="@dimen/primary_padding"
+        android:gravity="center"
+        android:left="@dimen/primary_padding"
+        android:top="@dimen/primary_padding">
+
+    </item>
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="@dimen/primary_padding" />
+            <stroke
+                android:width="@dimen/primary_padding"
+                android:color="@color/black" />
+        </shape>
+    </item>
+</layer-list>
