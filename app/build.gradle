@@ -1,9 +1,9 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
-    id 'androidx.navigation.safeargs.kotlin'
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -40,10 +40,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     /*Paging*/
-    implementation("androidx.paging:paging-runtime-ktx:3.0.1")
+    def pagingVersion = "3.1.0"
+    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
 
     //Dagger 2
     def daggerVersion = "2.39.1"
@@ -51,33 +51,37 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    def glideVersion = "4.11.0"
+    implementation("com.github.bumptech.glide:glide:$glideVersion")
+    annotationProcessor("com.github.bumptech.glide:compiler:$glideVersion")
 
     // Lifecycle components
     def lifecycleVersion = "2.4.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    def retrofitVersion = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
-    // Navigation Component
+
+    //Navigation Component
     def navVersion = "2.3.5"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
-    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.5.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    //Default implementations
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.4.0")
+    implementation("com.google.android.material:material:1.5.0-beta01")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
