@@ -12,10 +12,10 @@ android {
 
     defaultConfig {
         applicationId "com.stslex.splashgallery"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 31
-        versionCode 7
-        versionName "1.07"
+        versionCode 8
+        versionName "1.08"
         buildConfigField("String", "API_KEY", API_KEY)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

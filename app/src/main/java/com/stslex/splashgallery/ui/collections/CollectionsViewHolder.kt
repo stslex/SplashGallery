@@ -20,15 +20,17 @@ class CollectionsViewHolder(
     @SuppressLint("SetTextI18n")
     fun bind(item: CollectionModel) {
         with(binding) {
-            if (isUser) {
-                userCardView.visibility = View.GONE
-            } else {
-                userCardView.visibility = View.VISIBLE
-                val userUrl = item.user.profile_image.medium
-                userImageView.setImage(userUrl, true)
-                usernameTextView.text = item.user.username
-                userCardView.transitionName = item.user.username
-                userCardView.setOnClickListener(userClickListener)
+            with(userHead) {
+                if (isUser) {
+                    userCardView.visibility = View.GONE
+                } else {
+                    userCardView.visibility = View.VISIBLE
+                    val userUrl = item.user.profile_image.medium
+                    userImageView.setImage(userUrl, true)
+                    usernameTextView.text = item.user.username
+                    userCardView.transitionName = item.user.username
+                    userCardView.setOnClickListener(userClickListener)
+                }
             }
             numberTextView.text = "${item.total_photos} $photos"
             titleTextView.text = item.title
@@ -47,7 +49,7 @@ class CollectionsViewHolder(
     )
 
     private val userClickListener = View.OnClickListener {
-        clickListener.clickUser(it)
+        clickListener.clickUser(binding.userHead.userCardView)
     }
 
     private val String?.imageClickListener: View.OnClickListener

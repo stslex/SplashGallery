@@ -2,7 +2,6 @@ package com.stslex.splashgallery.ui.photos
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.data.model.ui.image.ImageModel
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
@@ -15,34 +14,24 @@ class PhotosViewHolder(
     private val isUser: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: ImageModel) {
-        with(binding) {
-            if (isUser) {
-                userCardView.visibility = View.GONE
-            } else {
-                userCardView.visibility = View.VISIBLE
-                glide.setImage(
-                    url = item.user.profile_image.medium,
-                    imageView = avatarImageView,
-                    needCrop = true,
-                    needCircleCrop = true
-                )
-                usernameTextView.text = item.user.username
-                userCardView.transitionName = item.user.username
-                userCardView.setOnClickListener {
-                    clickListener.clickUser(it)
-                }
-            }
-            glide.setImage(
-                url = item.urls.regular,
-                imageView = imageImageView,
-                needCrop = true,
-                needCircleCrop = false
-            )
-            imageCardView.transitionName = item.id
-            imageCardView.setOnClickListener {
-                clickListener.clickImage(it, item.urls.regular)
+    fun bind(item: ImageUI) = with(binding) {
+        with(userHead) {
+            if (isUser) item.hideUserHead(userCardView)
+            else {
+                item.bindUser(glide, userImageView, usernameTextView, userCardView)
+                userCardView.setOnClickListener(userClick)
             }
         }
+        item.bindImage(glide, imageImageView, imageCardView)
+        imageCardView.setOnClickListener(item.getUrl().imageClick)
     }
+
+    private val userClick = View.OnClickListener {
+        clickListener.clickUser(binding.userHead.userCardView)
+    }
+
+    private val String.imageClick
+        get() = View.OnClickListener {
+            clickListener.clickImage(it, this)
+        }
 }

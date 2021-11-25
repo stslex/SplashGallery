@@ -8,16 +8,19 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/photos"
+        style="@style/ShapeAppearance.Material3.LargeComponent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_recycler_all_photos" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress"
-        style="?android:indeterminateProgressStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.CircularProgressIndicator.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:progressTint="@color/black"
+        app:indicatorColor="@color/black"
+        app:indicatorSize="@dimen/big_padding" />
 </FrameLayout>

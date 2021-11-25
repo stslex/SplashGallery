@@ -27,20 +27,33 @@ class PhotoDetailsFragment : BaseFragment() {
     private var _binding: FragmentPhotoDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
-    private val extras: PhotoDetailsFragmentArgs by navArgs()
+    private var _url: String? = null
+    private val url: String get() = checkNotNull(_url)
+    private var _id: String? = null
+    private val id: String get() = checkNotNull(_id)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val extras: PhotoDetailsFragmentArgs by navArgs()
+        _url = extras.url
+        _id = extras.id
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPhotoDetailsBinding.inflate(inflater, container, false)
+        binding.imageImageView.transitionName = id
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imageImageView.transitionName = extras.id
-        setImage.setImage(extras.url, binding.imageImageView, needCrop = true, false)
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            setImage.setImage(url, binding.imageImageView, needCrop = true, false)
+        }
+        startPostponedEnterTransition()
         setToolbar()
         getImageJob.start()
         binding.imageImageView.setOnClickListener(imageClickListener)
@@ -51,7 +64,7 @@ class PhotoDetailsFragment : BaseFragment() {
     private val imageClickListener: View.OnClickListener = View.OnClickListener {
         val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
             id = it.transitionName,
-            url = extras.url
+            url = url
         )
         val extras = FragmentNavigatorExtras(it to it.transitionName)
         findNavController().navigate(directions, extras)
@@ -68,7 +81,7 @@ class PhotoDetailsFragment : BaseFragment() {
         get() = viewLifecycleOwner.lifecycleScope.launch(
             context = Dispatchers.IO, start = CoroutineStart.LAZY
         ) {
-            viewModel.getCurrentPhoto(extras.id).collectLatest(::collected)
+            viewModel.getCurrentPhoto(id).collectLatest(::collected)
         }
 
 
@@ -106,7 +119,7 @@ class PhotoDetailsFragment : BaseFragment() {
     private val downloadClickListener: View.OnClickListener = View.OnClickListener {
         downloadJob?.cancel()
         downloadJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.downloadImageUrl(extras.id).collect(::collected)
+            viewModel.downloadImageUrl(id).collect(::collected)
         }
     }
 
@@ -119,7 +132,7 @@ class PhotoDetailsFragment : BaseFragment() {
 
     @JvmName("resultDownloadModel")
     private suspend fun Resource.Success<DownloadModel>.result() {
-        viewModel.downloadImage(data.url, extras.id).collect(::collected)
+        viewModel.downloadImage(data.url, id).collect(::collected)
     }
 
     @JvmName("resultDownload")

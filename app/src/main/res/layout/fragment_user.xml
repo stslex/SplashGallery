@@ -8,12 +8,13 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/user_profile_appbar"
-        style="@style/AppBar"
+        style="@style/Widget.Material3.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/user_collapsing_toolbar_layout"
+            style="@style/Widget.Material3.CollapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:expandedTitleGravity="top"
@@ -59,12 +60,14 @@
 
                         <com.stslex.splashgallery.ui.core.CustomTextView
                             android:id="@+id/photoCountTextView"
+                            style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="400" />
 
                         <TextView
                             android:id="@+id/user_profile_head_photo_label"
+                            style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_photos" />
@@ -80,12 +83,14 @@
 
                         <com.stslex.splashgallery.ui.core.CustomTextView
                             android:id="@+id/likesCountTextView"
+                            style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="14" />
 
                         <TextView
                             android:id="@+id/user_profile_head_lakes_label"
+                            style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_likes" />
@@ -100,12 +105,14 @@
 
                         <com.stslex.splashgallery.ui.core.CustomTextView
                             android:id="@+id/collectionsCountTextView"
+                            style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="2" />
 
                         <TextView
                             android:id="@+id/user_profile_head_collections_label"
+                            style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_collections" />
@@ -116,29 +123,30 @@
 
                 <com.stslex.splashgallery.ui.core.CustomTextView
                     android:id="@+id/bioTextView"
+                    style="@style/MaterialAlertDialog.Material3.Body.Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/primary_padding"
+                    android:layout_margin="@dimen/small_padding"
                     android:layout_marginTop="@dimen/primary_padding"
-                    android:layout_marginEnd="@dimen/primary_padding"
-                    android:maxHeight="250dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
                     app:layout_constraintTop_toBottomOf="@+id/avatarImageView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/user_profile_toolbar"
-                style="@style/Toolbar"
+                style="@style/Widget.Material3.Toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:minHeight="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/user_tab_layout"
+            style="@style/Widget.Material3.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="ltr"

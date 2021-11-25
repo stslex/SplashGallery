@@ -8,14 +8,14 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/main_app_bar"
-        style="@style/AppBar"
+        style="@style/Widget.Material3.AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/main_toolbar"
-            style="@style/Toolbar"
+            style="@style/Widget.Material3.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>

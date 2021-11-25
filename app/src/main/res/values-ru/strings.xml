@@ -7,7 +7,7 @@
     <string name="label_tab_layout_all">Все</string>
     <string name="label_collections">Коллекции</string>
     <string name="label_camera">Камера</string>
-    <string name="label_focal_length">фокусное расстояние</string>
+    <string name="label_focal_length">Фокус</string>
     <string name="label_aperture">Апертура</string>
     <string name="label_dimension">ISO</string>
     <string name="label_photos">Фото</string>

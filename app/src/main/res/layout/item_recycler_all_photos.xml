@@ -7,42 +7,13 @@
     android:layout_margin="@dimen/primary_padding"
     android:orientation="vertical">
 
-    <com.stslex.splashgallery.ui.core.CustomCardView
-        android:id="@+id/userCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/primary_padding"
-        app:cardElevation="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <com.stslex.splashgallery.ui.core.CustomImageView
-                android:id="@+id/avatarImageView"
-                android:layout_width="@dimen/big_padding"
-                android:layout_height="@dimen/big_padding"
-                android:layout_marginEnd="@dimen/primary_padding"
-                android:contentDescription="@string/description_image"
-                tools:src="@color/black" />
-
-            <com.stslex.splashgallery.ui.core.CustomTextView
-                android:id="@+id/usernameTextView"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                tools:text="Name full" />
-
-        </LinearLayout>
-    </com.stslex.splashgallery.ui.core.CustomCardView>
-
+    <include
+        android:id="@+id/user_head"
+        layout="@layout/item_user_head" />
 
     <com.stslex.splashgallery.ui.core.CustomCardView
         android:id="@+id/imageCardView"
+        style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/primary_padding"
@@ -56,7 +27,7 @@
             android:layout_height="@dimen/height_image"
             android:adjustViewBounds="true"
             android:contentDescription="@string/description_image"
-            tools:src="@color/black" />
+            tools:src="@color/white" />
 
     </com.stslex.splashgallery.ui.core.CustomCardView>
 

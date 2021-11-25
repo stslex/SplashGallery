@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.SplashGallery" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.SplashGallery" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -16,16 +16,7 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="AppBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="android:background">@color/white</item>
-        <item name="elevation">0dp</item>
-    </style>
-
-    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="SplashScreen" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowBackground">@drawable/splash_screen_light</item>
     </style>

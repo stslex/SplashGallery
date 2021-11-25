@@ -1,16 +1,15 @@
 package com.stslex.splashgallery.ui.photos
 
 import androidx.recyclerview.widget.DiffUtil
-import com.stslex.splashgallery.data.model.ui.image.ImageModel
 
 
-class PhotosDiffItemCallback : DiffUtil.ItemCallback<ImageModel>() {
+class PhotosDiffItemCallback : DiffUtil.ItemCallback<ImageUI>() {
 
-    override fun areItemsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean {
+    override fun areItemsTheSame(oldItem: ImageUI, newItem: ImageUI): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: ImageModel, newItem: ImageModel): Boolean {
-        return oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: ImageUI, newItem: ImageUI): Boolean {
+        return oldItem.same(newItem)
     }
 }

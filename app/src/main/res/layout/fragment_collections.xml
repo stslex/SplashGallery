@@ -13,11 +13,13 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_recycler_collections" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress"
-        style="?android:indeterminateProgressStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.CircularProgressIndicator.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:progressTint="@color/black"
+        app:indicatorColor="@color/black"
+        app:indicatorSize="@dimen/big_padding" />
 </FrameLayout>

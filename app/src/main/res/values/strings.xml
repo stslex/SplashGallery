@@ -8,7 +8,7 @@
     <string name="label_tab_layout_all">All</string>
     <string name="label_collections">Collections</string>
     <string name="label_camera">Camera</string>
-    <string name="label_focal_length">Focal Length</string>
+    <string name="label_focal_length">Focal</string>
     <string name="label_aperture">Aperture</string>
     <string name="label_dimension">ISO</string>
     <string name="label_photos">Photos</string>

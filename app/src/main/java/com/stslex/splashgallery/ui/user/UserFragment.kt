@@ -49,11 +49,10 @@ class UserFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbar()
-        setListenersHead()
-    }
-
-    private fun setListenersHead() = viewLifecycleOwner.lifecycleScope.launch {
-        viewModel.getUserInfo(extras.username).collect(::collector)
+        startPostponedEnterTransition()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getUserInfo(extras.username).collect(::collector)
+        }
     }
 
     private fun collector(response: Resource<UserModel>) = when (response) {
@@ -90,7 +89,7 @@ class UserFragment : BaseFragment() {
     }
 
     private fun UserModel.bindUserHeader() = with(binding) {
-        setImage.setImage(profile_image.medium, avatarImageView, needCircleCrop = true)
+        setImage.setImage(profile_image.large, avatarImageView, needCircleCrop = true)
         collectionsCountTextView.map(total_collections.toString())
         likesCountTextView.map(total_likes.toString())
         photoCountTextView.map(total_photos.toString())

@@ -3,7 +3,8 @@ package com.stslex.splashgallery.data.photos
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.stslex.splashgallery.data.core.map
-import com.stslex.splashgallery.data.model.ui.image.ImageModel
+import com.stslex.splashgallery.ui.photos.ImageUI
+import com.stslex.splashgallery.ui.photos.UserUI
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -12,15 +13,15 @@ import retrofit2.HttpException
 class PhotosPagingSource @AssistedInject constructor(
     private val service: PhotosService,
     @Assisted("query") private val query: QueryPhotos
-) : PagingSource<Int, ImageModel>() {
+) : PagingSource<Int, ImageUI>() {
 
-    override fun getRefreshKey(state: PagingState<Int, ImageModel>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, ImageUI>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val anchorPage = state.closestPageToPosition(anchorPosition) ?: return null
         return anchorPage.prevKey?.plus(1) ?: anchorPage.nextKey?.minus(1)
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ImageModel> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ImageUI> {
         if (query is QueryPhotos.EmptyQuery) {
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }
@@ -37,7 +38,13 @@ class PhotosPagingSource @AssistedInject constructor(
             }
 
             return if (response.isSuccessful) {
-                val photos = response.body()!!.map { it.map() }
+                val photos = response.body()!!.map { it.map() }.map {
+                    ImageUI.Base(
+                        it.id,
+                        it.urls.regular,
+                        UserUI.Base(it.user.username, it.user.profile_image.medium)
+                    )
+                }
                 val nextPageNumber = if (photos.isEmpty()) null else pageNumber + 1
                 val prevPageNumber = if (pageNumber > 1) pageNumber - 1 else null
                 LoadResult.Page(photos, prevPageNumber, nextPageNumber)

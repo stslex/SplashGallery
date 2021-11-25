@@ -68,6 +68,7 @@ class CollectionsFragment : BaseFragment() {
         with(binding) {
             collections.isVisible = loadState.refresh != LoadState.Loading
             progress.isVisible = loadState.refresh == LoadState.Loading
+            progress.setProgress(100, true)
         }
     }
 

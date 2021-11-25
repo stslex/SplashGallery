@@ -70,6 +70,7 @@ class PhotosFragment : BaseFragment() {
         with(binding) {
             photos.isVisible = loadState.refresh != LoadState.Loading
             progress.isVisible = loadState.refresh == LoadState.Loading
+            progress.setProgress(100, true)
         }
     }
 

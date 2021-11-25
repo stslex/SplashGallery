@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,19 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/single_photo_app_bar"
-            style="@style/AppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/single_photo_toolbar"
-                style="@style/Toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.appbar.AppBarLayout>
-
         <com.stslex.splashgallery.ui.core.CustomImageView
             android:id="@+id/imageImageView"
             android:layout_width="match_parent"
@@ -33,24 +20,28 @@
             android:cropToPadding="true"
             tools:src="@color/black" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:orientation="horizontal">
 
             <com.stslex.splashgallery.ui.core.CustomCardView
                 android:id="@+id/userCardView"
+                style="@style/Widget.Material3.CardView.Filled"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                app:cardElevation="0dp">
+                android:layout_margin="@dimen/primary_padding"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/single_photo_download"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:id="@+id/single_photo_profile_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/primary_padding"
+                    android:layout_margin="@dimen/small_padding"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     tools:ignore="UseCompoundDrawables">
@@ -65,7 +56,7 @@
 
                     <com.stslex.splashgallery.ui.core.CustomTextView
                         android:id="@+id/usernameTextView"
-                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        style="@style/MaterialAlertDialog.Material3.Title.Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -78,17 +69,18 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/single_photo_download"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginEnd="@dimen/primary_padding"
-                android:layout_weight="2"
-                android:text="@string/label_download"
-                app:icon="@drawable/ic_baseline_save" />
-        </LinearLayout>
+                app:icon="@drawable/ic_baseline_save"
+                app:layout_constraintBottom_toBottomOf="@+id/userCardView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/userCardView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.divider.MaterialDivider
+            style="@style/Widget.Material3.MaterialDivider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/primary_padding" />
@@ -109,12 +101,14 @@
 
                 <TextView
                     android:id="@+id/single_photo_label_camera"
+                    style="@style/MaterialAlertDialog.Material3.Title.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_camera" />
 
                 <com.stslex.splashgallery.ui.core.CustomTextView
                     android:id="@+id/cameraTextView"
+                    style="@style/MaterialAlertDialog.Material3.Body.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_padding"
@@ -122,6 +116,7 @@
 
                 <TextView
                     android:id="@+id/single_photo_label_aperture"
+                    style="@style/MaterialAlertDialog.Material3.Title.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/primary_padding"
@@ -129,6 +124,7 @@
 
                 <com.stslex.splashgallery.ui.core.CustomTextView
                     android:id="@+id/apertureTextView"
+                    style="@style/MaterialAlertDialog.Material3.Body.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_padding"
@@ -144,12 +140,14 @@
 
                 <TextView
                     android:id="@+id/labelFocalTextView"
+                    style="@style/MaterialAlertDialog.Material3.Title.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_focal_length" />
 
                 <com.stslex.splashgallery.ui.core.CustomTextView
                     android:id="@+id/focalTextView"
+                    style="@style/MaterialAlertDialog.Material3.Body.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_padding"
@@ -157,6 +155,7 @@
 
                 <TextView
                     android:id="@+id/single_photo_label_dimension"
+                    style="@style/MaterialAlertDialog.Material3.Title.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/primary_padding"
@@ -164,6 +163,7 @@
 
                 <com.stslex.splashgallery.ui.core.CustomTextView
                     android:id="@+id/dimensionTextView"
+                    style="@style/MaterialAlertDialog.Material3.Body.Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/small_padding"
@@ -174,10 +174,25 @@
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
+            style="@style/Widget.Material3.MaterialDivider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/primary_padding" />
-
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/single_photo_app_bar"
+        style="@style/Widget.Material3.AppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/single_photo_toolbar"
+            style="@style/Widget.Material3.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent" />
+    </com.google.android.material.appbar.AppBarLayout>
+</FrameLayout>

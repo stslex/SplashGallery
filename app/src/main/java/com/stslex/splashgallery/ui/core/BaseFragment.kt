@@ -10,7 +10,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.ui.utils.ImageSetter
@@ -56,7 +56,7 @@ abstract class BaseFragment : Fragment() {
                 isFirstResource: Boolean
             ): Boolean {
                 postponeEnterTransition()
-                return false
+                return true
             }
 
             override fun onResourceReady(

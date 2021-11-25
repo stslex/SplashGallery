@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.google.android.material.card.MaterialCardView
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
@@ -42,7 +43,7 @@ class PhotosClickListener(
         directions?.navigate(view, extras)
     }
 
-    override fun clickUser(view: View) {
+    override fun clickUser(view: MaterialCardView) {
         val extras = FragmentNavigatorExtras(view to view.transitionName)
         val directions: NavDirections? = when (parentFragment.get()) {
             is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(view.transitionName)
