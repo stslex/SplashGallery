@@ -24,7 +24,7 @@ The app client with Image library using Unsplash api In order with dark theme su
 
 ### Installation
 
-- Available in [PlayMarket](https://play.google.com/store/apps/details?id=com.stslex.splashgallery)
+- [PlayMarket](https://play.google.com/store/apps/details?id=com.stslex.splashgallery)
 - [Prerelease](https://github.com/Slex93/SplashGallery/releases)
 
 ### Screenshots
