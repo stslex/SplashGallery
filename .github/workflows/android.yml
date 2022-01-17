@@ -13,6 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: secrets
+      env: 
+        API_KEY: ${{secrets.API_KEY}}
+        run: echo API_KEY=\"$API_KEY\" > ./gradle.properties
+
     - name: set up JDK 11
       uses: actions/setup-java@v2
       with:
