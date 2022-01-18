@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: debian-s-1vcpu-1gb-amd-lon1-01
 
     steps:
     - uses: actions/checkout@v2
