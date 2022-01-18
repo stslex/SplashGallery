@@ -12,6 +12,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    
     - uses: actions/checkout@v2
     
     - name: Restore api key
@@ -23,10 +24,12 @@ jobs:
         echo "$GRADLE_PROP" > ~/.gradle/gradle.properties
         cat ~/.gradle/gradle.properties
           
-    - name: Set up JDK 11
+    - name: set up JDK 11
       uses: actions/setup-java@v2
       with:
-        java-version: 11
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
     
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
