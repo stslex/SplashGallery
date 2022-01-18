@@ -22,7 +22,7 @@ jobs:
         mkdir -p ~/.gradle/
         echo "API_KEY = \"${API_KEY}"\" > ~/.gradle/gradle.properties
           
-    - name: set up JDK 11
+    - name: set up JDK 8
       uses: actions/setup-java@v2
       with:
         java-version: '11'
