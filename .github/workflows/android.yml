@@ -20,7 +20,7 @@ jobs:
       shell: bash
       run: |
         mkdir -p ~/.gradle/
-        echo "${GRADLE_PROP}" > ~/.gradle/gradle.properties
+        echo "$GRADLE_PROP" > ~/.gradle/gradle.properties
         cat ~/.gradle/gradle.properties
           
     - name: set up JDK 11
