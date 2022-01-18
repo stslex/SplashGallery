@@ -13,19 +13,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: secrets
+    
+    - name: Restore api key
       env: 
-        API_KEY: ${{secrets.API_KEY}}
-        run: echo API_KEY=\"$API_KEY\" > ./gradle.properties
-
-    - name: set up JDK 11
+        GRADLE_PROP: ${{secrets.GRADLE_PROPERTIES}}
+      shell: bash
+      run: |
+        mkdir -p ~/.gradle/
+        echo "$GRADLE_PROP" > ~/.gradle/gradle.properties
+        cat ~/.gradle/gradle.properties
+          
+    - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+        java-version: 11
+    
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+      
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew --no-daemon build
