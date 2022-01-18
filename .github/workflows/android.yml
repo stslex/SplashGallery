@@ -16,16 +16,16 @@ jobs:
     
     - name: Restore api key
       env: 
-        API_KEY: ${{secrets.API_KEY}}
+        GRADLE_PROPERTIES: ${{secrets.GRADLE_PROPERTIES}}
       shell: bash
       run: |
         mkdir -p ~/.gradle/
-        echo "API_KEY = \"${API_KEY}"\" > ~/.gradle/gradle.properties
+        echo "${GRADLE_PROPERTIES}" > ~/.gradle/gradle.properties
           
     - name: set up JDK 8
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '8'
         distribution: 'temurin'
         cache: gradle
 
