@@ -16,11 +16,11 @@ jobs:
     
     - name: Restore api key
       env: 
-        GRADLE_PROPERTIES: ${{secrets.GRADLE_PROPERTIES}}
+        GRADLE_PROP: ${{secrets.GRADLE_PROPERTIES}}
       shell: bash
       run: |
         mkdir -p ~/.gradle/
-        echo "${GRADLE_PROPERTIES}" > ~/.gradle/gradle.properties
+        echo "${GRADLE_PROP}" > ~/.gradle/gradle.properties
         cat ~/.gradle/gradle.properties
           
     - name: set up JDK 11
