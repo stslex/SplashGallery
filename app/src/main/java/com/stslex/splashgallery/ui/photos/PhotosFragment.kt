@@ -17,16 +17,15 @@ import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
+import com.stslex.splashgallery.ui.photos.adapter.PhotosAdapter
+import com.stslex.splashgallery.ui.photos.loader_adapter.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
 import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 
@@ -34,7 +33,7 @@ import java.lang.ref.WeakReference
 class PhotosFragment : BaseFragment() {
 
     private var _binding: FragmentAllPhotosBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
 
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -66,12 +65,10 @@ class PhotosFragment : BaseFragment() {
         collectionJob.start()
     }
 
-    private fun loadStateListener(loadState: CombinedLoadStates) {
-        with(binding) {
-            photos.isVisible = loadState.refresh != LoadState.Loading
-            progress.isVisible = loadState.refresh == LoadState.Loading
-            progress.setProgress(100, true)
-        }
+    private fun loadStateListener(loadState: CombinedLoadStates): Unit = with(binding) {
+        photos.isVisible = loadState.refresh != LoadState.Loading
+        progress.isVisible = loadState.refresh == LoadState.Loading
+        progress.setProgress(100, true)
     }
 
     private val queryJob: Job by lazy {
@@ -80,18 +77,24 @@ class PhotosFragment : BaseFragment() {
         }
     }
 
-    private fun collector(response: String) {
-        val query = when (requireParentFragment()) {
+    private fun collector(response: String) = viewLifecycleOwner.lifecycleScope.launch(
+        context = Dispatchers.IO,
+        start = CoroutineStart.LAZY,
+        block = jobBlockQueryPhotos(response.photosQueryResponse)
+    )
+
+    private fun jobBlockQueryPhotos(queryPhotos: QueryPhotos): suspend CoroutineScope.() -> Unit = {
+        viewModel.setQuery(queryPhotos)
+    }
+
+    private val String.photosQueryResponse: QueryPhotos
+        get() = when (requireParentFragment()) {
             is MainFragment -> QueryPhotos.AllPhotos
-            is UserPhotosFragment -> QueryPhotos.UserPhotos(response)
-            is UserLikesFragment -> QueryPhotos.UserLikes(response)
-            is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(response)
+            is UserPhotosFragment -> QueryPhotos.UserPhotos(this)
+            is UserLikesFragment -> QueryPhotos.UserLikes(this)
+            is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(this)
             else -> QueryPhotos.EmptyQuery
         }
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.setQuery(query)
-        }
-    }
 
     private val collectionJob: Job by lazy {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {

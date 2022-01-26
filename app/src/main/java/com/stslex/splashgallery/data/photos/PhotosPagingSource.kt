@@ -3,8 +3,8 @@ package com.stslex.splashgallery.data.photos
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.stslex.splashgallery.data.core.map
-import com.stslex.splashgallery.ui.photos.ImageUI
-import com.stslex.splashgallery.ui.photos.UserUI
+import com.stslex.splashgallery.ui.photos.models.ImageUI
+import com.stslex.splashgallery.ui.photos.models.UserUI
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

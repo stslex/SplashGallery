@@ -17,7 +17,7 @@ import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
-import com.stslex.splashgallery.ui.photos.PhotosLoaderStateAdapter
+import com.stslex.splashgallery.ui.photos.loader_adapter.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.user.UserFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

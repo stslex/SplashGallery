@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.photos
+package com.stslex.splashgallery.ui.photos.models
 
 import android.widget.ImageView
 import android.widget.TextView

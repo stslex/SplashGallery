@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.photos
 
 import androidx.paging.PagingSource
-import com.stslex.splashgallery.ui.photos.ImageUI
+import com.stslex.splashgallery.ui.photos.models.ImageUI
 import javax.inject.Inject
 
 class PhotosRepository @Inject constructor(

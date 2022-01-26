@@ -1,9 +1,10 @@
-package com.stslex.splashgallery.ui.photos
+package com.stslex.splashgallery.ui.photos.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
+import com.stslex.splashgallery.ui.photos.models.ImageUI
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 
