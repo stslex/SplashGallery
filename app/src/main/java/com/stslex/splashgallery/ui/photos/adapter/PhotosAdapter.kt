@@ -15,9 +15,7 @@ class PhotosAdapter(
 ) : PagingDataAdapter<ImageUI, PhotosViewHolder>(PhotosDiffItemCallback()) {
 
     override fun onBindViewHolder(holder: PhotosViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
-        }
+        getItem(position)?.let(holder::bind)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosViewHolder {

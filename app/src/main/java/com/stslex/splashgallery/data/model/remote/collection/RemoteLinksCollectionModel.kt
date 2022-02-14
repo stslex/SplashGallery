@@ -1,4 +1,4 @@
-package st.slex.csplashscreen.data.model.remote.collection
+package com.stslex.splashgallery.data.model.remote.collection
 
 import com.google.gson.annotations.SerializedName
 

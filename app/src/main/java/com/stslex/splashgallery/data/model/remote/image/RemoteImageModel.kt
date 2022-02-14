@@ -1,7 +1,7 @@
 package st.slex.csplashscreen.data.model.remote.image
 
 import com.google.gson.annotations.SerializedName
-import st.slex.csplashscreen.data.model.remote.collection.RemoteCollectionModel
+import com.stslex.splashgallery.data.model.remote.collection.RemoteCollectionModel
 import st.slex.csplashscreen.data.model.remote.statistic.RemotePhotoStatistics
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserModel
 

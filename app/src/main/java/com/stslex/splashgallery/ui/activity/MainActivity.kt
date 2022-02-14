@@ -9,7 +9,6 @@ import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.ActivityMainBinding
-import com.stslex.splashgallery.ui.utils.AppResources.setResources
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        resources.setResources()
         setSupportActionBar(binding.mainToolbar)
         setupActionBarWithNavController(navController, actionBarConfiguration)
     }

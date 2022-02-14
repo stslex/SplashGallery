@@ -2,20 +2,20 @@ package com.stslex.splashgallery.ui.photos.models
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
-import com.google.android.material.card.MaterialCardView
+import com.stslex.splashgallery.ui.core.CustomCardView
+import com.stslex.splashgallery.ui.core.CustomTextView
+import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 interface UserUI {
 
     fun bindUser(
         glide: SetImageWithGlide,
+        clickListener: OnClickListener,
         imageView: ImageView,
-        textView: TextView,
-        cardView: MaterialCardView
+        textView: CustomTextView,
+        cardView: CustomCardView
     )
-
-    fun hideUserHead(cardView: MaterialCardView)
 
     data class Base(
         private val username: String,
@@ -24,18 +24,24 @@ interface UserUI {
 
         override fun bindUser(
             glide: SetImageWithGlide,
+            clickListener: OnClickListener,
             imageView: ImageView,
-            textView: TextView,
-            cardView: MaterialCardView
+            textView: CustomTextView,
+            cardView: CustomCardView
         ) {
-            cardView.visibility = View.VISIBLE
-            glide.setImage(url, imageView, needCrop = true, needCircleCrop = true)
-            textView.text = username
+            cardView.show()
+            glide.setImage(
+                url = url,
+                imageView = imageView,
+                needCrop = true,
+                needCircleCrop = true
+            )
+            textView.map(username)
             cardView.transitionName = username
+            cardView.setOnClickListener(clickListener.userClick)
         }
 
-        override fun hideUserHead(cardView: MaterialCardView) {
-            cardView.visibility = View.GONE
-        }
+        private val OnClickListener.userClick
+            get() = View.OnClickListener(::clickUser)
     }
 }

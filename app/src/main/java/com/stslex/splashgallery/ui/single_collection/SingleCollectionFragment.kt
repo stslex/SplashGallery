@@ -10,9 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class SingleCollectionFragment : BaseFragment() {
 
     private var _binding: FragmentSingleCollectionBinding? = null

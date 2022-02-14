@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-@ExperimentalCoroutinesApi
 class CollectionViewModel @Inject constructor(
     private val queryCollectionsUseCaseProvider: Provider<QueryCollectionsUseCase>
 ) : ViewModel() {
@@ -25,6 +24,7 @@ class CollectionViewModel @Inject constructor(
         PagingConfig(PAGE_SIZE, enablePlaceholders = false)
     }
 
+    @ExperimentalCoroutinesApi
     val collections: StateFlow<PagingData<CollectionModel>> = query
         .map(::newPager)
         .flatMapLatest { pager -> pager.flow }

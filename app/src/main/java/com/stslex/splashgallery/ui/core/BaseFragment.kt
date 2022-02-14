@@ -16,10 +16,8 @@ import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.ui.utils.ImageSetter
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 import dagger.Lazy
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment() {
 
     @Inject

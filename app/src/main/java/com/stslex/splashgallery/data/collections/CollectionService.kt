@@ -5,11 +5,11 @@ import com.stslex.splashgallery.data.core.FirebaseConstants.GET_COLLECTIONS
 import com.stslex.splashgallery.data.core.FirebaseConstants.GET_USERS
 import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_API_KEY
 import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_PAGE
+import com.stslex.splashgallery.data.model.remote.collection.RemoteCollectionModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import st.slex.csplashscreen.data.model.remote.collection.RemoteCollectionModel
 
 interface CollectionService {
 

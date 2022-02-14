@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -7,56 +9,61 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "30.0.3"
+    compileSdk = 32
 
     defaultConfig {
-        applicationId "com.stslex.splashgallery"
-        minSdkVersion 24
-        targetSdkVersion 32
-        versionCode 9
-        versionName "1.09"
-        buildConfigField("String", "API_KEY", API_KEY)
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = "com.stslex.splashgallery"
+        minSdk = 24
+        targetSdk = 32
+        versionCode = 9
+        versionName = "1.09"
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility(JavaVersion.VERSION_11)
+        targetCompatibility(JavaVersion.VERSION_11)
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 
 dependencies {
-
     /*Paging*/
-    def pagingVersion = "3.1.0"
+    val pagingVersion = "3.1.0"
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
 
     //Dagger 2
-    def daggerVersion = "2.39.1"
+    val daggerVersion = "2.39.1"
     implementation("com.google.dagger:dagger:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
     //Glide
-    def glideVersion = "4.11.0"
+    val glideVersion = "4.11.0"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     annotationProcessor("com.github.bumptech.glide:compiler:$glideVersion")
 
     // Lifecycle components
-    def lifecycleVersion = "2.4.0"
+    val lifecycleVersion = "2.4.1"
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
@@ -65,21 +72,21 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
 
     //Retrofit
-    def retrofitVersion = "2.9.0"
+    val retrofitVersion = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
     //Navigation Component
-    def navVersion = "2.3.5"
+    val navVersion = "2.4.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     //Default implementations
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.0")
-    implementation("com.google.android.material:material:1.6.0-alpha01")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("com.google.android.material:material:1.6.0-alpha02")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")

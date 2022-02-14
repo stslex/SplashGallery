@@ -11,9 +11,7 @@ import com.stslex.splashgallery.R
 import com.stslex.splashgallery.databinding.FragmentMainBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.core.BaseFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 class MainFragment : BaseFragment() {
 
     private var _binding: FragmentMainBinding? = null

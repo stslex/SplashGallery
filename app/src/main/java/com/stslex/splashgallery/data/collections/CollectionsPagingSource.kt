@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.data.collections
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.stslex.splashgallery.data.core.map
@@ -21,6 +22,8 @@ class CollectionsPagingSource @AssistedInject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CollectionModel> {
+        Log.i("TestPhotos: ", query.toString())
+
         if (query is QueryCollections.EmptyQuery) {
             return LoadResult.Page(emptyList(), prevKey = null, nextKey = null)
         }

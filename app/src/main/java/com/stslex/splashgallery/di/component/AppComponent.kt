@@ -5,9 +5,7 @@ import com.stslex.splashgallery.di.module.*
 import com.stslex.splashgallery.ui.core.BaseFragment
 import dagger.BindsInstance
 import dagger.Component
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalCoroutinesApi
 @Component(
     modules = [
         NetworkServiceModule::class,

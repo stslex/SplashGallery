@@ -1,5 +1,8 @@
 package com.stslex.splashgallery.data.core
 
+import com.stslex.splashgallery.data.model.remote.collection.RemoteCollectionModel
+import com.stslex.splashgallery.data.model.remote.collection.RemoteLinksCollectionModel
+import com.stslex.splashgallery.data.model.remote.download.RemoteDownloadModel
 import com.stslex.splashgallery.data.model.ui.DownloadModel
 import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 import com.stslex.splashgallery.data.model.ui.collection.LinksCollectionModel
@@ -10,9 +13,6 @@ import com.stslex.splashgallery.data.model.ui.user.BadgeModel
 import com.stslex.splashgallery.data.model.ui.user.ProfileImageModel
 import com.stslex.splashgallery.data.model.ui.user.UserLinksModel
 import com.stslex.splashgallery.data.model.ui.user.UserModel
-import st.slex.csplashscreen.data.model.remote.collection.RemoteCollectionModel
-import st.slex.csplashscreen.data.model.remote.collection.RemoteLinksCollectionModel
-import st.slex.csplashscreen.data.model.remote.download.RemoteDownloadModel
 import st.slex.csplashscreen.data.model.remote.image.*
 import st.slex.csplashscreen.data.model.remote.statistic.*
 import st.slex.csplashscreen.data.model.remote.topics.RemotePreviewPhotosModel

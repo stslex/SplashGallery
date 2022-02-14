@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-@ExperimentalCoroutinesApi
 class PhotosViewModel @Inject constructor(
     private val queryPhotosUseCaseProvider: Provider<QueryPhotosUseCase>
 ) : ViewModel() {
@@ -20,6 +19,11 @@ class PhotosViewModel @Inject constructor(
 
     private var newPagingSource: PagingSource<*, *>? = null
 
+    private val pagingConfig: PagingConfig by lazy {
+        PagingConfig(PAGE_SIZE, enablePlaceholders = false)
+    }
+
+    @ExperimentalCoroutinesApi
     val photos: StateFlow<PagingData<ImageUI>> = query
         .map(::newPager)
         .flatMapLatest { pager -> pager.flow }
@@ -32,10 +36,6 @@ class PhotosViewModel @Inject constructor(
             val queryPhotosUseCase = queryPhotosUseCaseProvider.get()
             queryPhotosUseCase(query).also { newPagingSource = it }
         }
-    }
-
-    private val pagingConfig: PagingConfig by lazy {
-        PagingConfig(PAGE_SIZE, enablePlaceholders = false)
     }
 
     fun setQuery(query: QueryPhotos) {

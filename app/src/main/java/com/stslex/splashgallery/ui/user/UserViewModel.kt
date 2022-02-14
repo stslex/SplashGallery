@@ -10,12 +10,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class UserViewModel @Inject constructor(
     private val repository: UserRepository,
     private val mapper: UserDataMapper
 ) : ViewModel() {
 
+    @ExperimentalCoroutinesApi
     suspend fun getUserInfo(username: String): StateFlow<Resource<UserModel>> =
         repository.getUser(username).flatMapLatest {
             flowOf(it.map(mapper))

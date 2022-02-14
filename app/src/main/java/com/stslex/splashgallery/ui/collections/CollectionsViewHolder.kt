@@ -1,13 +1,12 @@
 package com.stslex.splashgallery.ui.collections
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.splashgallery.R
 import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.utils.AppResources.photos
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 class CollectionsViewHolder(
@@ -17,27 +16,36 @@ class CollectionsViewHolder(
     private val isUser: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    @SuppressLint("SetTextI18n")
     fun bind(item: CollectionModel) {
+        item.setUserHead()
+        item.setContent()
+    }
+
+    private fun CollectionModel.setContent() {
         with(binding) {
-            with(userHead) {
-                if (isUser) {
-                    userCardView.visibility = View.GONE
-                } else {
-                    userCardView.visibility = View.VISIBLE
-                    val userUrl = item.user.profile_image.medium
-                    userImageView.setImage(userUrl, true)
-                    usernameTextView.text = item.user.username
-                    userCardView.transitionName = item.user.username
-                    userCardView.setOnClickListener(userClickListener)
-                }
+            numberTextView.apply {
+                val photosLabel = context.resources.getString(R.string.label_photos)
+                map("$total_photos $photosLabel")
             }
-            numberTextView.text = "${item.total_photos} $photos"
-            titleTextView.text = item.title
-            val collectionUrl = item.cover_photo.urls.regular
-            collectionImageView.setImage(collectionUrl, false)
-            imageCardView.transitionName = item.id
-            imageCardView.setOnClickListener(item.title.imageClickListener)
+            titleTextView.map(title)
+            collectionImageView.setImage(cover_photo.urls.regular, false)
+            imageCardView.transitionName = id
+            imageCardView.setOnClickListener(imageClickListener(title))
+        }
+    }
+
+    private fun CollectionModel.setUserHead() {
+        with(binding.userHead) {
+            if (isUser) {
+                userCardView.hide()
+            } else {
+                userCardView.show()
+                val userUrl = user.profile_image.medium
+                userImageView.setImage(userUrl, true)
+                usernameTextView.text = user.username
+                userCardView.transitionName = user.username
+                userCardView.setOnClickListener(userClickListener)
+            }
         }
     }
 
@@ -48,12 +56,9 @@ class CollectionsViewHolder(
         needCircleCrop = crop
     )
 
-    private val userClickListener = View.OnClickListener {
-        clickListener.clickUser(binding.userHead.userCardView)
-    }
+    private val userClickListener = View.OnClickListener(clickListener::clickUser)
 
-    private val String?.imageClickListener: View.OnClickListener
-        get() = View.OnClickListener {
-            clickListener.clickImage(it, toString())
-        }
+    private fun imageClickListener(title: String) = View.OnClickListener {
+        clickListener.clickImage(it, title)
+    }
 }

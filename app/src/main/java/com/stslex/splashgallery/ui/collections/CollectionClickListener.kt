@@ -6,16 +6,13 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.google.android.material.card.MaterialCardView
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.lang.ref.WeakReference
 
-@ExperimentalCoroutinesApi
 class CollectionClickListener(
     private val parentFragment: WeakReference<Fragment>
 ) : OnClickListener {
@@ -36,7 +33,7 @@ class CollectionClickListener(
         directions?.navigate(view, extras)
     }
 
-    override fun clickUser(view: MaterialCardView) {
+    override fun clickUser(view: View) {
         val extras = FragmentNavigatorExtras(view to view.transitionName)
         val directions: NavDirections? = when (parentFragment.get()) {
             is MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(

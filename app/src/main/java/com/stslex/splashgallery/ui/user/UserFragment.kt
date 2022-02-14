@@ -22,11 +22,9 @@ import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 class UserFragment : BaseFragment() {
 
     private var _binding: FragmentUserBinding? = null

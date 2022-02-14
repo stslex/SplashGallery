@@ -12,7 +12,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class PhotoDetailsViewModel @Inject constructor(
     private val repository: PhotoRepository,
     private val photoMapper: PhotoDataMapper,
@@ -20,6 +19,7 @@ class PhotoDetailsViewModel @Inject constructor(
     private val downloadImageUseCase: DownloadImageUseCase
 ) : ViewModel() {
 
+    @ExperimentalCoroutinesApi
     suspend fun getCurrentPhoto(id: String): StateFlow<Resource<ImageModel>> =
         repository.getCurrentPhoto(id).flatMapLatest {
             flowOf(it.map(photoMapper))
@@ -29,6 +29,7 @@ class PhotoDetailsViewModel @Inject constructor(
             initialValue = Resource.Loading
         )
 
+    @ExperimentalCoroutinesApi
     suspend fun downloadImageUrl(id: String): StateFlow<Resource<DownloadModel>> =
         repository.downloadPhoto(id).flatMapLatest {
             flowOf(it.map(downloadMapper))

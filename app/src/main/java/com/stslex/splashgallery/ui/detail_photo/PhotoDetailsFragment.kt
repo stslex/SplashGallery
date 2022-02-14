@@ -100,7 +100,7 @@ class PhotoDetailsFragment : BaseFragment() {
         with(binding) {
             with(data) {
                 setImage.setImage(
-                    url = user.profile_image.medium.toString(),
+                    url = user.profile_image.medium,
                     imageView = avatarImageView,
                     needCrop = true,
                     needCircleCrop = true

@@ -9,10 +9,8 @@ import com.stslex.splashgallery.ui.user.UserViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Module
-@ExperimentalCoroutinesApi
 interface ViewModelModule {
 
     @IntoMap

@@ -23,13 +23,13 @@ import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragment
 import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.launch
 
 
-@ExperimentalCoroutinesApi
 class PhotosFragment : BaseFragment() {
 
     private var _binding: FragmentAllPhotosBinding? = null
@@ -40,10 +40,20 @@ class PhotosFragment : BaseFragment() {
 
     private val adapter: PhotosAdapter by lazy {
         PhotosAdapter(
-            clickListener = PhotosClickListener(WeakReference(requireParentFragment())),
+            clickListener = PhotosClickListener(parentFragment = parentFragment),
             glide = setImage,
             isUser = requireParentFragment().requireParentFragment() is UserFragment
         )
+    }
+
+    private val parentFragment by lazy {
+        when (requireParentFragment()) {
+            is MainFragment -> PhotosEnumFragments.MainFragment
+            is UserPhotosFragment -> PhotosEnumFragments.UserPhotosFragment
+            is UserLikesFragment -> PhotosEnumFragments.UserLikesFragment
+            is SingleCollectionFragment -> PhotosEnumFragments.SingleCollectionFragment
+            else -> PhotosEnumFragments.MainFragment
+        }
     }
 
     override fun onCreateView(
@@ -77,28 +87,22 @@ class PhotosFragment : BaseFragment() {
         }
     }
 
-    private fun collector(response: String) = viewLifecycleOwner.lifecycleScope.launch(
-        context = Dispatchers.IO,
-        start = CoroutineStart.LAZY,
-        block = jobBlockQueryPhotos(response.photosQueryResponse)
-    )
-
-    private fun jobBlockQueryPhotos(queryPhotos: QueryPhotos): suspend CoroutineScope.() -> Unit = {
-        viewModel.setQuery(queryPhotos)
-    }
-
-    private val String.photosQueryResponse: QueryPhotos
-        get() = when (requireParentFragment()) {
+    private fun collector(response: String) {
+        val queryPhotos = when (requireParentFragment()) {
             is MainFragment -> QueryPhotos.AllPhotos
-            is UserPhotosFragment -> QueryPhotos.UserPhotos(this)
-            is UserLikesFragment -> QueryPhotos.UserLikes(this)
-            is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(this)
+            is UserPhotosFragment -> QueryPhotos.UserPhotos(response)
+            is UserLikesFragment -> QueryPhotos.UserLikes(response)
+            is SingleCollectionFragment -> QueryPhotos.CollectionPhotos(response)
             else -> QueryPhotos.EmptyQuery
         }
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.setQuery(queryPhotos)
+        }
+    }
 
     private val collectionJob: Job by lazy {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.photos.collectLatest(adapter::submitData)
             }
         }

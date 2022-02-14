@@ -20,14 +20,12 @@ import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.photos.loader_adapter.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.user.UserFragment
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
-@ExperimentalCoroutinesApi
 class CollectionsFragment : BaseFragment() {
 
     private var _binding: FragmentCollectionsBinding? = null
@@ -91,7 +89,7 @@ class CollectionsFragment : BaseFragment() {
 
     private val collectionJob: Job by lazy {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.collections.collectLatest(adapter::submitData)
             }
         }

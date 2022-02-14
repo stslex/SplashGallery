@@ -15,9 +15,7 @@ class CollectionsAdapter(
 ) : PagingDataAdapter<CollectionModel, CollectionsViewHolder>(CollectionsDiffItemCallback()) {
 
     override fun onBindViewHolder(holder: CollectionsViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it)
-        }
+        getItem(position)?.let(holder::bind)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionsViewHolder {
