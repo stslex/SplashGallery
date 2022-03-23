@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.core
+package com.stslex.core
 
 sealed class Resource<out T> : Object<T> {
 

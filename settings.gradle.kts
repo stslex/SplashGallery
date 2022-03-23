@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SplashGallery"
 include(":app")
+include(":core")

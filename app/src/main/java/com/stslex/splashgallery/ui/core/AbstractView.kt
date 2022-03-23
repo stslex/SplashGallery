@@ -1,6 +1,5 @@
 package com.stslex.splashgallery.ui.core
 
-import com.stslex.splashgallery.core.TextMapper
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
 interface AbstractView {
@@ -8,7 +7,7 @@ interface AbstractView {
     fun show()
     fun hide()
 
-    interface Text : AbstractView, TextMapper.Void
+    interface Text : AbstractView, com.stslex.core.TextMapper.Void
     interface Card : AbstractView {
         fun getCardAndSetTransitionName(transitionName: String): CustomCardView
         fun getCardView(): CustomCardView

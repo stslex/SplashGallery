@@ -1,7 +1,6 @@
 package com.stslex.splashgallery.ui.detail_photo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.stslex.splashgallery.core.Resource
+import com.stslex.core.Resource
 import com.stslex.splashgallery.data.model.ui.DownloadModel
 import com.stslex.splashgallery.data.model.ui.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
@@ -96,35 +95,36 @@ class PhotoDetailsFragment : BaseFragment() {
         }
 
     @JvmName("resultImageModel")
-    private suspend fun Resource.Success<ImageModel>.result() = withContext(Dispatchers.Main) {
-        with(binding) {
-            with(data) {
-                setImage.setImage(
-                    url = user.profile_image.medium,
-                    imageView = avatarImageView,
-                    needCrop = true,
-                    needCircleCrop = true
-                )
-                userCardView.transitionName = user.username
-                usernameTextView.text = user.username
-                apertureTextView.text = exif.aperture.isNullCheck()
-                cameraTextView.text = exif.make.isNullCheck()
-                dimensionTextView.text = exif.exposure_time.isNullCheck()
-                focalTextView.text = exif.focal_length.isNullCheck()
+    private suspend fun Resource.Success<ImageModel>.result() =
+        withContext(Dispatchers.Main) {
+            with(binding) {
+                with(data) {
+                    setImage.setImage(
+                        url = user.profile_image.medium,
+                        imageView = avatarImageView,
+                        needCrop = true,
+                        needCircleCrop = true
+                    )
+                    userCardView.transitionName = user.username
+                    usernameTextView.text = user.username
+                    apertureTextView.text = exif.aperture.isNullCheck()
+                    cameraTextView.text = exif.make.isNullCheck()
+                    dimensionTextView.text = exif.exposure_time.isNullCheck()
+                    focalTextView.text = exif.focal_length.isNullCheck()
+                }
             }
         }
-    }
 
     private var downloadJob: Job? = null
     private val downloadClickListener: View.OnClickListener = View.OnClickListener {
         downloadJob?.cancel()
         downloadJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.downloadImageUrl(id).collect(::collected)
+            viewModel.downloadImageUrl(id).collect(::collector)
         }
     }
 
     @JvmName("resultDownloadModel")
-    private suspend fun collected(response: Resource<DownloadModel>) = when (response) {
+    private suspend fun collector(response: Resource<DownloadModel>) = when (response) {
         is Resource.Success -> response.result()
         is Resource.Failure -> response.result()
         is Resource.Loading -> loading()
@@ -132,11 +132,11 @@ class PhotoDetailsFragment : BaseFragment() {
 
     @JvmName("resultDownloadModel")
     private suspend fun Resource.Success<DownloadModel>.result() {
-        viewModel.downloadImage(data.url, id).collect(::collected)
+        viewModel.downloadImage(data.url, id).collect(::collector)
     }
 
     @JvmName("resultDownload")
-    private fun collected(response: Resource<Nothing?>) = when (response) {
+    private fun collector(response: Resource<Nothing?>) = when (response) {
         is Resource.Success -> Unit
         is Resource.Failure -> response.result()
         is Resource.Loading -> loading()
@@ -145,7 +145,7 @@ class PhotoDetailsFragment : BaseFragment() {
 
     private fun loading() = Unit
     private fun <T> Resource.Failure<T>.result() {
-        Log.e(TAG, exception.message, exception)
+        exception.printStackTrace()
     }
 
     private fun setToolbar() = with(requireActivity() as AppCompatActivity) {
@@ -159,9 +159,5 @@ class PhotoDetailsFragment : BaseFragment() {
         _binding = null
         downloadJob?.cancel()
         getImageJob.cancel()
-    }
-
-    companion object {
-        private const val TAG = "PhotoDetailsFragment"
     }
 }

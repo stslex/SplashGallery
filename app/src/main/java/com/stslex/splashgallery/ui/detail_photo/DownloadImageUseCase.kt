@@ -8,14 +8,13 @@ import android.content.Context.DOWNLOAD_SERVICE
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment.DIRECTORY_DOWNLOADS
-import com.stslex.splashgallery.core.Resource
 import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 interface DownloadImageUseCase {
 
-    suspend fun download(url: String, fileName: String): Resource<Nothing?>
+    suspend fun download(url: String, fileName: String): com.stslex.core.Resource<Nothing?>
 
     class Base @Inject constructor(
         private val application: Application
@@ -25,7 +24,7 @@ interface DownloadImageUseCase {
         override suspend fun download(
             url: String,
             fileName: String
-        ): Resource<Nothing?> = suspendCoroutine { continuation ->
+        ): com.stslex.core.Resource<Nothing?> = suspendCoroutine { continuation ->
             val downloadManager = application.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager
                 .Request(Uri.parse(url))
@@ -41,7 +40,7 @@ interface DownloadImageUseCase {
             if (cursor.moveToFirst()) {
                 when (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))) {
                     DownloadManager.STATUS_SUCCESSFUL -> {
-                        continuation.resumeWith(Result.success(Resource.Success(null)))
+                        continuation.resumeWith(Result.success(com.stslex.core.Resource.Success(null)))
                     }
                     DownloadManager.STATUS_FAILED -> {
                         continuation.resumeWithException(Exception("Failed"))
