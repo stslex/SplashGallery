@@ -9,20 +9,19 @@ on:
 jobs:
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
     
     - uses: actions/checkout@v2
     
-    - name: Restore api key
+    - name: restore local properties
       env: 
-        GRADLE_PROP: ${{secrets.GRADLE_PROPERTIES}}
+        LOCAL_PROPERTIES: ${{secrets.LOCAL_PROPERTIES}}
       shell: bash
       run: |
-        mkdir -p ~/.gradle/
-        echo "$GRADLE_PROP" > ~/.gradle/gradle.properties
-        cat ~/.gradle/gradle.properties
+        echo "$LOCAL_PROPERTIES" > ~/local.properties
+        cat ~/local.properties
           
     - name: set up JDK 11
       uses: actions/setup-java@v2
