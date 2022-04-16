@@ -28,8 +28,8 @@ interface DownloadImageUseCase {
             val downloadManager = application.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             val request = DownloadManager
                 .Request(Uri.parse(url))
-                .setTitle("Downloading")
-                .setDescription("Downloading image...")
+                .setTitle(DOWNLOAD_TITLE)
+                .setDescription(DOWNLOAD_DESCRIPTION)
                 .setDestinationInExternalFilesDir(application, DIRECTORY_DOWNLOADS, fileName)
                 .setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             downloadManager.enqueue(request)
@@ -47,6 +47,11 @@ interface DownloadImageUseCase {
                     }
                 }
             }
+        }
+
+        companion object {
+            private const val DOWNLOAD_TITLE: String = "Downloading"
+            private const val DOWNLOAD_DESCRIPTION: String = "Downloading image..."
         }
     }
 }

@@ -15,7 +15,8 @@ import com.stslex.splashgallery.ui.core.BaseFragment
 class MainFragment : BaseFragment() {
 
     private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentMainBinding
+        get() = checkNotNull(_binding)
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
@@ -32,11 +33,14 @@ class MainFragment : BaseFragment() {
         sharedViewModel.setId("")
         binding.mainViewPager.adapter = MainFragmentAdapter(this)
         setPagerAnimation()
-        val listOfTabs = listOf(
+        listOfTabs.tabLayoutMediator.attach()
+    }
+
+    private val listOfTabs by lazy {
+        listOf(
             resources.getString(R.string.label_tab_layout_all),
             resources.getString(R.string.label_collections)
         )
-        listOfTabs.tabLayoutMediator.attach()
     }
 
     private fun setPagerAnimation() {

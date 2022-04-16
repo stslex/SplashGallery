@@ -49,41 +49,42 @@ android {
 
 dependencies {
     implementation(project(":core"))
+
     /*Paging*/
-    val pagingVersion = "3.1.0"
+    val pagingVersion = "3.1.1"
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
 
-    //Dagger 2
-    val daggerVersion = "2.39.1"
+    /*Dagger 2*/
+    val daggerVersion = "2.41"
     implementation("com.google.dagger:dagger:$daggerVersion")
     kapt("com.google.dagger:dagger-compiler:$daggerVersion")
 
-    //Glide
-    val glideVersion = "4.11.0"
+    /*Glide*/
+    val glideVersion = "4.13.1"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     annotationProcessor("com.github.bumptech.glide:compiler:$glideVersion")
 
-    // Lifecycle components
+    /*Lifecycle components*/
     val lifecycleVersion = "2.4.1"
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-    //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    /*Coroutines*/
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1-native-mt")
 
-    //Retrofit
+    /*Retrofit*/
     val retrofitVersion = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
 
-    //Navigation Component
-    val navVersion = "2.4.1"
+    /*Navigation Component*/
+    val navVersion = "2.4.2"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-    //Default implementations
+    /*Default implementations*/
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.6.0-beta01")

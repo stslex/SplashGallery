@@ -7,8 +7,11 @@ import com.stslex.splashgallery.ui.photos.PhotosFragment
 
 class MainFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+    private val fragmentList: List<Fragment> by lazy {
+        listOf(PhotosFragment(), CollectionsFragment())
+    }
 
-    override fun createFragment(position: Int): Fragment =
-        if (position == 0) PhotosFragment() else CollectionsFragment()
+    override fun getItemCount(): Int = fragmentList.size
+
+    override fun createFragment(position: Int): Fragment = fragmentList[position]
 }

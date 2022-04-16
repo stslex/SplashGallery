@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class SharedViewModel : ViewModel() {
 
-    private val _currentId = MutableStateFlow("")
+    private val _currentId: MutableStateFlow<String> = MutableStateFlow("")
     val currentId: StateFlow<String> get() = _currentId
 
     fun setId(id: String) {
