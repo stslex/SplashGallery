@@ -13,17 +13,8 @@ import com.stslex.splashgallery.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
-
-    private val navController: NavController by lazy {
-        val navId = R.id.nav_host_fragment
-        val fragment = supportFragmentManager.findFragmentById(navId) as NavHostFragment
-        fragment.navController
-    }
-
-    private val actionBarConfiguration: AppBarConfiguration by lazy {
-        AppBarConfiguration(setOf(R.id.nav_home))
-    }
+    private val binding: ActivityMainBinding
+        get() = checkNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.CustomTheme)
@@ -39,5 +30,13 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private val navController: NavController by lazy {
+        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+    }
+
+    private val actionBarConfiguration: AppBarConfiguration by lazy {
+        AppBarConfiguration(setOf(R.id.nav_home))
     }
 }

@@ -2,10 +2,10 @@ package com.stslex.splashgallery.ui.collections
 
 import android.view.View
 import android.widget.ImageView
-import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
+import com.stslex.splashgallery.ui.core.BaseViewHolder
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 
@@ -14,9 +14,9 @@ class CollectionsViewHolder(
     private val clickListener: OnClickListener,
     private val glide: SetImageWithGlide,
     private val isUser: Boolean
-) : RecyclerView.ViewHolder(binding.root) {
+) : BaseViewHolder<CollectionModel>(binding) {
 
-    fun bind(item: CollectionModel) {
+    override fun bind(item: CollectionModel) {
         item.setUserHead()
         item.setContent()
     }

@@ -11,8 +11,10 @@ import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.user.UserFragment
 import com.stslex.splashgallery.ui.user.UserFragmentDirections
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.lang.ref.WeakReference
 
+@ExperimentalCoroutinesApi
 class CollectionClickListener(
     private val parentFragment: WeakReference<Fragment>
 ) : OnClickListener {

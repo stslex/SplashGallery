@@ -25,16 +25,30 @@ class MainFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+        sharedViewModel.setId(INITIAL_VALUE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedViewModel.setId("")
-        binding.mainViewPager.adapter = MainFragmentAdapter(this)
-        setPagerAnimation()
-        listOfTabs.tabLayoutMediator.attach()
+        with(binding) {
+            mainViewPager.adapter = MainFragmentAdapter(this@MainFragment)
+            postponeEnterTransition()
+            mainViewPager.doOnPreDraw(action = doOnPreDrawAction)
+            TabLayoutMediator(mainTabLayout, mainViewPager, confStrategy).attach()
+        }
     }
+
+    private val doOnPreDrawAction: (View) -> Unit
+        get() = {
+            startPostponedEnterTransition()
+        }
+
+    private val FragmentMainBinding.confStrategy: TabLayoutMediator.TabConfigurationStrategy
+        get() = TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+            tab.text = listOfTabs[position]
+            mainViewPager.setCurrentItem(tab.position, true)
+        }
 
     private val listOfTabs by lazy {
         listOf(
@@ -43,26 +57,12 @@ class MainFragment : BaseFragment() {
         )
     }
 
-    private fun setPagerAnimation() {
-        postponeEnterTransition()
-        binding.mainViewPager.doOnPreDraw {
-            startPostponedEnterTransition()
-        }
-    }
-
-    private val List<String>.tabLayoutMediator: TabLayoutMediator
-        get() = with(binding) {
-            TabLayoutMediator(
-                mainTabLayout,
-                mainViewPager
-            ) { tab, position ->
-                tab.text = this@tabLayoutMediator[position]
-                mainViewPager.setCurrentItem(tab.position, true)
-            }
-        }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val INITIAL_VALUE: String = ""
     }
 }
