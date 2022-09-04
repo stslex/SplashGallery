@@ -1,4 +1,4 @@
-package com.stslex.splashgallery.ui.utils
+package com.stslex.core_ui
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable

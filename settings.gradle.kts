@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 rootProject.name = "splashgallery"
 include(":app")
 include(":core")
+include(":core-test")
+include(":core-ui")
+include(":core-coroutines")

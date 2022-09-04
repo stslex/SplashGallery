@@ -1,5 +1,6 @@
 package com.stslex.splashgallery.ui.photos
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.data.photos.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
@@ -30,10 +32,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class PhotosFragment : BaseFragment() {
-
-    private var _binding: FragmentAllPhotosBinding? = null
-    private val binding get() = checkNotNull(_binding)
+class PhotosFragment : BaseFragment<FragmentAllPhotosBinding>(FragmentAllPhotosBinding::inflate) {
 
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -56,12 +55,9 @@ class PhotosFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAllPhotosBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireContext().appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -110,7 +106,6 @@ class PhotosFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         queryJob.cancel()
         collectionJob.cancel()
     }

@@ -1,24 +1,32 @@
 package com.stslex.splashgallery.ui.core
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.stslex.core_ui.ImageSetter
+import com.stslex.core_ui.SetImageWithGlide
 import com.stslex.splashgallery.R
-import com.stslex.splashgallery.appComponent
-import com.stslex.splashgallery.ui.utils.ImageSetter
-import com.stslex.splashgallery.ui.utils.SetImageWithGlide
 import dagger.Lazy
 import javax.inject.Inject
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<VB : ViewBinding>(
+    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+) : Fragment() {
+
+    private var _binding: VB? = null
+    protected val binding: VB
+        get() = requireNotNull(_binding)
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelProvider.Factory>
@@ -33,6 +41,15 @@ abstract class BaseFragment : Fragment() {
         setImageWithGlideFactory.create { url, imageView, needCrop, needCircleCrop ->
             imageSetter.get().setImage(url, imageView, needCrop, needCircleCrop, requestListener)
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = bindingInflater(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,8 +86,8 @@ abstract class BaseFragment : Fragment() {
             }
         }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireContext().appComponent.inject(this)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

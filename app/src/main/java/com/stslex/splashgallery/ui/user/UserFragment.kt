@@ -1,10 +1,9 @@
 package com.stslex.splashgallery.ui.user
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -15,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.core.Resource
 import com.stslex.splashgallery.R
+import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.data.model.ui.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
@@ -23,27 +23,19 @@ import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class UserFragment : BaseFragment() {
-
-    private var _binding: FragmentUserBinding? = null
-    private val binding get() = _binding!!
+class UserFragment : BaseFragment<FragmentUserBinding>(FragmentUserBinding::inflate) {
 
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private val extras: UserFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUserBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireContext().appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -129,11 +121,6 @@ class UserFragment : BaseFragment() {
             setDisplayHomeAsUpEnabled(true)
             title = extras.username
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

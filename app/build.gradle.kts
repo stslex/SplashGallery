@@ -44,6 +44,9 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":core-test"))
+    implementation(project(":core-ui"))
+    implementation(project(":core-coroutines"))
 
     libs.apply {
         implementation(androidx.paging.runtime)
@@ -51,20 +54,11 @@ dependencies {
         kapt(google.dagger.compiler)
         implementation(glide.core)
         annotationProcessor(glide.compiler)
-        implementation(androidx.lifecycle.livedata)
-        implementation(androidx.lifecycle.runtime)
-        implementation(androidx.lifecycle.viewmodel)
         implementation(retrofit.core)
         implementation(retrofit.converter.gson)
         implementation(okhttp3.logging.interceptor)
         implementation(androidx.navigation.fragment)
         implementation(androidx.navigation.ui)
         implementation(androidx.core)
-        implementation(androidx.appcompat)
-        implementation(google.material)
-        implementation(androidx.constraintlayout)
-        testImplementation(junit4)
-        androidTestImplementation(androidx.test.junit)
-        androidTestImplementation(androidx.test.espresso)
     }
 }

@@ -1,32 +1,27 @@
 package com.stslex.splashgallery.ui.single_photo
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
 import com.stslex.splashgallery.ui.core.BaseFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 @ExperimentalCoroutinesApi
-class SingleImageFragment : BaseFragment(), View.OnClickListener {
-
-    private var _binding: FragmentSingleImageBinding? = null
-    private val binding: FragmentSingleImageBinding
-        get() = checkNotNull(_binding)
+class SingleImageFragment :
+    BaseFragment<FragmentSingleImageBinding>(FragmentSingleImageBinding::inflate),
+    View.OnClickListener {
 
     private val extras: SingleImageFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSingleImageBinding.inflate(inflater, container, false)
-        return binding.root
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireContext().appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,10 +33,5 @@ class SingleImageFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         findNavController().popBackStack()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
