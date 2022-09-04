@@ -6,13 +6,16 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
-import com.stslex.splashgallery.ui.core.BaseFragment
 
-class SingleCollectionFragment :
-    BaseFragment<FragmentSingleCollectionBinding>(FragmentSingleCollectionBinding::inflate) {
+class SingleCollectionFragment : BaseFragment<FragmentSingleCollectionBinding>(
+    bindingInflater = FragmentSingleCollectionBinding::inflate,
+    hostFragmentId = R.id.nav_host_fragment
+) {
 
     private lateinit var titleExtra: String
     private val viewModel: SharedViewModel by activityViewModels()

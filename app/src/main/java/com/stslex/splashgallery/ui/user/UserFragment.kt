@@ -13,20 +13,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.core.Resource
+import com.stslex.core_ui.BaseFragment
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
-import com.stslex.splashgallery.data.model.ui.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.collections.CollectionsFragment
-import com.stslex.splashgallery.ui.core.BaseFragment
+import com.stslex.splashgallery.ui.model.user.UserModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class UserFragment : BaseFragment<FragmentUserBinding>(FragmentUserBinding::inflate) {
+class UserFragment : BaseFragment<FragmentUserBinding>(
+    bindingInflater = FragmentUserBinding::inflate,
+    hostFragmentId = R.id.nav_host_fragment
+) {
 
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()

@@ -3,6 +3,12 @@ plugins {
     kotlin("kapt")
 }
 
+android {
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
 dependencies {
     implementation(project(":core"))
     implementation(project(":core-test"))

@@ -2,9 +2,7 @@ package com.stslex.splashgallery.ui.photos
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,11 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.data.photos.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
-import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.photos.adapter.PhotosAdapter
 import com.stslex.splashgallery.ui.photos.loader_adapter.PhotosLoaderStateAdapter
@@ -27,12 +26,13 @@ import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-
-class PhotosFragment : BaseFragment<FragmentAllPhotosBinding>(FragmentAllPhotosBinding::inflate) {
+class PhotosFragment : BaseFragment<FragmentAllPhotosBinding>(
+    bindingInflater = FragmentAllPhotosBinding::inflate,
+    hostFragmentId = R.id.nav_host_fragment
+) {
 
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()

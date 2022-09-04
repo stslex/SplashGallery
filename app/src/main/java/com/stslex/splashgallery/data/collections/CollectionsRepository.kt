@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.collections
 
 import androidx.paging.PagingSource
-import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
+import com.stslex.splashgallery.ui.model.collection.CollectionModel
 import javax.inject.Inject
 
 class CollectionsRepository @Inject constructor(

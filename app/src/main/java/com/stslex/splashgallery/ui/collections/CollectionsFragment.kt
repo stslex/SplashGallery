@@ -11,11 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.data.collections.QueryCollections
 import com.stslex.splashgallery.databinding.FragmentCollectionsBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
-import com.stslex.splashgallery.ui.core.BaseFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.photos.loader_adapter.PhotosLoaderStateAdapter
 import com.stslex.splashgallery.ui.user.UserFragment
@@ -26,7 +27,10 @@ import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 class CollectionsFragment :
-    BaseFragment<FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
+    BaseFragment<FragmentCollectionsBinding>(
+        bindingInflater = FragmentCollectionsBinding::inflate,
+        hostFragmentId = R.id.nav_host_fragment
+    ) {
 
     private val viewModel: CollectionViewModel by viewModels { viewModelFactory.get() }
     private val sharedViewModel: SharedViewModel by activityViewModels()

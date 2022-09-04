@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.stslex.splashgallery.data.collections.QueryCollections
-import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
+import com.stslex.splashgallery.ui.model.collection.CollectionModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject

@@ -10,18 +10,21 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.stslex.core.Resource
+import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
-import com.stslex.splashgallery.data.model.ui.DownloadModel
-import com.stslex.splashgallery.data.model.ui.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
-import com.stslex.splashgallery.ui.core.BaseFragment
+import com.stslex.splashgallery.ui.model.DownloadModel
+import com.stslex.splashgallery.ui.model.image.ImageModel
 import com.stslex.splashgallery.ui.utils.isNullCheck
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalCoroutinesApi
-class PhotoDetailsFragment :
-    BaseFragment<FragmentPhotoDetailsBinding>(FragmentPhotoDetailsBinding::inflate) {
+class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
+    bindingInflater = FragmentPhotoDetailsBinding::inflate,
+    hostFragmentId = R.id.nav_host_fragment
+) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
     private var _url: String? = null

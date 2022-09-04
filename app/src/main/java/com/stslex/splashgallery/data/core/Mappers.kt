@@ -1,18 +1,19 @@
 package com.stslex.splashgallery.data.core
 
-import com.stslex.splashgallery.data.model.remote.collection.RemoteCollectionModel
-import com.stslex.splashgallery.data.model.remote.collection.RemoteLinksCollectionModel
-import com.stslex.splashgallery.data.model.remote.download.RemoteDownloadModel
-import com.stslex.splashgallery.data.model.ui.DownloadModel
-import com.stslex.splashgallery.data.model.ui.collection.CollectionModel
-import com.stslex.splashgallery.data.model.ui.collection.LinksCollectionModel
-import com.stslex.splashgallery.data.model.ui.image.*
-import com.stslex.splashgallery.data.model.ui.topics.PreviewPhotosModel
-import com.stslex.splashgallery.data.model.ui.topics.TopicsModel
-import com.stslex.splashgallery.data.model.ui.user.BadgeModel
-import com.stslex.splashgallery.data.model.ui.user.ProfileImageModel
-import com.stslex.splashgallery.data.model.ui.user.UserLinksModel
-import com.stslex.splashgallery.data.model.ui.user.UserModel
+import com.stslex.splashgallery.data.model.collection.RemoteCollectionModel
+import com.stslex.splashgallery.data.model.collection.RemoteLinksCollectionModel
+import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
+import com.stslex.splashgallery.ui.model.DownloadModel
+import com.stslex.splashgallery.ui.model.collection.CollectionModel
+import com.stslex.splashgallery.ui.model.collection.LinksCollectionModel
+import com.stslex.splashgallery.ui.model.topics.PreviewPhotosModel
+import com.stslex.splashgallery.ui.model.topics.TopicsModel
+import com.stslex.splashgallery.ui.model.user.BadgeModel
+import com.stslex.splashgallery.ui.model.user.ProfileImageModel
+import com.stslex.splashgallery.ui.model.user.UserLinksModel
+import com.stslex.splashgallery.ui.model.user.UserModel
+import com.stslex.splashgallery.ui.model.*
+import com.stslex.splashgallery.ui.model.image.*
 import st.slex.csplashscreen.data.model.remote.image.*
 import st.slex.csplashscreen.data.model.remote.statistic.*
 import st.slex.csplashscreen.data.model.remote.topics.RemotePreviewPhotosModel
@@ -21,7 +22,6 @@ import st.slex.csplashscreen.data.model.remote.user.RemoteBadgeModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteProfileImageModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserLinksModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserModel
-import st.slex.csplashscreen.data.model.ui.*
 
 internal fun RemoteImageModel?.map(): ImageModel = ImageModel(
     id = this?.id ?: "",

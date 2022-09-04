@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.splashgallery.data.model.remote.download.RemoteDownloadModel
+import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
 import com.stslex.splashgallery.data.utils.DataResponse
 import kotlinx.coroutines.flow.Flow
 import st.slex.csplashscreen.data.model.remote.image.RemoteImageModel
