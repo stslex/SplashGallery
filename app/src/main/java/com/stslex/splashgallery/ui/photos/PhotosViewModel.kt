@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.stslex.splashgallery.data.photos.QueryPhotos
-import com.stslex.splashgallery.ui.photos.models.ImageUI
+import com.stslex.splashgallery.ui.model.ImageUIModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -24,13 +24,13 @@ class PhotosViewModel @Inject constructor(
     }
 
     @ExperimentalCoroutinesApi
-    val photos: StateFlow<PagingData<ImageUI>> = query
+    val photos: StateFlow<PagingData<ImageUIModel>> = query
         .map(::newPager)
         .flatMapLatest { pager -> pager.flow }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 
-    private fun newPager(query: QueryPhotos): Pager<Int, ImageUI> {
+    private fun newPager(query: QueryPhotos): Pager<Int, ImageUIModel> {
         return Pager(pagingConfig) {
             newPagingSource?.invalidate()
             val queryPhotosUseCase = queryPhotosUseCaseProvider.get()

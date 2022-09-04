@@ -27,12 +27,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setId(INITIAL_VALUE)
-        with(binding) {
-            mainViewPager.adapter = MainFragmentAdapter(this@MainFragment)
-            postponeEnterTransition()
-            mainViewPager.doOnPreDraw(action = doOnPreDrawAction)
-            TabLayoutMediator(mainTabLayout, mainViewPager, confStrategy).attach()
-        }
+        binding.setUI()
+    }
+
+    private fun FragmentMainBinding.setUI() {
+        mainViewPager.adapter = MainFragmentAdapter(this@MainFragment)
+        postponeEnterTransition()
+        mainViewPager.doOnPreDraw(action = doOnPreDrawAction)
+        TabLayoutMediator(mainTabLayout, mainViewPager, confStrategy).attach()
     }
 
     private val doOnPreDrawAction: (View) -> Unit

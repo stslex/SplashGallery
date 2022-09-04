@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,12 +15,11 @@ import com.stslex.core.Resource
 import com.stslex.core_ui.BaseFragment
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
+import com.stslex.splashgallery.data.model.data.DownloadModel
+import com.stslex.splashgallery.data.model.data.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
-import com.stslex.splashgallery.ui.model.DownloadModel
-import com.stslex.splashgallery.ui.model.image.ImageModel
 import com.stslex.splashgallery.ui.utils.isNullCheck
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalCoroutinesApi
 class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
@@ -49,24 +50,36 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imageImageView.transitionName = id
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            setImage.setImage(url, binding.imageImageView, needCrop = true, false)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                setImage.setImage(url, binding.imageImageView, needCrop = true, false)
+            }
         }
         startPostponedEnterTransition()
+
         setToolbar()
-        getImageJob.start()
-        binding.imageImageView.setOnClickListener(imageClickListener)
-        binding.userCardView.setOnClickListener(userClickListener)
-        binding.singlePhotoDownload.setOnClickListener(downloadClickListener)
+        observe()
+        binding.bindUI()
     }
 
-    private val imageClickListener: View.OnClickListener = View.OnClickListener {
-        val directions = PhotoDetailsFragmentDirections.actionNavSinglePhotoToNavSingleImage(
-            id = it.transitionName,
-            url = url
-        )
-        val extras = FragmentNavigatorExtras(it to it.transitionName)
-        findNavController().navigate(directions, extras)
+    private fun observe() {
+        viewModel.getCurrentPhoto(id).launchWhenStarted { response ->
+            when (response) {
+                is Resource.Success -> response.result()
+                is Resource.Failure -> response.result()
+                is Resource.Loading -> loading()
+            }
+        }
+    }
+
+    private fun FragmentPhotoDetailsBinding.bindUI() {
+        imageImageView.setOnClickListener(imageClickListener)
+        userCardView.setOnClickListener(userClickListener)
+        singlePhotoDownload.setOnClickListener(downloadClickListener)
+    }
+
+    private val imageClickListener: View.OnClickListener by lazy {
+        DetailPhotoClickListener(url)
     }
 
     private val userClickListener: View.OnClickListener = View.OnClickListener {
@@ -76,44 +89,25 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
         findNavController().navigate(directions, extras)
     }
 
-    private val getImageJob: Job
-        get() = viewLifecycleOwner.lifecycleScope.launch(
-            context = Dispatchers.IO, start = CoroutineStart.LAZY
-        ) {
-            viewModel.getCurrentPhoto(id).collectLatest(::collected)
-        }
-
-
     @JvmName("resultImageModel")
-    private suspend fun collected(response: Resource<ImageModel>) =
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            when (response) {
-                is Resource.Success -> response.result()
-                is Resource.Failure -> response.result()
-                is Resource.Loading -> loading()
+    private fun Resource.Success<ImageModel>.result() {
+        with(binding) {
+            with(data) {
+                setImage.setImage(
+                    url = user.profile_image.medium,
+                    imageView = avatarImageView,
+                    needCrop = true,
+                    needCircleCrop = true
+                )
+                userCardView.transitionName = user.username
+                usernameTextView.text = user.username
+                apertureTextView.text = exif.aperture.isNullCheck()
+                cameraTextView.text = exif.make.isNullCheck()
+                dimensionTextView.text = exif.exposure_time.isNullCheck()
+                focalTextView.text = exif.focal_length.isNullCheck()
             }
         }
-
-    @JvmName("resultImageModel")
-    private suspend fun Resource.Success<ImageModel>.result() =
-        withContext(Dispatchers.Main) {
-            with(binding) {
-                with(data) {
-                    setImage.setImage(
-                        url = user.profile_image.medium,
-                        imageView = avatarImageView,
-                        needCrop = true,
-                        needCircleCrop = true
-                    )
-                    userCardView.transitionName = user.username
-                    usernameTextView.text = user.username
-                    apertureTextView.text = exif.aperture.isNullCheck()
-                    cameraTextView.text = exif.make.isNullCheck()
-                    dimensionTextView.text = exif.exposure_time.isNullCheck()
-                    focalTextView.text = exif.focal_length.isNullCheck()
-                }
-            }
-        }
+    }
 
     private var downloadJob: Job? = null
     private val downloadClickListener: View.OnClickListener = View.OnClickListener {
@@ -157,6 +151,5 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         downloadJob?.cancel()
-        getImageJob.cancel()
     }
 }

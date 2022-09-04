@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.stslex.splashgallery.data.core.map
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
+import com.stslex.splashgallery.data.model.data.collection.CollectionModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

@@ -3,7 +3,7 @@ package com.stslex.splashgallery.ui.user
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stslex.core.Resource
-import com.stslex.splashgallery.ui.model.user.UserModel
+import com.stslex.splashgallery.data.model.data.user.UserModel
 import com.stslex.splashgallery.data.user.UserDataMapper
 import com.stslex.splashgallery.data.user.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.photo
 
 import com.stslex.splashgallery.data.core.map
-import com.stslex.splashgallery.ui.model.image.ImageModel
+import com.stslex.splashgallery.data.model.data.image.ImageModel
 import st.slex.csplashscreen.data.model.remote.image.RemoteImageModel
 import javax.inject.Inject
 

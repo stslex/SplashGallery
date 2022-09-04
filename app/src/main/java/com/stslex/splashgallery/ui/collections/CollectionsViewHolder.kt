@@ -2,12 +2,14 @@ package com.stslex.splashgallery.ui.collections
 
 import android.view.View
 import android.widget.ImageView
+import androidx.core.view.isVisible
+import com.stslex.core_ui.SetImageWithGlide
 import com.stslex.splashgallery.R
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
+import com.stslex.splashgallery.data.model.data.collection.CollectionModel
 import com.stslex.splashgallery.databinding.ItemRecyclerCollectionsBinding
 import com.stslex.splashgallery.ui.core.BaseViewHolder
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.core_ui.SetImageWithGlide
+import com.stslex.splashgallery.ui.utils.TextUtils.map
 
 class CollectionsViewHolder(
     private val binding: ItemRecyclerCollectionsBinding,
@@ -37,9 +39,9 @@ class CollectionsViewHolder(
     private fun CollectionModel.setUserHead() {
         with(binding.userHead) {
             if (isUser) {
-                userCardView.hide()
+                userCardView.isVisible = false
             } else {
-                userCardView.show()
+                userCardView.isVisible = true
                 val userUrl = user.profile_image.medium
                 userImageView.setImage(userUrl, true)
                 usernameTextView.text = user.username

@@ -7,11 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.request.RequestListener
 import com.google.android.material.transition.platform.MaterialContainerTransform
 import dagger.Lazy
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -63,4 +69,17 @@ abstract class BaseFragment<VB : ViewBinding>(
         super.onDestroyView()
         _binding = null
     }
+
+    fun <T> Flow<T>.launchWhenStarted(
+        collector: (T) -> Unit
+    ) {
+        viewScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                collect(collector)
+            }
+        }
+    }
+
+    val viewScope: CoroutineScope
+        get() = viewLifecycleOwner.lifecycleScope
 }

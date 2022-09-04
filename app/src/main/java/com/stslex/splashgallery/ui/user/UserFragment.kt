@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,12 +17,13 @@ import com.stslex.core.Resource
 import com.stslex.core_ui.BaseFragment
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
+import com.stslex.splashgallery.data.model.data.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
 import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.collections.CollectionsFragment
-import com.stslex.splashgallery.ui.model.user.UserModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
+import com.stslex.splashgallery.ui.utils.TextUtils.map
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
@@ -83,15 +85,17 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
         binding.progress.visibility = View.VISIBLE
     }
 
-    private fun UserModel.bindUserHeader() = with(binding) {
-        setImage.setImage(profile_image.large, avatarImageView, needCircleCrop = true)
-        collectionsCountTextView.map(total_collections.toString())
-        likesCountTextView.map(total_likes.toString())
-        photoCountTextView.map(total_photos.toString())
-        if (bio.isEmpty()) bioTextView.hide()
-        else {
-            bioTextView.show()
-            bioTextView.map(bio)
+    private fun UserModel.bindUserHeader() {
+        with(binding) {
+            setImage.setImage(profile_image.large, avatarImageView, needCircleCrop = true)
+            collectionsCountTextView.map(total_collections.toString())
+            likesCountTextView.map(total_likes.toString())
+            photoCountTextView.map(total_photos.toString())
+            if (bio.isEmpty()) {
+                bioTextView.isVisible = false
+            } else {
+                bioTextView.map(bio)
+            }
         }
     }
 

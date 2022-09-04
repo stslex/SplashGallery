@@ -20,7 +20,8 @@ import dagger.Component
         RepositoryModule::class,
         ResponseModule::class,
         MappersModule::class,
-        UtilsModule::class
+        UtilsModule::class,
+        CoroutineModule::class
     ]
 )
 interface AppComponent {
