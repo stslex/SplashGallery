@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.ui.core
 
-import com.stslex.splashgallery.ui.utils.SetImageWithGlide
+import com.stslex.core_ui.SetImageWithGlide
 
 interface AbstractView {
 

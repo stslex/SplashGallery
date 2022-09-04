@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.photos.models.ImageUI
-import com.stslex.splashgallery.ui.utils.SetImageWithGlide
+import com.stslex.core_ui.SetImageWithGlide
 
 
 class PhotosViewHolder(

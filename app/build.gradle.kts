@@ -1,25 +1,17 @@
-import org.jetbrains.kotlin.konan.properties.Properties
-
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
+    id("splashgallery.android.application")
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 android {
-    compileSdk = 32
 
     defaultConfig {
         applicationId = "com.stslex.splashgallery"
-        minSdk = 24
         targetSdk = 32
         versionCode = 9
         versionName = "1.09"
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -33,13 +25,16 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility(JavaVersion.VERSION_11)
-        targetCompatibility(JavaVersion.VERSION_11)
+    packagingOptions {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
     }
 
     buildFeatures {
@@ -49,47 +44,21 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":core-test"))
+    implementation(project(":core-ui"))
+    implementation(project(":core-coroutines"))
 
-    /*Paging*/
-    val pagingVersion = "3.1.1"
-    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
-
-    /*Dagger 2*/
-    val daggerVersion = "2.41"
-    implementation("com.google.dagger:dagger:$daggerVersion")
-    kapt("com.google.dagger:dagger-compiler:$daggerVersion")
-
-    /*Glide*/
-    val glideVersion = "4.13.1"
-    implementation("com.github.bumptech.glide:glide:$glideVersion")
-    annotationProcessor("com.github.bumptech.glide:compiler:$glideVersion")
-
-    /*Lifecycle components*/
-    val lifecycleVersion = "2.4.1"
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-
-    /*Coroutines*/
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1-native-mt")
-
-    /*Retrofit*/
-    val retrofitVersion = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
-
-    /*Navigation Component*/
-    val navVersion = "2.4.2"
-    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
-
-    /*Default implementations*/
-    implementation("androidx.core:core-ktx:1.7.0")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.6.0-beta01")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    libs.apply {
+        implementation(androidx.paging.runtime)
+        implementation(google.dagger.core)
+        kapt(google.dagger.compiler)
+        implementation(glide.core)
+        annotationProcessor(glide.compiler)
+        implementation(retrofit.core)
+        implementation(retrofit.converter.gson)
+        implementation(okhttp3.logging.interceptor)
+        implementation(androidx.navigation.fragment)
+        implementation(androidx.navigation.ui)
+        implementation(androidx.core)
+    }
 }

@@ -1,0 +1,24 @@
+package com.stslex.splashgallery.ui.model.topics
+
+import com.stslex.splashgallery.ui.model.collection.LinksCollectionModel
+import com.stslex.splashgallery.ui.model.image.ImageModel
+import com.stslex.splashgallery.ui.model.user.UserModel
+
+data class TopicsModel(
+    val id: String,
+    val slug: String,
+    val title: String,
+    val description: String,
+    val published_at: String,
+    val updated_at: String,
+    val starts_at: String,
+    val ends_at: String,
+    val only_submissions_after: String,
+    val featured: String,
+    val total_photos: String,
+    val links: LinksCollectionModel,
+    val status: String,
+    val owners: List<UserModel>,
+    val cover_photo: ImageModel,
+    val preview_photos: List<PreviewPhotosModel>
+)

@@ -1,9 +1,8 @@
 package com.stslex.splashgallery.ui.detail_photo
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,25 +10,34 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.stslex.core.Resource
-import com.stslex.splashgallery.data.model.ui.DownloadModel
-import com.stslex.splashgallery.data.model.ui.image.ImageModel
+import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.R
+import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
-import com.stslex.splashgallery.ui.core.BaseFragment
+import com.stslex.splashgallery.ui.model.DownloadModel
+import com.stslex.splashgallery.ui.model.image.ImageModel
 import com.stslex.splashgallery.ui.utils.isNullCheck
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalCoroutinesApi
-class PhotoDetailsFragment : BaseFragment() {
+class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
+    bindingInflater = FragmentPhotoDetailsBinding::inflate,
+    hostFragmentId = R.id.nav_host_fragment
+) {
 
-    private var _binding: FragmentPhotoDetailsBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
     private var _url: String? = null
     private val url: String get() = checkNotNull(_url)
+
     private var _id: String? = null
     private val id: String get() = checkNotNull(_id)
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireContext().appComponent.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +46,9 @@ class PhotoDetailsFragment : BaseFragment() {
         _id = extras.id
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPhotoDetailsBinding.inflate(inflater, container, false)
-        binding.imageImageView.transitionName = id
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.imageImageView.transitionName = id
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             setImage.setImage(url, binding.imageImageView, needCrop = true, false)
         }
@@ -156,7 +156,6 @@ class PhotoDetailsFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         downloadJob?.cancel()
         getImageJob.cancel()
     }

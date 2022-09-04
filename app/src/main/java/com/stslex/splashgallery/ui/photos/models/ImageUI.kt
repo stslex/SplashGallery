@@ -5,7 +5,7 @@ import com.stslex.splashgallery.ui.core.CustomCardView
 import com.stslex.splashgallery.ui.core.CustomImageView
 import com.stslex.splashgallery.ui.core.CustomTextView
 import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.utils.SetImageWithGlide
+import com.stslex.core_ui.SetImageWithGlide
 
 interface ImageUI {
 

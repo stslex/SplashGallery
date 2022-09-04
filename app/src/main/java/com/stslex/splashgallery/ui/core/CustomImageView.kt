@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.stslex.splashgallery.ui.utils.SetImageWithGlide
+import com.stslex.core_ui.SetImageWithGlide
 
 class CustomImageView : androidx.appcompat.widget.AppCompatImageView, AbstractView.Image {
 

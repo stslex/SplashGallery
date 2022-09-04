@@ -2,8 +2,8 @@ package com.stslex.splashgallery.ui.detail_photo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.splashgallery.data.model.ui.DownloadModel
-import com.stslex.splashgallery.data.model.ui.image.ImageModel
+import com.stslex.splashgallery.ui.model.DownloadModel
+import com.stslex.splashgallery.ui.model.image.ImageModel
 import com.stslex.splashgallery.data.photo.DownloadDataMapper
 import com.stslex.splashgallery.data.photo.PhotoDataMapper
 import com.stslex.splashgallery.data.photo.PhotoRepository
