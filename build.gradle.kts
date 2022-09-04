@@ -1,18 +1,16 @@
 plugins {
-    id("com.android.application") version "7.2.2" apply false
-    id("com.android.library") version "7.2.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.6.20" apply false
-    kotlin("jvm") version "1.6.20"
-    kotlin("plugin.serialization") version "1.6.20"
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
 }
 
 buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
     dependencies {
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.1")
+        classpath("com.squareup:javapoet:1.13.0")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.1")
     }
-}
-
-tasks.register(name = "type", type = Delete::class) {
-    delete(rootProject.buildDir)
 }

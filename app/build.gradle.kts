@@ -1,25 +1,17 @@
-import org.jetbrains.kotlin.konan.properties.Properties
-
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
-    id("kotlin-parcelize")
+    id("splashgallery.android.application")
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 android {
-    compileSdk = 32
 
     defaultConfig {
         applicationId = "com.stslex.splashgallery"
-        minSdk = 24
         targetSdk = 32
         versionCode = 9
         versionName = "1.09"
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,6 +22,18 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+
+    packagingOptions {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
         }
     }
 
