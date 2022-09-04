@@ -4,8 +4,7 @@ import com.stslex.splashgallery.data.core.FirebaseConstants.API_KEY
 import com.stslex.splashgallery.data.core.FirebaseConstants.GET_DOWNLOAD
 import com.stslex.splashgallery.data.core.FirebaseConstants.GET_PHOTOS
 import com.stslex.splashgallery.data.core.FirebaseConstants.QUERY_API_KEY
-import com.stslex.splashgallery.data.model.response.download.RemoteDownloadModel
-import kotlinx.coroutines.flow.Flow
+import com.stslex.core_model.response.download.RemoteDownloadModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -2,7 +2,6 @@ package com.stslex.splashgallery.di.component
 
 import android.app.Application
 import com.stslex.splashgallery.di.module.*
-import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.detail_photo.PhotoDetailsFragment
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.photos.PhotosFragment
@@ -34,7 +33,6 @@ interface AppComponent {
         fun create(): AppComponent
     }
 
-    fun inject(fragment: CollectionsFragment)
     fun inject(fragment: UserFragment)
     fun inject(fragment: MainFragment)
     fun inject(fragment: PhotoDetailsFragment)

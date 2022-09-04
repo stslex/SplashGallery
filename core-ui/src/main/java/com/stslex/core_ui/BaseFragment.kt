@@ -1,6 +1,5 @@
 package com.stslex.core_ui
 
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.request.RequestListener
-import com.google.android.material.transition.platform.MaterialContainerTransform
 import dagger.Lazy
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -21,8 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(
-    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
-    private val hostFragmentId: Int
+    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 ) : Fragment() {
 
     private var _binding: VB? = null
@@ -53,15 +50,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = hostFragmentId
-            duration = resources.getInteger(R.integer.transition_duration).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
-    }
-
     private val requestListener: RequestListener<Drawable>
         get() = GlideRequestListener(::postponeEnterTransition)
 
@@ -71,11 +59,13 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     fun <T> Flow<T>.launchWhenStarted(
-        collector: (T) -> Unit
+        collector: suspend (T) -> Unit
     ) {
         viewScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                collect(collector)
+                collect {
+                    collector(it)
+                }
             }
         }
     }

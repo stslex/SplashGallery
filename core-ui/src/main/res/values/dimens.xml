@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Padding-->
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="primary_padding">16dp</dimen>
+    <dimen name="big_padding">32dp</dimen>
+
+    <!--Image size-->
+    <dimen name="height_image">250dp</dimen>
+
     <integer name="transition_duration">500</integer>
 </resources>

@@ -7,6 +7,7 @@ import dagger.Module
 
 @Module
 interface CoroutineModule {
+
     @Binds
     fun bindsCoroutineDispatchers(dispatcherImpl: AppDispatcherImpl): AppDispatcher
 }

@@ -3,10 +3,10 @@ package com.stslex.splashgallery.ui.photos.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
-import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.model.ImageUIModel
+import com.stslex.core_ui.OnClickListener
 import com.stslex.core_ui.SetImageWithGlide
+import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.ui.model.ImageUIModel
 
 class PhotosAdapter(
     private val clickListener: OnClickListener,

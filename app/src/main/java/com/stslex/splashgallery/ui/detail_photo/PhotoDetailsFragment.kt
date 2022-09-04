@@ -12,19 +12,20 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.stslex.core.Resource
+import com.stslex.core_model.data.DownloadModel
+import com.stslex.core_model.data.image.ImageModel
 import com.stslex.core_ui.BaseFragment
-import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
-import com.stslex.splashgallery.data.model.data.DownloadModel
-import com.stslex.splashgallery.data.model.data.image.ImageModel
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.utils.isNullCheck
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
-    bindingInflater = FragmentPhotoDetailsBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentPhotoDetailsBinding::inflate
 ) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }

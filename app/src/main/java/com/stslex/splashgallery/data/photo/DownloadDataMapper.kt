@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.data.photo
 
 import com.stslex.splashgallery.data.core.map
-import com.stslex.splashgallery.data.model.response.download.RemoteDownloadModel
-import com.stslex.splashgallery.data.model.data.DownloadModel
+import com.stslex.core_model.response.download.RemoteDownloadModel
+import com.stslex.core_model.data.DownloadModel
 import javax.inject.Inject
 
 interface DownloadDataMapper :

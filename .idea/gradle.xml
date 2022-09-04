@@ -28,8 +28,10 @@
             <option value="$PROJECT_DIR$/build-logic/dependencies" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core-coroutines" />
+            <option value="$PROJECT_DIR$/core-model" />
             <option value="$PROJECT_DIR$/core-test" />
             <option value="$PROJECT_DIR$/core-ui" />
+            <option value="$PROJECT_DIR$/feature-collections" />
           </set>
         </option>
       </GradleProjectSettings>

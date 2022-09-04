@@ -3,11 +3,11 @@ package com.stslex.splashgallery.ui.photos.adapter
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.stslex.core_ui.OnClickListener
 import com.stslex.core_ui.SetImageWithGlide
+import com.stslex.core_ui.TextUtils.map
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
-import com.stslex.splashgallery.ui.core.OnClickListener
 import com.stslex.splashgallery.ui.model.ImageUIModel
-import com.stslex.splashgallery.ui.utils.TextUtils.map
 
 
 class PhotosViewHolder(

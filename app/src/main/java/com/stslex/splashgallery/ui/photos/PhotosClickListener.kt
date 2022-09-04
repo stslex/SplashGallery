@@ -4,7 +4,7 @@ import android.view.View
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.stslex.splashgallery.ui.core.OnClickListener
+import com.stslex.core_ui.OnClickListener
 import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
 import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
 import com.stslex.splashgallery.ui.user.UserFragmentDirections

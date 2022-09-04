@@ -14,23 +14,22 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.core.Resource
+import com.stslex.core_model.data.user.UserModel
 import com.stslex.core_ui.BaseFragment
+import com.stslex.core_ui.SharedViewModel
+import com.stslex.core_ui.TextUtils.map
+import com.stslex.feature_collections.ui.CollectionsFragment
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
-import com.stslex.splashgallery.data.model.data.user.UserModel
 import com.stslex.splashgallery.databinding.FragmentUserBinding
-import com.stslex.splashgallery.ui.activity.SharedViewModel
-import com.stslex.splashgallery.ui.collections.CollectionsFragment
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
-import com.stslex.splashgallery.ui.utils.TextUtils.map
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class UserFragment : BaseFragment<FragmentUserBinding>(
-    bindingInflater = FragmentUserBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentUserBinding::inflate
 ) {
 
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }

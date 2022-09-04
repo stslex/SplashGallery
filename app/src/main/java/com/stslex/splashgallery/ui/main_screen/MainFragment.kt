@@ -7,14 +7,13 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.core_ui.BaseFragment
+import com.stslex.core_ui.SharedViewModel
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentMainBinding
-import com.stslex.splashgallery.ui.activity.SharedViewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(
-    bindingInflater = FragmentMainBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentMainBinding::inflate
 ) {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()

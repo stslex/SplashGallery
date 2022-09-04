@@ -2,7 +2,6 @@ package com.stslex.splashgallery.di.module
 
 import androidx.lifecycle.ViewModel
 import com.stslex.splashgallery.di.key.ViewModelKey
-import com.stslex.splashgallery.ui.collections.CollectionViewModel
 import com.stslex.splashgallery.ui.detail_photo.PhotoDetailsViewModel
 import com.stslex.splashgallery.ui.photos.PhotosViewModel
 import com.stslex.splashgallery.ui.user.UserViewModel
@@ -27,9 +26,4 @@ interface ViewModelModule {
     @Binds
     @ViewModelKey(PhotosViewModel::class)
     fun bindsAllPhotosViewModel(viewModel: PhotosViewModel): ViewModel
-
-    @IntoMap
-    @Binds
-    @ViewModelKey(CollectionViewModel::class)
-    fun bindsCollectionViewModel(viewModel: CollectionViewModel): ViewModel
 }
