@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding: ActivityMainBinding
-        get() = checkNotNull(_binding)
+        get() = requireNotNull(_binding)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.CustomTheme)

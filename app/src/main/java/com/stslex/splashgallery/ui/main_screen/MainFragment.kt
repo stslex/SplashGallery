@@ -7,14 +7,13 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.core_ui.BaseFragment
+import com.stslex.core_ui.SharedViewModel
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentMainBinding
-import com.stslex.splashgallery.ui.activity.SharedViewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(
-    bindingInflater = FragmentMainBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentMainBinding::inflate
 ) {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -27,12 +26,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedViewModel.setId(INITIAL_VALUE)
-        with(binding) {
-            mainViewPager.adapter = MainFragmentAdapter(this@MainFragment)
-            postponeEnterTransition()
-            mainViewPager.doOnPreDraw(action = doOnPreDrawAction)
-            TabLayoutMediator(mainTabLayout, mainViewPager, confStrategy).attach()
-        }
+        binding.setUI()
+    }
+
+    private fun FragmentMainBinding.setUI() {
+        mainViewPager.adapter = MainFragmentAdapter(this@MainFragment)
+        postponeEnterTransition()
+        mainViewPager.doOnPreDraw(action = doOnPreDrawAction)
+        TabLayoutMediator(mainTabLayout, mainViewPager, confStrategy).attach()
     }
 
     private val doOnPreDrawAction: (View) -> Unit

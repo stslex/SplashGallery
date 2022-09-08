@@ -30,7 +30,7 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7">
 
-                <com.stslex.splashgallery.ui.core.CustomImageView
+                <ImageView
                     android:id="@+id/avatarImageView"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
@@ -58,7 +58,7 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <com.stslex.splashgallery.ui.core.CustomTextView
+                        <TextView
                             android:id="@+id/photoCountTextView"
                             style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
                             android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <com.stslex.splashgallery.ui.core.CustomTextView
+                        <TextView
                             android:id="@+id/likesCountTextView"
                             style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
                             android:layout_width="wrap_content"
@@ -103,7 +103,7 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <com.stslex.splashgallery.ui.core.CustomTextView
+                        <TextView
                             android:id="@+id/collectionsCountTextView"
                             style="@style/MaterialAlertDialog.Material3.Title.Text.CenterStacked"
                             android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
 
                 </LinearLayout>
 
-                <com.stslex.splashgallery.ui.core.CustomTextView
+                <TextView
                     android:id="@+id/bioTextView"
                     style="@style/MaterialAlertDialog.Material3.Body.Text"
                     android:layout_width="match_parent"

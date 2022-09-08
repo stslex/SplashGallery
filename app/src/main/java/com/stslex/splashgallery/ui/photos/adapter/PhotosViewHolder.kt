@@ -1,10 +1,13 @@
 package com.stslex.splashgallery.ui.photos.adapter
 
-import androidx.recyclerview.widget.RecyclerView
-import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
-import com.stslex.splashgallery.ui.core.OnClickListener
-import com.stslex.splashgallery.ui.photos.models.ImageUI
+import android.view.View
+import androidx.core.view.isVisible
+import com.stslex.core_ui.BaseViewHolder
+import com.stslex.core_ui.OnClickListener
 import com.stslex.core_ui.SetImageWithGlide
+import com.stslex.core_ui.TextUtils.map
+import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
+import com.stslex.splashgallery.ui.model.ImageUIModel
 
 
 class PhotosViewHolder(
@@ -12,22 +15,39 @@ class PhotosViewHolder(
     private val glide: SetImageWithGlide,
     private val clickListener: OnClickListener,
     private val isUser: Boolean
-) : RecyclerView.ViewHolder(binding.root) {
+) : BaseViewHolder<ImageUIModel>(binding) {
 
-    fun bind(item: ImageUI) {
+    override fun bind(item: ImageUIModel) {
+
         with(binding) {
-            with(binding.userHead) {
-                item.bind(
-                    isUser = isUser,
-                    clickListener = clickListener,
-                    glide = glide,
-                    imageView = imageImageView,
-                    imageCardView = imageCardView,
-                    userImageView = userImageView,
-                    userTextView = usernameTextView,
-                    userCardView = userCardView,
+            if (isUser) {
+                userHead.userCardView.isVisible = false
+            } else {
+                userHead.userCardView.isVisible = true
+                glide.setImage(
+                    url = item.user.url,
+                    imageView = userHead.userImageView,
+                    needCrop = true,
+                    needCircleCrop = true
                 )
+                userHead.usernameTextView.map(item.user.username)
+                userHead.userCardView.transitionName = item.user.username
+                userHead.userCardView.setOnClickListener(clickListener::clickUser)
             }
+
+            glide.setImage(
+                item.url,
+                imageImageView,
+                needCrop = true,
+                needCircleCrop = false
+            )
+            imageCardView.transitionName = item.id
+            imageCardView.setOnClickListener(clickListener.imageClick(item.url))
         }
+
+    }
+
+    private fun OnClickListener.imageClick(url: String) = View.OnClickListener { view ->
+        clickImage(view, url)
     }
 }

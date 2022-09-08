@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.stslex.splashgallery.di.scopes.OfflineInterceptor
-import com.stslex.splashgallery.di.scopes.OnlineInterceptor
+import com.stslex.feature_collections.di.scopes.OfflineInterceptor
+import com.stslex.feature_collections.di.scopes.OnlineInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache

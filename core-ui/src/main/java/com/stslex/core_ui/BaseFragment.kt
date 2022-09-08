@@ -7,16 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.request.RequestListener
-import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.Lazy
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(
-    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB,
-    private val hostFragmentId: Int
+    private val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 ) : Fragment() {
 
     private var _binding: VB? = null
@@ -38,6 +43,14 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.transition_duration).toLong()
+            scrimColor = Color.TRANSPARENT
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,20 +60,22 @@ abstract class BaseFragment<VB : ViewBinding>(
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = hostFragmentId
-            duration = resources.getInteger(R.integer.transition_duration).toLong()
-            scrimColor = Color.TRANSPARENT
-        }
-    }
-
     private val requestListener: RequestListener<Drawable>
         get() = GlideRequestListener(::postponeEnterTransition)
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun <T> Flow<T>.launchWhenStarted(
+        collector: suspend (T) -> Unit
+    ) {
+        flowWithLifecycle(
+            lifecycle = viewLifecycleOwner.lifecycle,
+            minActiveState = Lifecycle.State.STARTED
+        ).onEach { value ->
+            collector(value)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

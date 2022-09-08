@@ -6,7 +6,6 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.stslex.core_ui.BaseFragment
-import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,8 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class SingleImageFragment : BaseFragment<FragmentSingleImageBinding>(
-    bindingInflater = FragmentSingleImageBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentSingleImageBinding::inflate
 ), View.OnClickListener {
 
     private val extras: SingleImageFragmentArgs by navArgs()

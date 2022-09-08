@@ -1,19 +1,19 @@
 package com.stslex.splashgallery.data.core
 
-import com.stslex.splashgallery.data.model.collection.RemoteCollectionModel
-import com.stslex.splashgallery.data.model.collection.RemoteLinksCollectionModel
-import com.stslex.splashgallery.data.model.download.RemoteDownloadModel
-import com.stslex.splashgallery.ui.model.DownloadModel
-import com.stslex.splashgallery.ui.model.collection.CollectionModel
-import com.stslex.splashgallery.ui.model.collection.LinksCollectionModel
-import com.stslex.splashgallery.ui.model.topics.PreviewPhotosModel
-import com.stslex.splashgallery.ui.model.topics.TopicsModel
-import com.stslex.splashgallery.ui.model.user.BadgeModel
-import com.stslex.splashgallery.ui.model.user.ProfileImageModel
-import com.stslex.splashgallery.ui.model.user.UserLinksModel
-import com.stslex.splashgallery.ui.model.user.UserModel
-import com.stslex.splashgallery.ui.model.*
-import com.stslex.splashgallery.ui.model.image.*
+import com.stslex.core_model.data.*
+import com.stslex.core_model.response.collection.RemoteCollectionModel
+import com.stslex.core_model.response.collection.RemoteLinksCollectionModel
+import com.stslex.core_model.response.download.RemoteDownloadModel
+import com.stslex.core_model.data.DownloadModel
+import com.stslex.core_model.data.collection.CollectionModel
+import com.stslex.core_model.data.image.*
+import com.stslex.core_model.data.collection.LinksCollectionModel
+import com.stslex.core_model.data.topics.PreviewPhotosModel
+import com.stslex.core_model.data.topics.TopicsModel
+import com.stslex.core_model.data.user.BadgeModel
+import com.stslex.core_model.data.user.ProfileImageModel
+import com.stslex.core_model.data.user.UserLinksModel
+import com.stslex.core_model.data.user.UserModel
 import st.slex.csplashscreen.data.model.remote.image.*
 import st.slex.csplashscreen.data.model.remote.statistic.*
 import st.slex.csplashscreen.data.model.remote.topics.RemotePreviewPhotosModel
@@ -23,7 +23,7 @@ import st.slex.csplashscreen.data.model.remote.user.RemoteProfileImageModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserLinksModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserModel
 
-internal fun RemoteImageModel?.map(): ImageModel = ImageModel(
+internal fun RemoteImageModel?.map(): ImageDataModel = ImageDataModel(
     id = this?.id ?: "",
     created_at = this?.created_at ?: "",
     updated_at = this?.updated_at ?: "",

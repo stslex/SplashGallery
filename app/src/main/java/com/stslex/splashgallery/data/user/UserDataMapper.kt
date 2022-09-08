@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.user
 
 import com.stslex.splashgallery.data.core.map
-import com.stslex.splashgallery.ui.model.user.UserModel
+import com.stslex.core_model.data.user.UserModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserModel
 import javax.inject.Inject
 

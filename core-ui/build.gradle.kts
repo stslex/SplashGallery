@@ -24,5 +24,9 @@ dependencies {
         api(androidx.appcompat)
         api(google.material)
         api(androidx.constraintlayout)
+
+        implementation(androidx.navigation.fragment)
+        implementation(androidx.navigation.ui)
+        implementation(libs.androidx.paging.runtime)
     }
 }

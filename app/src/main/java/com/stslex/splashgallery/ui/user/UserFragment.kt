@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,13 +14,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.stslex.core.Resource
+import com.stslex.core_model.data.user.UserModel
 import com.stslex.core_ui.BaseFragment
+import com.stslex.core_ui.SharedViewModel
+import com.stslex.core_ui.TextUtils.map
+import com.stslex.feature_collections.data.QueryCollections
+import com.stslex.feature_collections.ui.CollectionsFragment
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentUserBinding
-import com.stslex.splashgallery.ui.activity.SharedViewModel
-import com.stslex.splashgallery.ui.collections.CollectionsFragment
-import com.stslex.splashgallery.ui.model.user.UserModel
 import com.stslex.splashgallery.ui.user.pager.UserLikesFragment
 import com.stslex.splashgallery.ui.user.pager.UserPhotosFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,8 +30,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class UserFragment : BaseFragment<FragmentUserBinding>(
-    bindingInflater = FragmentUserBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentUserBinding::inflate
 ) {
 
     private val viewModel: UserViewModel by viewModels { viewModelFactory.get() }
@@ -67,7 +69,11 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
         get() = mapOf(
             total_photos to UserPhotosFragment(),
             total_likes to UserLikesFragment(),
-            total_collections to CollectionsFragment()
+            total_collections to CollectionsFragment.instance(
+                QueryCollections.UserCollections(
+                    sharedViewModel.currentId.replayCache.last()
+                )
+            )
         ).filter { it.key != 0 }.values.toList()
 
     private fun Resource.Failure<UserModel>.result() {
@@ -83,15 +89,17 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
         binding.progress.visibility = View.VISIBLE
     }
 
-    private fun UserModel.bindUserHeader() = with(binding) {
-        setImage.setImage(profile_image.large, avatarImageView, needCircleCrop = true)
-        collectionsCountTextView.map(total_collections.toString())
-        likesCountTextView.map(total_likes.toString())
-        photoCountTextView.map(total_photos.toString())
-        if (bio.isEmpty()) bioTextView.hide()
-        else {
-            bioTextView.show()
-            bioTextView.map(bio)
+    private fun UserModel.bindUserHeader() {
+        with(binding) {
+            setImage.setImage(profile_image.large, avatarImageView, needCircleCrop = true)
+            collectionsCountTextView.map(total_collections.toString())
+            likesCountTextView.map(total_likes.toString())
+            photoCountTextView.map(total_photos.toString())
+            if (bio.isEmpty()) {
+                bioTextView.isVisible = false
+            } else {
+                bioTextView.map(bio)
+            }
         }
     }
 

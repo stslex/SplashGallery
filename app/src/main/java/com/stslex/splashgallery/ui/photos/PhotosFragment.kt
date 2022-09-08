@@ -12,11 +12,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.stslex.core_ui.BaseFragment
-import com.stslex.splashgallery.R
+import com.stslex.core_ui.SharedViewModel
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.data.photos.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding
-import com.stslex.splashgallery.ui.activity.SharedViewModel
 import com.stslex.splashgallery.ui.main_screen.MainFragment
 import com.stslex.splashgallery.ui.photos.adapter.PhotosAdapter
 import com.stslex.splashgallery.ui.photos.loader_adapter.PhotosLoaderStateAdapter
@@ -30,8 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class PhotosFragment : BaseFragment<FragmentAllPhotosBinding>(
-    bindingInflater = FragmentAllPhotosBinding::inflate,
-    hostFragmentId = R.id.nav_host_fragment
+    bindingInflater = FragmentAllPhotosBinding::inflate
 ) {
 
     private val viewModel: PhotosViewModel by viewModels { viewModelFactory.get() }
@@ -39,20 +37,10 @@ class PhotosFragment : BaseFragment<FragmentAllPhotosBinding>(
 
     private val adapter: PhotosAdapter by lazy {
         PhotosAdapter(
-            clickListener = PhotosClickListener(parentFragment = parentFragment),
+            clickListener = PhotosClickListener(),
             glide = setImage,
             isUser = requireParentFragment().requireParentFragment() is UserFragment
         )
-    }
-
-    private val parentFragment by lazy {
-        when (requireParentFragment()) {
-            is MainFragment -> PhotosEnumFragments.MainFragment
-            is UserPhotosFragment -> PhotosEnumFragments.UserPhotosFragment
-            is UserLikesFragment -> PhotosEnumFragments.UserLikesFragment
-            is SingleCollectionFragment -> PhotosEnumFragments.SingleCollectionFragment
-            else -> PhotosEnumFragments.MainFragment
-        }
     }
 
     override fun onAttach(context: Context) {
