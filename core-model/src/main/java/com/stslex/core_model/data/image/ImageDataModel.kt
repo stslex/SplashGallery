@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 import com.stslex.core_model.data.PhotoStatistics
 
 @Parcelize
-data class ImageModel(
+data class ImageDataModel(
     val id: String,
     val created_at: String,
     val updated_at: String,

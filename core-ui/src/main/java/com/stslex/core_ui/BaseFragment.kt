@@ -1,5 +1,6 @@
 package com.stslex.core_ui
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,14 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.request.RequestListener
+import com.google.android.material.transition.MaterialContainerTransform
 import dagger.Lazy
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 abstract class BaseFragment<VB : ViewBinding>(
@@ -41,6 +43,14 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.transition_duration).toLong()
+            scrimColor = Color.TRANSPARENT
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,15 +71,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     fun <T> Flow<T>.launchWhenStarted(
         collector: suspend (T) -> Unit
     ) {
-        viewScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                collect {
-                    collector(it)
-                }
-            }
-        }
+        flowWithLifecycle(
+            lifecycle = viewLifecycleOwner.lifecycle,
+            minActiveState = Lifecycle.State.STARTED
+        ).onEach { value ->
+            collector(value)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
-    val viewScope: CoroutineScope
-        get() = viewLifecycleOwner.lifecycleScope
 }

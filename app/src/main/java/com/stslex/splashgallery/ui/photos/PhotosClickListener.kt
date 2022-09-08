@@ -1,49 +1,24 @@
 package com.stslex.splashgallery.ui.photos
 
 import android.view.View
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.findNavController
+import com.stslex.core_navigation.AppTopDestinations
 import com.stslex.core_ui.OnClickListener
-import com.stslex.splashgallery.ui.main_screen.MainFragmentDirections
-import com.stslex.splashgallery.ui.single_collection.SingleCollectionFragmentDirections
-import com.stslex.splashgallery.ui.user.UserFragmentDirections
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
-class PhotosClickListener(private val parentFragment: PhotosEnumFragments) : OnClickListener {
+class PhotosClickListener : OnClickListener {
 
     override fun clickImage(view: View, url: String) {
-        val directions: NavDirections = when (parentFragment) {
-            PhotosEnumFragments.MainFragment -> MainFragmentDirections.actionNavHomeToNavSinglePhoto(
-                id = view.transitionName,
-                url = url
-            )
-            PhotosEnumFragments.SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavSinglePhoto(
-                id = view.transitionName,
-                url = url
-            )
-            PhotosEnumFragments.UserPhotosFragment, PhotosEnumFragments.UserLikesFragment -> UserFragmentDirections.actionNavUserToNavSinglePhoto(
-                id = view.transitionName,
-                url = url
-            )
-        }
-        directions.navigate(view)
+        val appTopDestination: AppTopDestinations = AppTopDestinations.DetailsImage(
+            id = view.transitionName,
+            url = URLEncoder.encode(url, StandardCharsets.UTF_8.displayName())
+        )
+        view.findNavController().navigate(appTopDestination.request)
     }
 
     override fun clickUser(view: View) {
-        val directions: NavDirections = when (parentFragment) {
-            PhotosEnumFragments.MainFragment -> MainFragmentDirections.actionNavHomeToNavUser(view.transitionName)
-            PhotosEnumFragments.SingleCollectionFragment -> SingleCollectionFragmentDirections.actionNavSingleCollectionToNavUser(
-                username = view.transitionName
-            )
-            PhotosEnumFragments.UserPhotosFragment, PhotosEnumFragments.UserLikesFragment -> UserFragmentDirections.actionNavUserSelf(
-                username = view.transitionName
-            )
-        }
-        directions.navigate(view)
-    }
-
-    private fun NavDirections.navigate(view: View) {
-        val extras = FragmentNavigatorExtras(view to view.transitionName)
-        Navigation.findNavController(view).navigate(this, extras)
+        val appTopDestination: AppTopDestinations = AppTopDestinations.User(view.transitionName)
+        view.findNavController().navigate(appTopDestination.request)
     }
 }

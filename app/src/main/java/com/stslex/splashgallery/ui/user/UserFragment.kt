@@ -18,6 +18,7 @@ import com.stslex.core_model.data.user.UserModel
 import com.stslex.core_ui.BaseFragment
 import com.stslex.core_ui.SharedViewModel
 import com.stslex.core_ui.TextUtils.map
+import com.stslex.feature_collections.data.QueryCollections
 import com.stslex.feature_collections.ui.CollectionsFragment
 import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
@@ -68,7 +69,11 @@ class UserFragment : BaseFragment<FragmentUserBinding>(
         get() = mapOf(
             total_photos to UserPhotosFragment(),
             total_likes to UserLikesFragment(),
-            total_collections to CollectionsFragment()
+            total_collections to CollectionsFragment.instance(
+                QueryCollections.UserCollections(
+                    sharedViewModel.currentId.replayCache.last()
+                )
+            )
         ).filter { it.key != 0 }.values.toList()
 
     private fun Resource.Failure<UserModel>.result() {

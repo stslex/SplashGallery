@@ -6,9 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import com.stslex.core_ui.BaseFragment
@@ -16,13 +14,10 @@ import com.stslex.core_ui.SharedViewModel
 import com.stslex.feature_collections.data.QueryCollections
 import com.stslex.feature_collections.databinding.FragmentCollectionsBinding
 import com.stslex.feature_collections.di.component.DaggerCollectionsComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>(
+class CollectionsFragment private constructor() : BaseFragment<FragmentCollectionsBinding>(
     bindingInflater = FragmentCollectionsBinding::inflate
 ) {
 
@@ -32,9 +27,9 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>(
 
     private val adapter: CollectionsAdapter by lazy {
         CollectionsAdapter(
-            clickListener = CollectionClickListener(WeakReference(requireParentFragment())),
+            clickListener = CollectionClickListener(),
             glide = setImage,
-            isUser = isUser
+            isUser = query is QueryCollections.UserCollections
         )
     }
 
@@ -45,10 +40,19 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        queryJob.start()
+        setUpObservers()
         adapter.addLoadStateListener(::loadStateListener)
-        viewModel.collections.launchWhenStarted(adapter::submitData)
+        binding.collections.adapter = adapter
     }
+
+    private fun setUpObservers() {
+        viewModel.collections.launchWhenStarted(adapter::submitData)
+
+        sharedViewModel.currentId.onEach {
+            viewModel.setQuery(query)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
 
     private fun loadStateListener(loadState: CombinedLoadStates) {
         with(binding) {
@@ -58,36 +62,12 @@ class CollectionsFragment : BaseFragment<FragmentCollectionsBinding>(
         }
     }
 
-    private val queryJob: Job by lazy {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            sharedViewModel.currentId.collect(::collectorId)
-        }
-    }
-
-    private fun collectorId(id: String) {
-        /*val query = when (requireParentFragment()) {
-            is MainFragment -> QueryCollections.AllCollections
-            is UserFragment -> QueryCollections.UserCollections(id)
-            else -> QueryCollections.EmptyQuery
-        }*/
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.setQuery(queryCollections)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        queryJob.cancel()
-    }
-
     companion object {
-        private var isUser: Boolean = false
-        private var queryCollections: QueryCollections = QueryCollections.EmptyQuery
+        private var query: QueryCollections = QueryCollections.EmptyQuery
 
-        val instance: (isUser: Boolean, query: QueryCollections) -> CollectionsFragment
-            get() = { isUser, query ->
-                this.isUser = isUser
-                this.queryCollections = query
+        val instance: (query: QueryCollections) -> CollectionsFragment
+            get() = { query ->
+                this.query = query
                 CollectionsFragment()
             }
     }

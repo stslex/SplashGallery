@@ -11,7 +11,7 @@ class MainFragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val fragmentList: List<Fragment> by lazy {
         listOf(
             PhotosFragment(),
-            CollectionsFragment.instance(false, QueryCollections.AllCollections)
+            CollectionsFragment.instance(QueryCollections.AllCollections)
         )
     }
 

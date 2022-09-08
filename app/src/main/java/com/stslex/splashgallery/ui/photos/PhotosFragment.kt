@@ -37,20 +37,10 @@ class PhotosFragment : BaseFragment<FragmentAllPhotosBinding>(
 
     private val adapter: PhotosAdapter by lazy {
         PhotosAdapter(
-            clickListener = PhotosClickListener(parentFragment = parentFragment),
+            clickListener = PhotosClickListener(),
             glide = setImage,
             isUser = requireParentFragment().requireParentFragment() is UserFragment
         )
-    }
-
-    private val parentFragment by lazy {
-        when (requireParentFragment()) {
-            is MainFragment -> PhotosEnumFragments.MainFragment
-            is UserPhotosFragment -> PhotosEnumFragments.UserPhotosFragment
-            is UserLikesFragment -> PhotosEnumFragments.UserLikesFragment
-            is SingleCollectionFragment -> PhotosEnumFragments.SingleCollectionFragment
-            else -> PhotosEnumFragments.MainFragment
-        }
     }
 
     override fun onAttach(context: Context) {

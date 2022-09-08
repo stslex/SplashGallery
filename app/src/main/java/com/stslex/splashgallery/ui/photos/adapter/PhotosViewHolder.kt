@@ -2,7 +2,7 @@ package com.stslex.splashgallery.ui.photos.adapter
 
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
+import com.stslex.core_ui.BaseViewHolder
 import com.stslex.core_ui.OnClickListener
 import com.stslex.core_ui.SetImageWithGlide
 import com.stslex.core_ui.TextUtils.map
@@ -15,9 +15,9 @@ class PhotosViewHolder(
     private val glide: SetImageWithGlide,
     private val clickListener: OnClickListener,
     private val isUser: Boolean
-) : RecyclerView.ViewHolder(binding.root) {
+) : BaseViewHolder<ImageUIModel>(binding) {
 
-    fun bind(item: ImageUIModel) {
+    override fun bind(item: ImageUIModel) {
 
         with(binding) {
             if (isUser) {
@@ -25,7 +25,7 @@ class PhotosViewHolder(
             } else {
                 userHead.userCardView.isVisible = true
                 glide.setImage(
-                    url = item.url,
+                    url = item.user.url,
                     imageView = userHead.userImageView,
                     needCrop = true,
                     needCircleCrop = true

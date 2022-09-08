@@ -27,5 +27,6 @@ dependencies {
 
         implementation(androidx.navigation.fragment)
         implementation(androidx.navigation.ui)
+        implementation(libs.androidx.paging.runtime)
     }
 }

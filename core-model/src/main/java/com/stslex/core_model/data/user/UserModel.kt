@@ -1,7 +1,7 @@
 package com.stslex.core_model.data.user
 
 import android.os.Parcelable
-import com.stslex.core_model.data.image.ImageModel
+import com.stslex.core_model.data.image.ImageDataModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -27,5 +27,5 @@ data class UserModel(
     val profile_image: ProfileImageModel,
     val badge: BadgeModel,
     val links: UserLinksModel,
-    val photos: List<ImageModel>
+    val photos: List<ImageDataModel>
 ) : Parcelable

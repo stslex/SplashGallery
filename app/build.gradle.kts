@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":core-coroutines"))
     implementation(project(":feature-collections"))
     implementation(project(":core-model"))
+    implementation(project(":core-navigation"))
 
     libs.apply {
         implementation(androidx.paging.runtime)

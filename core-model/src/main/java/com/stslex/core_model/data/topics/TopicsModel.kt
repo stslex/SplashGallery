@@ -1,7 +1,7 @@
 package com.stslex.core_model.data.topics
 
 import com.stslex.core_model.data.collection.LinksCollectionModel
-import com.stslex.core_model.data.image.ImageModel
+import com.stslex.core_model.data.image.ImageDataModel
 import com.stslex.core_model.data.user.UserModel
 
 data class TopicsModel(
@@ -19,6 +19,6 @@ data class TopicsModel(
     val links: LinksCollectionModel,
     val status: String,
     val owners: List<UserModel>,
-    val cover_photo: ImageModel,
+    val cover_photo: ImageDataModel,
     val preview_photos: List<PreviewPhotosModel>
 )

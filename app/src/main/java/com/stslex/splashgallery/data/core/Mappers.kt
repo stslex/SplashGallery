@@ -23,7 +23,7 @@ import st.slex.csplashscreen.data.model.remote.user.RemoteProfileImageModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserLinksModel
 import st.slex.csplashscreen.data.model.remote.user.RemoteUserModel
 
-internal fun RemoteImageModel?.map(): ImageModel = ImageModel(
+internal fun RemoteImageModel?.map(): ImageDataModel = ImageDataModel(
     id = this?.id ?: "",
     created_at = this?.created_at ?: "",
     updated_at = this?.updated_at ?: "",

@@ -4,7 +4,7 @@ import com.stslex.core.Resource
 import com.stslex.core_coroutines.AppDispatcher
 import com.stslex.core_ui.BaseViewModel
 import com.stslex.core_model.data.DownloadModel
-import com.stslex.core_model.data.image.ImageModel
+import com.stslex.core_model.data.image.ImageDataModel
 import com.stslex.splashgallery.data.photo.DownloadDataMapper
 import com.stslex.splashgallery.data.photo.PhotoDataMapper
 import com.stslex.splashgallery.data.photo.PhotoRepository
@@ -24,7 +24,7 @@ class PhotoDetailsViewModel @Inject constructor(
 ) : BaseViewModel(appDispatcher = appDispatcher) {
 
     @ExperimentalCoroutinesApi
-    val getCurrentPhoto: (id: String) -> StateFlow<Resource<ImageModel>>
+    val getCurrentPhoto: (id: String) -> StateFlow<Resource<ImageDataModel>>
         get() = { id ->
             repository.currentPhoto(id).flatMapLatest {
                 flowOf(it.map(photoMapper))

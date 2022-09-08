@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.stslex.core.Resource
 import com.stslex.core_model.data.DownloadModel
-import com.stslex.core_model.data.image.ImageModel
+import com.stslex.core_model.data.image.ImageDataModel
 import com.stslex.core_ui.BaseFragment
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
@@ -29,42 +28,23 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
 ) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels { viewModelFactory.get() }
-    private var _url: String? = null
-    private val url: String get() = checkNotNull(_url)
-
-    private var _id: String? = null
-    private val id: String get() = checkNotNull(_id)
-
+    private val extras: PhotoDetailsFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         requireContext().appComponent.inject(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val extras: PhotoDetailsFragmentArgs by navArgs()
-        _url = extras.url
-        _id = extras.id
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imageImageView.transitionName = id
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                setImage.setImage(url, binding.imageImageView, needCrop = true, false)
-            }
-        }
+        binding.imageImageView.transitionName = extras.id
         startPostponedEnterTransition()
-
-        setToolbar()
         observe()
         binding.bindUI()
     }
 
     private fun observe() {
-        viewModel.getCurrentPhoto(id).launchWhenStarted { response ->
+        viewModel.getCurrentPhoto(extras.id).launchWhenStarted { response ->
             when (response) {
                 is Resource.Success -> response.result()
                 is Resource.Failure -> response.result()
@@ -74,13 +54,18 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
     }
 
     private fun FragmentPhotoDetailsBinding.bindUI() {
+        setToolbar()
         imageImageView.setOnClickListener(imageClickListener)
         userCardView.setOnClickListener(userClickListener)
         singlePhotoDownload.setOnClickListener(downloadClickListener)
+        Glide.with(imageImageView)
+            .load(extras.url)
+            .centerCrop()
+            .into(imageImageView)
     }
 
     private val imageClickListener: View.OnClickListener by lazy {
-        DetailPhotoClickListener(url)
+        DetailPhotoClickListener(extras.url)
     }
 
     private val userClickListener: View.OnClickListener = View.OnClickListener {
@@ -91,7 +76,7 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
     }
 
     @JvmName("resultImageModel")
-    private fun Resource.Success<ImageModel>.result() {
+    private fun Resource.Success<ImageDataModel>.result() {
         with(binding) {
             with(data) {
                 setImage.setImage(
@@ -114,7 +99,7 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
     private val downloadClickListener: View.OnClickListener = View.OnClickListener {
         downloadJob?.cancel()
         downloadJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.downloadImageUrl(id).collect(::collector)
+            viewModel.downloadImageUrl(extras.id).collect(::collector)
         }
     }
 
@@ -127,7 +112,7 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
 
     @JvmName("resultDownloadModel")
     private suspend fun Resource.Success<DownloadModel>.result() {
-        viewModel.downloadImage(data.url, id).collect(::collector)
+        viewModel.downloadImage(data.url, extras.id).collect(::collector)
     }
 
     @JvmName("resultDownload")
@@ -143,10 +128,12 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
         exception.printStackTrace()
     }
 
-    private fun setToolbar() = with(requireActivity() as AppCompatActivity) {
-        setSupportActionBar(binding.singlePhotoToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
+    private fun setToolbar() {
+        with(requireActivity() as AppCompatActivity) {
+            setSupportActionBar(binding.singlePhotoToolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.title = ""
+        }
     }
 
     override fun onDestroyView() {
