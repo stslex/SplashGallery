@@ -2,8 +2,8 @@ package com.stslex.splashgallery.ui.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stslex.core.Resource
-import com.stslex.core_model.data.user.UserModel
+import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.core_model.data.user.UserModel
 import com.stslex.splashgallery.data.user.UserDataMapper
 import com.stslex.splashgallery.data.user.UserRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi

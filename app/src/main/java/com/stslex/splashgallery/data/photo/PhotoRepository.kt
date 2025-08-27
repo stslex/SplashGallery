@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.core.Resource
-import com.stslex.core_model.response.download.RemoteDownloadModel
+import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.core_model.response.download.RemoteDownloadModel
 import com.stslex.splashgallery.data.utils.DataResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.core_ui.BaseFragment
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentSingleImageBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi

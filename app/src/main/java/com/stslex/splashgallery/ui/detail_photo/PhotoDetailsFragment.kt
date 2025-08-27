@@ -10,10 +10,10 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.stslex.core.Resource
-import com.stslex.core_model.data.DownloadModel
-import com.stslex.core_model.data.image.ImageDataModel
-import com.stslex.core_ui.BaseFragment
+import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.core_model.data.DownloadModel
+import com.stslex.splashgallery.core_model.data.image.ImageDataModel
+import com.stslex.splashgallery.core_ui.BaseFragment
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentPhotoDetailsBinding
 import com.stslex.splashgallery.ui.utils.isNullCheck

@@ -1,11 +1,10 @@
 plugins {
-    id("splashgallery.android.library")
+    alias(libs.plugins.app.android.lib)
     kotlin("kapt")
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":core-test"))
 
     libs.apply {
         implementation(androidx.core)

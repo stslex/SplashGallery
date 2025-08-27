@@ -1,5 +1,5 @@
 plugins {
-    id("splashgallery.android.library")
+    alias(libs.plugins.app.android.lib)
 }
 
 android {
@@ -10,7 +10,6 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":core-test"))
 
     libs.apply {
         api(androidx.navigation.fragment)

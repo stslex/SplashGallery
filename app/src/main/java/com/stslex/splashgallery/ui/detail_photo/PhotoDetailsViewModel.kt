@@ -1,10 +1,10 @@
 package com.stslex.splashgallery.ui.detail_photo
 
-import com.stslex.core.Resource
-import com.stslex.core_coroutines.AppDispatcher
-import com.stslex.core_ui.BaseViewModel
-import com.stslex.core_model.data.DownloadModel
-import com.stslex.core_model.data.image.ImageDataModel
+import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.core_coroutines.AppDispatcher
+import com.stslex.splashgallery.core_ui.BaseViewModel
+import com.stslex.splashgallery.core_model.data.DownloadModel
+import com.stslex.splashgallery.core_model.data.image.ImageDataModel
 import com.stslex.splashgallery.data.photo.DownloadDataMapper
 import com.stslex.splashgallery.data.photo.PhotoDataMapper
 import com.stslex.splashgallery.data.photo.PhotoRepository

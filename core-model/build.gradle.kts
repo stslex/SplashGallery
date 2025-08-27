@@ -1,10 +1,9 @@
 plugins {
-    id("splashgallery.android.library")
+    alias(libs.plugins.app.android.lib)
     id("kotlin-parcelize")
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":core-test"))
     implementation(libs.retrofit.converter.gson)
 }
