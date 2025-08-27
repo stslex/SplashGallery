@@ -1,6 +1,6 @@
 package com.stslex.splashgallery.data.utils
 
-import com.stslex.core.Resource
+import com.stslex.splashgallery.core.Resource
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 

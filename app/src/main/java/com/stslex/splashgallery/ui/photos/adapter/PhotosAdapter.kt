@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.ui.photos.adapter
 
-import com.stslex.core_ui.BasePagingAdapter
-import com.stslex.core_ui.OnClickListener
-import com.stslex.core_ui.SetImageWithGlide
+import com.stslex.splashgallery.core_ui.BasePagingAdapter
+import com.stslex.splashgallery.core_ui.OnClickListener
+import com.stslex.splashgallery.core_ui.SetImageWithGlide
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.model.ImageUIModel
 

@@ -1,5 +1,6 @@
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositories {
         google()
@@ -12,4 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
+rootProject.name = "build-logic"
 include(":dependencies")

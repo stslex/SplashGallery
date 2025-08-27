@@ -1,8 +1,8 @@
 package com.stslex.splashgallery.data.photo
 
-import com.stslex.core.Mapper
-import com.stslex.core.Resource
-import com.stslex.core_model.data.image.ImageDataModel
+import com.stslex.splashgallery.core.Mapper
+import com.stslex.splashgallery.core.Resource
+import com.stslex.splashgallery.core_model.data.image.ImageDataModel
 import com.stslex.splashgallery.data.core.map
 import st.slex.csplashscreen.data.model.remote.image.RemoteImageModel
 import javax.inject.Inject

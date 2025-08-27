@@ -2,8 +2,8 @@ package com.stslex.splashgallery.ui.photos
 
 import android.view.View
 import androidx.navigation.findNavController
-import com.stslex.core_navigation.AppTopDestinations
-import com.stslex.core_ui.OnClickListener
+import com.stslex.splashgallery.core_navigation.AppTopDestinations
+import com.stslex.splashgallery.core_ui.OnClickListener
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 

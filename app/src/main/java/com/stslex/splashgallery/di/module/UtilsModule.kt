@@ -1,7 +1,7 @@
 package com.stslex.splashgallery.di.module
 
 import com.stslex.splashgallery.ui.detail_photo.DownloadImageUseCase
-import com.stslex.core_ui.ImageSetter
+import com.stslex.splashgallery.core_ui.ImageSetter
 import dagger.Binds
 import dagger.Module
 

@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import com.stslex.core_ui.BaseFragment
-import com.stslex.core_ui.SharedViewModel
+import com.stslex.splashgallery.core_ui.BaseFragment
+import com.stslex.splashgallery.core_ui.SharedViewModel
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.data.photos.QueryPhotos
 import com.stslex.splashgallery.databinding.FragmentAllPhotosBinding

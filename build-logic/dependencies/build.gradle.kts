@@ -4,25 +4,28 @@ plugins {
 
 group = "com.stslex.splashgallery.buildlogic"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.android.tools.common)
+}
+
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
+    }
 }
 
 gradlePlugin {
     plugins {
 
         register("androidApplication") {
-            id = "splashgallery.android.application"
+            id = libs.plugins.app.android.application.get().pluginId
             implementationClass = "AndroidApplicationPlugin"
         }
         register("androidLibrary") {
-            id = "splashgallery.android.library"
+            id = libs.plugins.app.android.lib.get().pluginId
             implementationClass = "AndroidLibraryPlugin"
         }
     }

@@ -6,10 +6,10 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayoutMediator
-import com.stslex.core_ui.BaseFragment
-import com.stslex.core_ui.SharedViewModel
-import com.stslex.splashgallery.R
 import com.stslex.splashgallery.appComponent
+import com.stslex.splashgallery.core_ui.BaseFragment
+import com.stslex.splashgallery.core_ui.R
+import com.stslex.splashgallery.core_ui.SharedViewModel
 import com.stslex.splashgallery.databinding.FragmentMainBinding
 
 class MainFragment : BaseFragment<FragmentMainBinding>(

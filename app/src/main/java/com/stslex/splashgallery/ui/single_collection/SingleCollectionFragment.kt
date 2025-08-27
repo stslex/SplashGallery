@@ -6,8 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
-import com.stslex.core_ui.BaseFragment
-import com.stslex.core_ui.SharedViewModel
+import com.stslex.splashgallery.core_ui.BaseFragment
+import com.stslex.splashgallery.core_ui.SharedViewModel
 import com.stslex.splashgallery.appComponent
 import com.stslex.splashgallery.databinding.FragmentSingleCollectionBinding
 

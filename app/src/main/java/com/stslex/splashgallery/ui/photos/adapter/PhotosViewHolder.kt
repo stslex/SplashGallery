@@ -2,10 +2,10 @@ package com.stslex.splashgallery.ui.photos.adapter
 
 import android.view.View
 import androidx.core.view.isVisible
-import com.stslex.core_ui.BaseViewHolder
-import com.stslex.core_ui.OnClickListener
-import com.stslex.core_ui.SetImageWithGlide
-import com.stslex.core_ui.TextUtils.map
+import com.stslex.splashgallery.core_ui.BaseViewHolder
+import com.stslex.splashgallery.core_ui.OnClickListener
+import com.stslex.splashgallery.core_ui.SetImageWithGlide
+import com.stslex.splashgallery.core_ui.TextUtils.map
 import com.stslex.splashgallery.databinding.ItemRecyclerAllPhotosBinding
 import com.stslex.splashgallery.ui.model.ImageUIModel
 
