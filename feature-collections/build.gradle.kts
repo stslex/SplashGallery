@@ -24,7 +24,7 @@ dependencies {
         implementation(google.dagger.core)
         kapt(google.dagger.compiler)
         implementation(glide.core)
-        annotationProcessor(glide.compiler)
+        kapt(glide.compiler)
         implementation(retrofit.core)
         implementation(retrofit.converter.gson)
         implementation(okhttp3.logging.interceptor)
