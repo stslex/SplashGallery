@@ -1,12 +1,14 @@
+import com.android.build.api.dsl.ApplicationExtension
+import com.stslex.splashgallery.AppExt
 import com.stslex.splashgallery.AppExt.findVersionInt
 import com.stslex.splashgallery.AppExt.findVersionString
 import com.stslex.splashgallery.AppExt.libs
-import com.android.build.api.dsl.ApplicationExtension
-import com.stslex.splashgallery.AppExt
 import com.stslex.splashgallery.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.kotlin
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
@@ -33,6 +35,17 @@ class AndroidApplicationPlugin : Plugin<Project> {
 
 //                    configureSigning(target)
                 }
+            }
+
+
+            configurations.configureEach {
+                resolutionStrategy {
+                    force(libs.findLibrary("androidx-test-junit").get())
+                }
+            }
+            dependencies {
+                add("androidTestImplementation", kotlin("test"))
+                add("testImplementation", kotlin("test"))
             }
         }
     }
