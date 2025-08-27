@@ -10,6 +10,11 @@ dependencies {
     compileOnly(libs.android.tools.common)
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
 tasks {
     validatePlugins {
         enableStricterValidation = true
@@ -19,7 +24,6 @@ tasks {
 
 gradlePlugin {
     plugins {
-
         register("androidApplication") {
             id = libs.plugins.app.android.application.get().pluginId
             implementationClass = "AndroidApplicationPlugin"

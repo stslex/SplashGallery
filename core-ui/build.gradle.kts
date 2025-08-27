@@ -18,7 +18,7 @@ dependencies {
         kapt(google.dagger.compiler)
 
         implementation(glide.core)
-        annotationProcessor(glide.compiler)
+        kapt(glide.compiler)
 
         api(androidx.appcompat)
         api(google.material)

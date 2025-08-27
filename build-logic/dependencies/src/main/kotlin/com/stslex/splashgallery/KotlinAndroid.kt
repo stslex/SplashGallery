@@ -11,10 +11,14 @@ import com.stslex.splashgallery.AppExt.findVersionInt
 import com.stslex.splashgallery.AppExt.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.Properties
 
@@ -54,6 +58,7 @@ private fun Project.configureKotlinAndroid(
         ).let { properties ->
             setLocalProperties(properties)
         }
+
     }
 
     compileOptions {
@@ -61,7 +66,9 @@ private fun Project.configureKotlinAndroid(
         // https://developer.android.com/studio/write/java11-minimal-support-table
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+
         isCoreLibraryDesugaringEnabled = true
+
     }
 
     configureKotlin()
@@ -86,6 +93,16 @@ private fun Project.configureKotlin() {
             allWarningsAsErrors.set(warningsAsErrors?.toBoolean() ?: false)
             freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
         }
+    }
+
+    extensions.configure<KotlinProjectExtension> {
+        jvmToolchain(17)
+    }
+    extensions.configure<JavaPluginExtension> {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
+
     }
 }
 

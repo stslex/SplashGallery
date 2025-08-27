@@ -12,3 +12,4 @@ local.properties
 play_config.*
 keystore.*
 build
+/fastlane/report.xml
