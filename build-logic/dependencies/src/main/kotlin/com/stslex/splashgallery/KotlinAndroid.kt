@@ -1,14 +1,14 @@
 package com.stslex.splashgallery
 
-import com.stslex.splashgallery.AppExt.APP_PREFIX
-import com.stslex.splashgallery.AppExt.coreLibraryDesugaring
-import com.stslex.splashgallery.AppExt.findVersionInt
-import com.stslex.splashgallery.AppExt.libs
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.DefaultConfig
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.stslex.splashgallery.AppExt.APP_PREFIX
+import com.stslex.splashgallery.AppExt.coreLibraryDesugaring
+import com.stslex.splashgallery.AppExt.findVersionInt
+import com.stslex.splashgallery.AppExt.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
