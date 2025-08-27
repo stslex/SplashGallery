@@ -33,7 +33,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
                     versionName = libs.findVersionString("versionName")
                     versionCode = libs.findVersionInt("versionCode")
 
-//                    configureSigning(target)
+                    configureSigning(target)
                 }
             }
 
